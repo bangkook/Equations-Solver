@@ -46,7 +46,7 @@ public class Equation implements Serializable {
     }
 
     public void add(Equation equation, double multiplier, int col) {
-        this.coefficients[col] = 0;
+        this.coefficients[col] = multiplier; // for LU case
         for (int i = col + 1; i < this.order; i++) {
             this.coefficients[i] -= equation.getCoefficient(i) * multiplier;
         }
@@ -57,7 +57,7 @@ public class Equation implements Serializable {
     public double getPivot() {
         double maxCoefficient = 0;
         for (double coefficient : coefficients) {
-            maxCoefficient = Math.max(maxCoefficient, coefficient);
+            maxCoefficient = Math.max(maxCoefficient, Math.abs(coefficient));
         }
         return this.coefficients[0] / maxCoefficient;
     }
