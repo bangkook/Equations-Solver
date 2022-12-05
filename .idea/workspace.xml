@@ -1,7 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="af02c104-bba1-4139-b60d-2ef746b07728" name="Default Changelist" comment="" />
+    <list default="true" id="af02c104-bba1-4139-b60d-2ef746b07728" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/com/codebind/Gauss_Jordan.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/EquationsSolver/com/codebind/Equation.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/EquationsSolver/com/codebind/Equation.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/EquationsSolver/com/codebind/EquationsSolver.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/EquationsSolver/com/codebind/EquationsSolver.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/EquationsSolver/com/codebind/Jacobi.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/EquationsSolver/com/codebind/Jacobi.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/EquationsSolver/com/codebind/LinearSolver.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/EquationsSolver/com/codebind/LinearSolver.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/EquationsSolver/com/codebind/Solver.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/EquationsSolver/com/codebind/Solver.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/EquationsSolver/com/intellij/uiDesigner/core/Util.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/EquationsSolver/com/intellij/uiDesigner/core/Util.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/codebind/Equation.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/codebind/Equation.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/codebind/EquationsSolver.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/codebind/EquationsSolver.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/codebind/Jacobi.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/codebind/Jacobi.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/codebind/LinearSolver.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/codebind/LinearSolver.java" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -22,6 +37,12 @@
     <analyzeAfterCompile>true</analyzeAfterCompile>
     <toolWindowToFront>false</toolWindowToFront>
   </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
   <component name="ProjectId" id="2IUPTRvKU7sGO9TXr85sJYK9VoG" />
   <component name="ProjectViewState">
     <option name="abbreviatePackageNames" value="true" />
@@ -35,6 +56,7 @@
   <component name="PropertiesComponent">
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="project.structure.last.edited" value="Modules" />
     <property name="project.structure.proportion" value="0.15" />
@@ -42,10 +64,6 @@
     <property name="settings.editor.selected.configurable" value="preferences.pluginManager" />
   </component>
   <component name="RunManager">
-    <configuration name="&lt;template&gt;" type="TestNG" default="true" selected="false">
-      <option name="VM_PARAMETERS" value="-ea" />
-      <option name="WORKING_DIRECTORY" value="%MODULE_WORKING_DIR%" />
-    </configuration>
     <configuration name="EquationsSolver" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="com.codebind.EquationsSolver" />
       <module name="EquationsSolver" />
@@ -67,6 +85,15 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <configuration default="true" type="TestNG">
+      <option name="TEST_OBJECT" value="CLASS" />
+      <option name="WORKING_DIRECTORY" value="%MODULE_WORKING_DIR%" />
+      <properties />
+      <listeners />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <recent_temporary>
       <list>
         <item itemvalue="Application.EquationsSolver" />
@@ -74,4 +101,24 @@
     </recent_temporary>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <created>1670252292315</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1670252292315</updated>
+    </task>
+    <servers />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
 </project>

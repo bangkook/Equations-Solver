@@ -47,6 +47,10 @@ public class Jacobi implements LinearSolver {
         return this.ans;
     }
 
+    @Override
+    public void print() {
+
+    }
     public ObjectInputStream getSteps() {
         return null;
     }
