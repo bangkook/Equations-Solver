@@ -36,11 +36,9 @@ public class Jacobi implements LinearSolver {
             error = 0;
             for (int j = 0; j < this.order; j++) {
                 tempAns[j] = this.equations[j].substitute(this.ans, 0, this.order, j);
-
                 error = Math.max(error, Math.abs((tempAns[j] - this.ans[j]) / tempAns[j]));
             }
             System.arraycopy(tempAns, 0, this.ans, 0, this.order);
-
             if (error <= this.relativeError)
                 break;
         }

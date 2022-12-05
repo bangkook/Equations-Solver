@@ -11,5 +11,14 @@ public class EquationsSolver {
         double[] sol = test.getSolution();
         for (double x : sol)
             System.out.print(x + " ");
+
+        System.out.print('\n');
+
+        LinearSolver test2 = new GaussElimination(equations, 0.1);
+        double[] sol2 = test2.getSolution();
+        for (double x : sol2)
+            System.out.print(x + " ");
+
     }
+
 }

@@ -46,7 +46,7 @@ public class Equation implements Serializable {
     }
 
     public void add(Equation equation, double multiplier, int col) {
-        this.coefficients[col] = multiplier; // for LU case
+        //this.coefficients[col] = multiplier; // for LU case
         for (int i = col + 1; i < this.order; i++) {
             this.coefficients[i] -= equation.getCoefficient(i) * multiplier;
         }
@@ -68,8 +68,8 @@ public class Equation implements Serializable {
             if (i == currIndex)
                 continue;
             sum = sum + this.coefficients[i] * ans[i];
-
         }
+        //System.out.println("this.result:"+ this.res );
         return (this.res - sum) / this.coefficients[currIndex];
     }
 }
