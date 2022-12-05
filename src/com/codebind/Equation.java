@@ -47,7 +47,7 @@ public class Equation implements Serializable {
 
     public void add(Equation equation, double multiplier, int col) {
         //this.coefficients[col] = multiplier; // for LU case
-        for (int i = col + 1; i < this.order; i++) {
+        for (int i = 0; i < this.order; i++) {
             this.coefficients[i] -= equation.getCoefficient(i) * multiplier;
         }
         this.res -= equation.getRes() * multiplier;

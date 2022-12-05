@@ -54,5 +54,10 @@ public class GaussElimination implements LinearSolver {
         }
 
     @Override
+    public void print() {
+
+    }
+
+    @Override
     public ObjectInputStream getSteps() {return null;}
 }
