@@ -21,9 +21,9 @@ public class Equation implements Serializable {
         this.order = order;
     }
 
-    public double[] getCoefficients() {
+   /* public double[] getCoefficients() {
         return coefficients;
-    }
+    }*/
 
     public void setCoefficients(double[] coefficients) {
         this.coefficients = coefficients;

@@ -8,7 +8,7 @@ public interface LinearSolver {
     //void setSystem(Equation[] equations);
 
     double[] getSolution();
-
+    void print();//for testing
     ObjectInputStream getSteps();
 
 }
