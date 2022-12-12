@@ -2,20 +2,29 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="af02c104-bba1-4139-b60d-2ef746b07728" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/com/codebind/Gauss_Jordan.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/runConfigurations.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/EquationsSolver.iml" beforeDir="false" afterPath="$PROJECT_DIR$/EquationsSolver.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/EquationsSolver/com/codebind/Equation.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/EquationsSolver/com/codebind/Equation.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/EquationsSolver/com/codebind/EquationsSolver.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/EquationsSolver/com/codebind/EquationsSolver.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/EquationsSolver/com/codebind/GaussElimination.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/EquationsSolver/com/codebind/GaussElimination.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/EquationsSolver/com/codebind/Gauss_Jordan.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/EquationsSolver/com/codebind/Gauss_Jordan.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/EquationsSolver/com/codebind/Jacobi.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/EquationsSolver/com/codebind/Jacobi.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/EquationsSolver/com/codebind/LinearSolver.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/EquationsSolver/com/codebind/LinearSolver.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/EquationsSolver/com/codebind/Solver.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/EquationsSolver/com/codebind/Solver.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/EquationsSolver/com/intellij/uiDesigner/core/AbstractLayout.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/EquationsSolver/com/intellij/uiDesigner/core/AbstractLayout.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/EquationsSolver/com/intellij/uiDesigner/core/DimensionInfo.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/EquationsSolver/com/intellij/uiDesigner/core/DimensionInfo.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/EquationsSolver/com/intellij/uiDesigner/core/GridConstraints.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/EquationsSolver/com/intellij/uiDesigner/core/GridConstraints.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/EquationsSolver/com/intellij/uiDesigner/core/GridLayoutManager.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/EquationsSolver/com/intellij/uiDesigner/core/GridLayoutManager.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/EquationsSolver/com/intellij/uiDesigner/core/HorizontalInfo.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/EquationsSolver/com/intellij/uiDesigner/core/HorizontalInfo.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/EquationsSolver/com/intellij/uiDesigner/core/LayoutState.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/EquationsSolver/com/intellij/uiDesigner/core/LayoutState.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/EquationsSolver/com/intellij/uiDesigner/core/Spacer.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/EquationsSolver/com/intellij/uiDesigner/core/Spacer.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/EquationsSolver/com/intellij/uiDesigner/core/SupportCode$TextWithMnemonic.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/EquationsSolver/com/intellij/uiDesigner/core/SupportCode$TextWithMnemonic.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/EquationsSolver/com/intellij/uiDesigner/core/SupportCode.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/EquationsSolver/com/intellij/uiDesigner/core/SupportCode.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/EquationsSolver/com/intellij/uiDesigner/core/Util.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/EquationsSolver/com/intellij/uiDesigner/core/Util.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/codebind/Equation.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/codebind/Equation.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/EquationsSolver/com/intellij/uiDesigner/core/VerticalInfo.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/EquationsSolver/com/intellij/uiDesigner/core/VerticalInfo.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/com/codebind/EquationsSolver.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/codebind/EquationsSolver.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/codebind/Jacobi.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/codebind/Jacobi.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/codebind/LinearSolver.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/codebind/LinearSolver.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -44,6 +53,9 @@
     <option name="stateVersion" value="1" />
   </component>
   <component name="ProjectId" id="2IUPTRvKU7sGO9TXr85sJYK9VoG" />
+  <component name="ProjectLevelVcsManager">
+    <ConfirmationsSetting value="1" id="Add" />
+  </component>
   <component name="ProjectViewState">
     <option name="abbreviatePackageNames" value="true" />
     <option name="autoscrollFromSource" value="true" />
@@ -61,7 +73,7 @@
     <property name="project.structure.last.edited" value="Modules" />
     <property name="project.structure.proportion" value="0.15" />
     <property name="project.structure.side.proportion" value="0.2" />
-    <property name="settings.editor.selected.configurable" value="preferences.pluginManager" />
+    <property name="settings.editor.selected.configurable" value="reference.projectsettings.compiler.javacompiler" />
   </component>
   <component name="RunManager">
     <configuration name="EquationsSolver" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
@@ -120,5 +132,17 @@
         </entry>
       </map>
     </option>
+    <option name="oldMeFiltersMigrated" value="true" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/com/codebind/EquationsSolver.java</url>
+          <line>15</line>
+          <option name="timeStamp" value="13" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
 </project>
