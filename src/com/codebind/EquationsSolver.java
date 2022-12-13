@@ -15,6 +15,11 @@ public class EquationsSolver {
         equations2[1] = new Equation(new double[]{15, 55, 225}, 9);
         equations2[2] = new Equation(new double[]{55, 225, 979}, 0);
 
+        // testing Crout decomposition
+        CroutDecomposition test4 = new CroutDecomposition(equations, 0.0001);
+        double[] sol4 = test4.getSolution();
+        System.out.println(Arrays.toString(sol4));
+
         // testing cholesky decomposition
         CholeskyDecompositioin test3 = new CholeskyDecompositioin(equations2, 0.0001);
         if(test3.getSolution() == null)
