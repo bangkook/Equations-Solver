@@ -1,40 +1,45 @@
 package com.codebind;
-import java.io.ObjectInputStream;
-public class Gauss_Jordan implements LinearSolver{
+
+import java.util.ArrayList;
+
+public class Gauss_Jordan implements LinearSolver {
     private final int order;
     private double[] ans;
     private final Equation[] equations;
     private int multiplier;
+
     public Gauss_Jordan(Equation[] equations) {
         this.order = equations[0].getOrder();
         this.equations = equations;
-        ans=new double[this.order];
+        ans = new double[this.order];
     }
-    public void PartialPivoting(int index){
-        for (int i = index+1; i < this.order; i++) {
-            if(Math.abs(this.equations[index].getCoefficient(index))<Math.abs(this.equations[i].getCoefficient(index))){
-                Equation temp =equations[index];
-                equations[index]=equations[i];
-                equations[i]=temp;
+
+    public void PartialPivoting(int index) {
+        for (int i = index + 1; i < this.order; i++) {
+            if (Math.abs(this.equations[index].getCoefficient(index)) < Math.abs(this.equations[i].getCoefficient(index))) {
+                Equation temp = equations[index];
+                equations[index] = equations[i];
+                equations[i] = temp;
             }
         }
-        double coff=this.equations[index].getCoefficient(index);
+        double coff = this.equations[index].getCoefficient(index);
         for (int i = 0; i < this.order; i++) {
-            this.equations[index].setCoefficient(i,this.equations[index].getCoefficient(i)/coff+0.0);
+            this.equations[index].setCoefficient(i, this.equations[index].getCoefficient(i) / coff + 0.0);
         }
-        this.equations[index].setRes(this.equations[index].getRes()/coff+0.0);
+        this.equations[index].setRes(this.equations[index].getRes() / coff + 0.0);
     }
+
     @Override
     public double[] getSolution() {
         for (int i = 0; i < this.order; i++) {
             PartialPivoting(i);
-            for (int j = i+1; j < this.order ; j++) {
+            for (int j = i + 1; j < this.order; j++) {
                 double multiplier = this.equations[j].getCoefficient(i) / this.equations[i].getCoefficient(i);
-                this.equations[j].add(equations[i],multiplier,i);
+                this.equations[j].add(equations[i], multiplier, i);
             }
-            for (int l = i-1; l < this.order && l>=0 ; l--) {
+            for (int l = i - 1; l < this.order && l >= 0; l--) {
                 double m = this.equations[l].getCoefficient(i) / this.equations[i].getCoefficient(i);
-                this.equations[l].add(equations[i],m,i);
+                this.equations[l].add(equations[i], m, i);
             }
                 /* for (int j = i+1; j < this.order ; j++) {
                 double m=this.equations[j].getCoefficient(i) / this.equations[i].getCoefficient(i);
@@ -50,21 +55,23 @@ public class Gauss_Jordan implements LinearSolver{
                 this.equations[l].setRes(this.equations[l].getRes()-mm*this.equations[i].getRes()+0.0);}*/
         }
         for (int i = 0; i < this.order; i++)
-            ans[i]=this.equations[i].getRes();
+            ans[i] = this.equations[i].getRes();
 
         return ans;
     }
+
     @Override
-    public void print(){
+    public void print() {
         for (int i = 0; i < this.order; i++) {
             for (int j = 0; j < this.order; j++) {
-                System.out.print(this.equations[i].getCoefficient(j)+" ");
+                System.out.print(this.equations[i].getCoefficient(j) + " ");
             }
-            System.out.println("res:"+ this.equations[i].getRes()+" ");
+            System.out.println("res:" + this.equations[i].getRes() + " ");
         }
     }
+
     @Override
-    public ObjectInputStream getSteps() {
+    public ArrayList<double[]> getSteps() {
         return null;
     }
 }

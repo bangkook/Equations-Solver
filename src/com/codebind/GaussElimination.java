@@ -1,6 +1,6 @@
 package com.codebind;
 
-import java.io.ObjectInputStream;
+import java.util.ArrayList;
 
 
 public class GaussElimination implements LinearSolver {
@@ -19,9 +19,11 @@ public class GaussElimination implements LinearSolver {
     public int getPrecision() {
         return precision;
     }
+
     public void setPrecision(int precision) {
         this.precision = precision;
     }
+
     @Override
     public double[] getSolution() {
         double maxPivot = 0.0;
@@ -36,22 +38,25 @@ public class GaussElimination implements LinearSolver {
                 }
             }
             //swap
-            if(maxPivot!=0){
-            Equation temp = equations[nextpivot];
-            equations[nextpivot] = equations[indexMaxPivot];
-            equations[indexMaxPivot] = temp;}
+            if (maxPivot != 0) {
+                Equation temp = equations[nextpivot];
+                equations[nextpivot] = equations[indexMaxPivot];
+                equations[indexMaxPivot] = temp;
+            }
             //mul and sub
             for (int i = nextpivot + 1; i < this.order; i++) {
                 double multiplier = equations[i].getCoefficient(nextpivot) / equations[nextpivot].getCoefficient(nextpivot);
                 equations[i].add(equations[nextpivot], multiplier, -1);
             }
-            maxPivot = 0;indexMaxPivot = 0;nextpivot++;
+            maxPivot = 0;
+            indexMaxPivot = 0;
+            nextpivot++;
         }
-        for(int i = this.order-1; i >= 0; i--) {
-            ans[i] = this.equations[i].substitute(this.ans, i+1, this.order, i);
+        for (int i = this.order - 1; i >= 0; i--) {
+            ans[i] = this.equations[i].substitute(this.ans, i + 1, this.order, i, precision);
         }
         return this.ans;
-        }
+    }
 
     @Override
     public void print() {
@@ -59,5 +64,7 @@ public class GaussElimination implements LinearSolver {
     }
 
     @Override
-    public ObjectInputStream getSteps() {return null;}
+    public ArrayList<double[]> getSteps() {
+        return null;
+    }
 }

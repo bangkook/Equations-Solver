@@ -1,8 +1,8 @@
 package com.codebind;
 
-import java.io.ObjectInputStream;
+import java.util.ArrayList;
 
-public class CholeskyDecompositioin implements LinearSolver{
+public class CholeskyDecompositioin implements LinearSolver {
 
     private int precision = 7;
     private double relativeError = 0.00001;
@@ -22,10 +22,10 @@ public class CholeskyDecompositioin implements LinearSolver{
         this.relativeError = relativeError;
         matrixA = new double[this.order][this.order];
         matrixB = new double[this.order];
-        for(int i = 0; i < this.order; ++i){
-            for(int j = 0; j < this.order; ++j) matrixA[i][j] = equations[i].getCoefficient(j);
+        for (int i = 0; i < this.order; ++i) {
+            for (int j = 0; j < this.order; ++j) matrixA[i][j] = equations[i].getCoefficient(j);
         }
-        for(int i = 0; i < this.order; ++i){
+        for (int i = 0; i < this.order; ++i) {
             matrixB[i] = equations[i].getRes();
         }
         lowerMatrix = new double[this.order][this.order];
@@ -34,11 +34,11 @@ public class CholeskyDecompositioin implements LinearSolver{
 
     @Override
     public double[] getSolution() {
-        if(checkSymmetry() == false) return null;
+        if (checkSymmetry() == false) return null;
         // calculating lower matrix
         double sum;
-        for(int j = 0; j < this.order; ++j){
-            for(int i = 0; i < this.order; ++ i) {
+        for (int j = 0; j < this.order; ++j) {
+            for (int i = 0; i < this.order; ++i) {
                 if (i < j) lowerMatrix[i][j] = 0;
                 else if (i == j) {
                     sum = 0;
@@ -56,25 +56,25 @@ public class CholeskyDecompositioin implements LinearSolver{
             }
         }
         // getting upper matrix by transposing lower matrix
-        for(int i = 0; i < this.order; ++i){
+        for (int i = 0; i < this.order; ++i) {
             for (int j = 0; j < this.order; ++j)
                 upperMatrix[i][j] = lowerMatrix[j][i];
         }
         // forward substitustion
         double[] y = new double[this.order];
         y[0] = matrixB[0] / lowerMatrix[0][0];
-        for(int i = 0; i < this.order; ++i){
+        for (int i = 0; i < this.order; ++i) {
             sum = 0;
-            for(int j = 0; j <= i - 1; ++j){
+            for (int j = 0; j <= i - 1; ++j) {
                 sum = sum + lowerMatrix[i][j] * y[j];
             }
             y[i] = (matrixB[i] - sum) / lowerMatrix[i][i];
         }
         //backward subistitution
         this.ans[this.order - 1] = y[this.order - 1] / upperMatrix[this.order - 1][this.order - 1];
-        for (int i = this.order - 2; i >= 0; --i){
+        for (int i = this.order - 2; i >= 0; --i) {
             sum = 0;
-            for(int j = i + 1; j < this.order; ++j){
+            for (int j = i + 1; j < this.order; ++j) {
                 sum = sum + upperMatrix[i][j] * this.ans[j];
             }
             this.ans[i] = (y[i] - sum) / upperMatrix[i][i];
@@ -88,13 +88,14 @@ public class CholeskyDecompositioin implements LinearSolver{
     }
 
     @Override
-    public ObjectInputStream getSteps() {
+    public ArrayList<double[]> getSteps() {
         return null;
     }
-    private boolean checkSymmetry(){
-        for(int i = 0; i < this.order; ++i){
-            for(int j = 0; j < this.order; ++j){
-                if(matrixA[i][j] != matrixA[j][i]) return false;
+
+    private boolean checkSymmetry() {
+        for (int i = 0; i < this.order; ++i) {
+            for (int j = 0; j < this.order; ++j) {
+                if (matrixA[i][j] != matrixA[j][i]) return false;
             }
         }
         return true;

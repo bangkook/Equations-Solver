@@ -1,9 +1,9 @@
 package com.codebind;
 
-import java.io.FileNotFoundException;
+import java.io.*;
 import java.util.ArrayList;
 
-public class Jacobi implements LinearSolver {
+public class Gauss_Seidel implements LinearSolver {
     //private boolean stepByStep = false;
     private int precision = 7;
     private final int order;
@@ -11,20 +11,18 @@ public class Jacobi implements LinearSolver {
     private double[] ans;
     private int maxIterations = 50;
     private double relativeError = 0.00001;
-    private final String stepsFile = "jacobi_steps.txt";
-    ArrayList<double[]> steps;
+    private final String stepsFile = "gauss_seidel_steps.json";
 
 
-    public Jacobi(Equation[] equations, double[] initial, int maxIterations, double relativeError) {
+    public Gauss_Seidel(Equation[] equations, double[] initial, int maxIterations, double relativeError) {
         this.equations = equations;
         this.order = equations[0].getOrder();
         this.ans = initial;
         this.maxIterations = maxIterations;
         this.relativeError = relativeError;
-        this.steps = new ArrayList<>();
     }
 
-    public Jacobi(Equation[] equations, double[] initial) {
+    public Gauss_Seidel(Equation[] equations, double[] initial) {
         this.equations = equations;
         this.order = equations[0].getOrder();
         this.ans = initial;
@@ -49,9 +47,11 @@ public class Jacobi implements LinearSolver {
                 tempAns[j] = this.equations[j].substitute(this.ans, 0, this.order, j, precision);
 
                 error = Math.max(error, Math.abs((tempAns[j] - this.ans[j]) / tempAns[j]));
+
+                ans[j] = tempAns[j];
             }
-            System.arraycopy(tempAns, 0, this.ans, 0, this.order);
-            steps.add(this.ans);
+            //System.arraycopy(tempAns, 0, this.ans, 0, this.order);
+            saveAns();
             for (double a : ans) {
                 System.out.print(a + " ");
             }
@@ -107,17 +107,42 @@ public class Jacobi implements LinearSolver {
     }
 
     private void saveAns() {
-        steps.add(this.ans);
+        try {
+            ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(stepsFile, true));
+            oos.writeObject(this.ans);
+            oos.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
     public ArrayList<double[]> getSteps() throws FileNotFoundException {
+        FileInputStream fis = new FileInputStream(stepsFile);
+        ArrayList<double[]> steps = new ArrayList<>();
+
+        boolean cont = true;
+        while (cont) {
+            try (ObjectInputStream input = new ObjectInputStream(fis)) {
+                double[] obj = (double[]) input.readObject();
+
+                if (obj != null) {
+                    steps.add(obj);
+                    for (double v : obj) System.out.print(v + " ");
+                    System.out.println();
+                } else {
+                    cont = false;
+                }
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
         return steps;
     }
 
     @Override
     public void print() {
+
     }
-
-
 }

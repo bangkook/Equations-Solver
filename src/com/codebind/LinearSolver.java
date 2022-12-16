@@ -1,6 +1,7 @@
 package com.codebind;
 
-import java.io.ObjectInputStream;
+import java.io.FileNotFoundException;
+import java.util.ArrayList;
 
 public interface LinearSolver {
     //void setSettings(boolean stepByStep, int precision);
@@ -8,7 +9,9 @@ public interface LinearSolver {
     //void setSystem(Equation[] equations);
 
     double[] getSolution();
-    void print();//for testing
-    ObjectInputStream getSteps();
+
+    void print();
+
+    ArrayList<double[]> getSteps() throws FileNotFoundException;
 
 }
