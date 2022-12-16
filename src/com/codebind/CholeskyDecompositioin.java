@@ -88,6 +88,11 @@ public class CholeskyDecompositioin implements LinearSolver {
     }
 
     @Override
+    public void setPrecision(int precision) {
+
+    }
+
+    @Override
     public ArrayList<double[]> getSteps() {
         return null;
     }

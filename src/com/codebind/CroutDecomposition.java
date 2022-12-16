@@ -90,6 +90,11 @@ public class CroutDecomposition implements LinearSolver {
     }
 
     @Override
+    public void setPrecision(int precision) {
+
+    }
+
+    @Override
     public void print() {
 
     }

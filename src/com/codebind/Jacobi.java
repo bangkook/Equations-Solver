@@ -1,6 +1,7 @@
 package com.codebind;
 
-import java.io.FileNotFoundException;
+import java.math.BigDecimal;
+import java.math.MathContext;
 import java.util.ArrayList;
 
 public class Jacobi implements LinearSolver {
@@ -11,8 +12,8 @@ public class Jacobi implements LinearSolver {
     private double[] ans;
     private int maxIterations = 50;
     private double relativeError = 0.00001;
-    private final String stepsFile = "jacobi_steps.txt";
-    ArrayList<double[]> steps;
+    //private final String stepsFile = "jacobi_steps.txt";
+    private ArrayList<double[]> steps;
 
 
     public Jacobi(Equation[] equations, double[] initial, int maxIterations, double relativeError) {
@@ -28,6 +29,7 @@ public class Jacobi implements LinearSolver {
         this.equations = equations;
         this.order = equations[0].getOrder();
         this.ans = initial;
+        this.steps = new ArrayList<>();
     }
 
     public int getPrecision() {
@@ -51,11 +53,7 @@ public class Jacobi implements LinearSolver {
                 error = Math.max(error, Math.abs((tempAns[j] - this.ans[j]) / tempAns[j]));
             }
             System.arraycopy(tempAns, 0, this.ans, 0, this.order);
-            steps.add(this.ans);
-            for (double a : ans) {
-                System.out.print(a + " ");
-            }
-            System.out.println();
+            saveAns();
 
             if (error <= this.relativeError)
                 break;
@@ -70,18 +68,14 @@ public class Jacobi implements LinearSolver {
             for (int j = 0; j < this.order; j++) {
                 if (i == j)
                     continue;
-                sum += Math.abs(equations[i].getCoefficient(j));
+                sum = this.round(sum + Math.abs(equations[i].getCoefficient(j)));
             }
 
-            System.out.println(equations[i].getCoefficient(i) + " " + sum);
             if (Math.abs(equations[i].getCoefficient(i)) < sum)
                 this.swap(i);
 
-            System.out.println(equations[i].getCoefficient(i));
-
             // if pivot is zero after reArranging, raise error
-            if (Math.abs(equations[i].getCoefficient(i)) < 1E-10) {
-                System.out.println(equations[i].getCoefficient(i));
+            if (Math.abs(equations[i].getCoefficient(i)) == 0) {
                 throw new RuntimeException("Pivot can not be zero");
             }
         }
@@ -94,7 +88,7 @@ public class Jacobi implements LinearSolver {
             for (j = 0; j < this.order; j++) {
                 if (row == j)
                     continue;
-                sum += Math.abs(equations[i].getCoefficient(j));
+                sum = this.round(sum + Math.abs(equations[i].getCoefficient(j)));
             }
             if (Math.abs(equations[i].getCoefficient(row)) >= sum) {
                 Equation temp = equations[i];
@@ -107,16 +101,26 @@ public class Jacobi implements LinearSolver {
     }
 
     private void saveAns() {
-        steps.add(this.ans);
+        double[] step = new double[this.order];
+        System.arraycopy(this.ans, 0, step, 0, this.order);
+        this.steps.add(step);
     }
 
     @Override
-    public ArrayList<double[]> getSteps() throws FileNotFoundException {
-        return steps;
+    public ArrayList<double[]> getSteps() {
+        return this.steps;
+    }
+
+    private double round(double val) {
+        return (new BigDecimal(Double.toString(val)).round(new MathContext(this.precision))).doubleValue();
     }
 
     @Override
     public void print() {
+        for (double a : ans) {
+            System.out.print(a + " ");
+        }
+        System.out.println();
     }
 
 

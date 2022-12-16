@@ -1,17 +1,18 @@
 package com.codebind;
 
-import java.io.*;
+import java.math.BigDecimal;
+import java.math.MathContext;
 import java.util.ArrayList;
 
 public class Gauss_Seidel implements LinearSolver {
-    //private boolean stepByStep = false;
     private int precision = 7;
     private final int order;
     private final Equation[] equations;
     private double[] ans;
     private int maxIterations = 50;
     private double relativeError = 0.00001;
-    private final String stepsFile = "gauss_seidel_steps.json";
+    //private final String stepsFile = "gauss_seidel_steps.txt";
+    private ArrayList<double[]> steps;
 
 
     public Gauss_Seidel(Equation[] equations, double[] initial, int maxIterations, double relativeError) {
@@ -20,12 +21,14 @@ public class Gauss_Seidel implements LinearSolver {
         this.ans = initial;
         this.maxIterations = maxIterations;
         this.relativeError = relativeError;
+        this.steps = new ArrayList<>();
     }
 
     public Gauss_Seidel(Equation[] equations, double[] initial) {
         this.equations = equations;
         this.order = equations[0].getOrder();
         this.ans = initial;
+        this.steps = new ArrayList<>();
     }
 
     public int getPrecision() {
@@ -50,12 +53,7 @@ public class Gauss_Seidel implements LinearSolver {
 
                 ans[j] = tempAns[j];
             }
-            //System.arraycopy(tempAns, 0, this.ans, 0, this.order);
             saveAns();
-            for (double a : ans) {
-                System.out.print(a + " ");
-            }
-            System.out.println();
 
             if (error <= this.relativeError)
                 break;
@@ -70,18 +68,14 @@ public class Gauss_Seidel implements LinearSolver {
             for (int j = 0; j < this.order; j++) {
                 if (i == j)
                     continue;
-                sum += Math.abs(equations[i].getCoefficient(j));
+                sum = this.round(sum + Math.abs(equations[i].getCoefficient(j)));
             }
 
-            System.out.println(equations[i].getCoefficient(i) + " " + sum);
             if (Math.abs(equations[i].getCoefficient(i)) < sum)
                 this.swap(i);
 
-            System.out.println(equations[i].getCoefficient(i));
-
             // if pivot is zero after reArranging, raise error
-            if (Math.abs(equations[i].getCoefficient(i)) < 1E-10) {
-                System.out.println(equations[i].getCoefficient(i));
+            if (Math.abs(equations[i].getCoefficient(i)) == 0) {
                 throw new RuntimeException("Pivot can not be zero");
             }
         }
@@ -94,7 +88,7 @@ public class Gauss_Seidel implements LinearSolver {
             for (j = 0; j < this.order; j++) {
                 if (row == j)
                     continue;
-                sum += Math.abs(equations[i].getCoefficient(j));
+                sum = this.round(sum + Math.abs(equations[i].getCoefficient(j)));
             }
             if (Math.abs(equations[i].getCoefficient(row)) >= sum) {
                 Equation temp = equations[i];
@@ -107,42 +101,25 @@ public class Gauss_Seidel implements LinearSolver {
     }
 
     private void saveAns() {
-        try {
-            ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(stepsFile, true));
-            oos.writeObject(this.ans);
-            oos.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        double[] step = new double[this.order];
+        System.arraycopy(this.ans, 0, step, 0, this.order);
+        this.steps.add(step);
     }
 
     @Override
-    public ArrayList<double[]> getSteps() throws FileNotFoundException {
-        FileInputStream fis = new FileInputStream(stepsFile);
-        ArrayList<double[]> steps = new ArrayList<>();
-
-        boolean cont = true;
-        while (cont) {
-            try (ObjectInputStream input = new ObjectInputStream(fis)) {
-                double[] obj = (double[]) input.readObject();
-
-                if (obj != null) {
-                    steps.add(obj);
-                    for (double v : obj) System.out.print(v + " ");
-                    System.out.println();
-                } else {
-                    cont = false;
-                }
-
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
+    public ArrayList<double[]> getSteps() {
         return steps;
+    }
+
+    private double round(double val) {
+        return (new BigDecimal(Double.toString(val)).round(new MathContext(this.precision))).doubleValue();
     }
 
     @Override
     public void print() {
-
+        for (double a : ans) {
+            System.out.print(a + " ");
+        }
+        System.out.println();
     }
 }

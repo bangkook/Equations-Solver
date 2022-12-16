@@ -14,6 +14,11 @@ public class Gauss_Jordan implements LinearSolver {
         ans = new double[this.order];
     }
 
+    @Override
+    public void setPrecision(int precision) {
+
+    }
+    
     public void PartialPivoting(int index) {
         for (int i = index + 1; i < this.order; i++) {
             if (Math.abs(this.equations[index].getCoefficient(index)) < Math.abs(this.equations[i].getCoefficient(index))) {

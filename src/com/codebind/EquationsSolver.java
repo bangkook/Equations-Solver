@@ -1,9 +1,10 @@
 package com.codebind;
 
-import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.util.ArrayList;
 
 public class EquationsSolver {
-    public static void main(String[] args) throws FileNotFoundException {
+    public static void main(String[] args) throws IOException {
         // This is for testing only
         Equation[] equations = new Equation[3];
         equations[0] = new Equation(new double[]{3, 7, 13}, 76);
@@ -35,10 +36,14 @@ public class EquationsSolver {
         double[] sol2 = test2.getSolution();
         System.out.println(Arrays.toString(sol2));*/
 
-        LinearSolver test = new Gauss_Seidel(equations, new double[]{1, 0, 1});
+        LinearSolver test = new Jacobi(equations, new double[]{1, 0, 1});
+        test.setPrecision(4);
         test.getSolution();
-        /*ArrayList<double[]> steps = test.getSteps();
+        ArrayList<double[]> steps = test.getSteps();
+        int i = 1;
         for (double[] step : steps) {
+            System.out.println("iteration" + i);
+            i++;
             for (double ans : step) {
                 System.out.print(ans + " ");
             }
