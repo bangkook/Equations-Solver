@@ -4,19 +4,18 @@ import java.math.BigDecimal;
 import java.math.MathContext;
 import java.util.ArrayList;
 
-public class Jacobi implements LinearSolver {
-    //private boolean stepByStep = false;
+public class Gauss_Seidel implements LinearSolver {
     private int precision = 7;
     private final int order;
     private final Equation[] equations;
     private double[] ans;
     private int maxIterations = 50;
     private double relativeError = 0.00001;
-    //private final String stepsFile = "jacobi_steps.txt";
+    //private final String stepsFile = "gauss_seidel_steps.txt";
     private ArrayList<double[]> steps;
 
 
-    public Jacobi(Equation[] equations, double[] initial, int maxIterations, double relativeError) {
+    public Gauss_Seidel(Equation[] equations, double[] initial, int maxIterations, double relativeError) {
         this.equations = equations;
         this.order = equations[0].getOrder();
         this.ans = initial;
@@ -25,7 +24,7 @@ public class Jacobi implements LinearSolver {
         this.steps = new ArrayList<>();
     }
 
-    public Jacobi(Equation[] equations, double[] initial) {
+    public Gauss_Seidel(Equation[] equations, double[] initial) {
         this.equations = equations;
         this.order = equations[0].getOrder();
         this.ans = initial;
@@ -51,8 +50,9 @@ public class Jacobi implements LinearSolver {
                 tempAns[j] = this.equations[j].substitute(this.ans, 0, this.order, j, precision);
 
                 error = Math.max(error, Math.abs((tempAns[j] - this.ans[j]) / tempAns[j]));
+
+                ans[j] = tempAns[j];
             }
-            System.arraycopy(tempAns, 0, this.ans, 0, this.order);
             saveAns();
 
             if (error <= this.relativeError)
@@ -108,7 +108,7 @@ public class Jacobi implements LinearSolver {
 
     @Override
     public ArrayList<double[]> getSteps() {
-        return this.steps;
+        return steps;
     }
 
     private double round(double val) {
@@ -122,6 +122,4 @@ public class Jacobi implements LinearSolver {
         }
         System.out.println();
     }
-
-
 }
