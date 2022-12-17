@@ -4,21 +4,31 @@ import javax.swing.*;
 import javax.swing.event.CaretEvent;
 import javax.swing.event.CaretListener;
 
+import com.codebind.Equation;
+
 import java.awt.*;
 import java.awt.event.*;
 
 
-public class SystemEntryScreen extends JPanel{
+public class SystemEntryScreen extends JPanel implements ActionListener
+{
 	
 	SizeEntryPanel sizePanel;
 	SystemEntryPanel systemEntryPanel = null;
-
-
+	JButton bNext;
+	
+	
 	public SystemEntryScreen()
 	{
+		setBorder(BorderFactory.createEmptyBorder(10,10,10,10));
 		setLayout(new BorderLayout());
 		sizePanel = new SizeEntryPanel();
 		add(sizePanel, BorderLayout.NORTH);
+		bNext = new JButton("Enter system size");
+		bNext.setEnabled(false);
+		bNext.setActionCommand("Next");
+		bNext.addActionListener(this);
+		add(bNext, BorderLayout.SOUTH);
 
 	}
 
@@ -27,21 +37,35 @@ public class SystemEntryScreen extends JPanel{
 		if (systemEntryPanel != null)
 		{
 			remove(systemEntryPanel);
+			bNext.setEnabled(false);
+			bNext.setText("Enter System Size");
 		}
-		if (size != 0)
+		if (size != 0 && size != 1)
 		{
 			systemEntryPanel = new SystemEntryPanel(size);
 			add(systemEntryPanel, BorderLayout.CENTER);
-
+			bNext.setEnabled(true);
+			bNext.setText("Next");
 		}
 		revalidate();
 		repaint();
+	}
+
+	public void actionPerformed(ActionEvent ae)
+	{
+		onNextPressed();
+	}
+
+	private void onNextPressed()
+	{
+		Equation[] sys = systemEntryPanel.getSystem();
+		((AppFrame)getTopLevelAncestor()).onSystemEntryNext(sys);
 	}
 }
 
 
 
-class SizeEntryPanel extends JPanel
+class SizeEntryPanel extends JPanel implements CaretListener
 {
 
 	JLabel enterSize;
@@ -54,11 +78,16 @@ class SizeEntryPanel extends JPanel
 		setLayout(new FlowLayout(FlowLayout.LEFT));
 		enterSize = new JLabel("System Size = ");
 		sizeField = new JTextField("", 5);
-		sizeField.addCaretListener(new SizeListener());
+		sizeField.addCaretListener(this);
 		add(enterSize);
 		add(sizeField);
 	}
 
+	public void caretUpdate(CaretEvent ae)
+	{
+		updateSize();
+	}
+	
 	private void updateSize()
 	{
 		int temp = SystemSize;
@@ -76,25 +105,22 @@ class SizeEntryPanel extends JPanel
 
 		if (temp != SystemSize)
 		{
-			((SystemEntryScreen)getParent()).addSystemEntryPanel(SystemSize);
+			SwingUtilities.invokeLater(new Runnable(){
+				public void run() {((SystemEntryScreen)getParent()).addSystemEntryPanel(SystemSize);}
+			});
 		}
 	}
 
-	class SizeListener implements CaretListener
-	{
-		public void caretUpdate(CaretEvent ae)
-		{
-			updateSize();
-		}
-	}
 }
 
 
 class SystemEntryPanel extends JPanel
 {
-
+	int size;
 	SystemEntryPanel(int size)
 	{
+		this.size = size; 
+		setBorder(BorderFactory.createEmptyBorder(10,10,10,10));
 		setLayout(new GridLayout(size+1, size+1, 30, 20));
 		for (int i=1; i <= size; i++)
 		{
@@ -106,8 +132,56 @@ class SystemEntryPanel extends JPanel
 		{
 			for (int col=0; col<=size; col++)
 			{
-				add(new JTextField());
+				add(new DoubleTextField());
 			}
+		}
+	}
+
+	public Equation[] getSystem()
+	{
+		Equation[] system = new Equation[size];
+		for (int row=0; row < size; row++)
+		{
+			double[] coeffs = new double[size];
+			for (int col=0; col < size; col++)
+			{
+				coeffs[col] = ((DoubleTextField)getComponent((size+1)*(row+1) + col)).value;
+			}
+			double b = ((DoubleTextField)getComponent((size+1)*(row+1) + size)).value;
+			system[row] = new Equation(coeffs, b);
+		}
+		
+		return system;
+	}
+}
+
+class DoubleTextField extends JTextField implements CaretListener
+{
+	double value = 0;
+	
+	DoubleTextField()
+	{
+		super();
+		addCaretListener(this);
+	}
+
+	DoubleTextField(int cols)
+	{
+		super(cols);
+	}
+	
+
+	public void caretUpdate(CaretEvent ce)
+	{
+		try{
+			value = Double.parseDouble(getText());
+		}
+		catch (NumberFormatException e)
+		{
+			SwingUtilities.invokeLater(new Runnable(){
+				public void run() {setText(null);}
+			});
+			value = 0;
 		}
 	}
 }
