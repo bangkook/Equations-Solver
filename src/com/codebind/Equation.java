@@ -13,7 +13,7 @@ public class Equation implements Serializable {
     public Equation(double[] coefficients, double res) {
         this.coefficients = this.roundArr(coefficients);
         this.order = coefficients.length;
-        this.res = res;
+        this.res = this.round(res);
     }
 
     public int getOrder() {
@@ -51,9 +51,10 @@ public class Equation implements Serializable {
     public void add(Equation equation, double multiplier, int col) {
         this.coefficients[col] = multiplier; // for LU case
         for (int i = col + 1; i < this.order; i++) {
-            this.coefficients[i] -= equation.getCoefficient(i) * multiplier;
+            this.coefficients[i] -= round(equation.getCoefficient(i) * multiplier);
+            this.coefficients[i] = round(this.coefficients[i]);
         }
-        this.res -= equation.getRes() * multiplier;
+        this.res = round(res - round(equation.getRes() * multiplier));
     }
 
     // returns pivot with or without scaling
@@ -65,7 +66,7 @@ public class Equation implements Serializable {
         for (double coefficient : coefficients) {
             maxCoefficient = Math.max(maxCoefficient, Math.abs(coefficient));
         }
-        return this.coefficients[row] / maxCoefficient;
+        return round(this.coefficients[row] / maxCoefficient);
     }
 
     private double round(double val) {

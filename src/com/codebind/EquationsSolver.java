@@ -1,15 +1,18 @@
 package com.codebind;
 
+import com.codebind.LUDecomposition.CroutDecomposition;
+
 import java.io.IOException;
-import java.util.ArrayList;
+import java.util.Arrays;
 
 public class EquationsSolver {
     public static void main(String[] args) throws IOException {
         // This is for testing only
         Equation[] equations = new Equation[3];
-        equations[0] = new Equation(new double[]{3, 7, 13}, 76);
         equations[2] = new Equation(new double[]{12, 3, -5}, 1);
+        equations[0] = new Equation(new double[]{3, 7, 13}, 76);
         equations[1] = new Equation(new double[]{1, 5, 3}, 28);
+
         //equations[2] = new Equation(new double[]{3, 7, 13}, 76);
 
         /*Equation[] equations2 = new Equation[3];
@@ -30,13 +33,14 @@ public class EquationsSolver {
             double[] sol3 = test3.getSolution();
             System.out.println(Arrays.toString(sol3));
         }
-
+*/
         // testing LU
-        LinearSolver test2 = new LUDecomposition(equations, 0.0001);
+        LinearSolver test2 = new CroutDecomposition(equations, true);
+        test2.setPrecision(3);
         double[] sol2 = test2.getSolution();
-        System.out.println(Arrays.toString(sol2));*/
+        System.out.println(Arrays.toString(sol2));
 
-        LinearSolver test = new Jacobi(equations, new double[]{1, 0, 1});
+        /*LinearSolver test = new Jacobi(equations, new double[]{1, 0, 1});
         test.setPrecision(4);
         test.getSolution();
         ArrayList<double[]> steps = test.getSteps();

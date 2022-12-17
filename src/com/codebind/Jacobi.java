@@ -90,7 +90,10 @@ public class Jacobi implements LinearSolver {
                     continue;
                 sum = this.round(sum + Math.abs(equations[i].getCoefficient(j)));
             }
-            if (Math.abs(equations[i].getCoefficient(row)) >= sum) {
+            // if found row with pivot greater than or equal sum of other elements in same row
+            // or if pivot is zero and found row with non-zero pivot, swap both equations
+            if (Math.abs(equations[i].getCoefficient(row)) >= sum ||
+                    (equations[i].getCoefficient(row) != 0 && equations[row].getCoefficient(row) == 0)) {
                 Equation temp = equations[i];
                 equations[i] = equations[row];
                 equations[row] = temp;
