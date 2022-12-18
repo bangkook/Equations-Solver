@@ -10,16 +10,18 @@ public class Jacobi implements LinearSolver {
     private final int order;
     private final Equation[] equations;
     private double[] ans;
+    boolean scaling = false;
     private int maxIterations = 50;
     private double relativeError = 0.00001;
     //private final String stepsFile = "jacobi_steps.txt";
     private ArrayList<double[]> steps;
 
 
-    public Jacobi(Equation[] equations, double[] initial, int maxIterations, double relativeError) {
+    public Jacobi(Equation[] equations, double[] initial, int maxIterations, double relativeError, boolean scaling) {
         this.equations = equations;
         this.order = equations[0].getOrder();
         this.ans = initial;
+        this.scaling = scaling;
         this.maxIterations = maxIterations;
         this.relativeError = relativeError;
         this.steps = new ArrayList<>();
@@ -44,12 +46,13 @@ public class Jacobi implements LinearSolver {
     public double[] getSolution() {
         double[] tempAns = new double[this.order];
         double error;
-        this.reArrange();
+        this.pivot();// partial pivoting first
+
         for (int i = 0; i < maxIterations; i++) {
             error = 0;
             for (int j = 0; j < this.order; j++) {
-                tempAns[j] = this.equations[j].substitute(this.ans, 0, this.order, j, precision);
-
+                tempAns[j] = round(this.equations[j].substitute(this.ans, 0, this.order, j, precision));
+                // System.out.println(tempAns[j]);
                 error = Math.max(error, Math.abs((tempAns[j] - this.ans[j]) / tempAns[j]));
             }
             System.arraycopy(tempAns, 0, this.ans, 0, this.order);
@@ -61,44 +64,29 @@ public class Jacobi implements LinearSolver {
         return this.ans;
     }
 
-    // reArrange rows to get diagonally dominant matrix
-    private void reArrange() {
-        for (int i = 0; i < this.order; i++) {
-            double sum = 0;
-            for (int j = 0; j < this.order; j++) {
-                if (i == j)
-                    continue;
-                sum = this.round(sum + Math.abs(equations[i].getCoefficient(j)));
+    // partial pivoting to avoid division by zero
+    private void pivot() {
+        for (int k = 0; k < this.order; k++) {
+            if (this.equations[k].getPivot(false, k) != 0) continue;
+            double holder;
+            int piv = k;
+            double largest = Math.abs(this.equations[k].getPivot(scaling, k));
+            for (int i = k + 1; i < this.order; ++i) {
+                holder = Math.abs(this.equations[i].getPivot(scaling, k));
+                if (holder > largest) {
+                    largest = holder;
+                    piv = i;
+                }
             }
+            System.out.println(k + " " + piv);
+            // swapping
+            Equation temp = equations[piv];
+            equations[piv] = equations[k];
+            equations[k] = temp;
 
-            if (Math.abs(equations[i].getCoefficient(i)) < sum)
-                this.swap(i);
-
-            // if pivot is zero after reArranging, raise error
-            if (Math.abs(equations[i].getCoefficient(i)) == 0) {
+            // if pivot is zero after partial pivoting, throw runtime exception
+            if (equations[k].getPivot(false, k) == 0) {
                 throw new RuntimeException("Pivot can not be zero");
-            }
-        }
-    }
-
-    // swap rows to get diagonally dominant matrix
-    private void swap(int row) {
-        for (int i = row + 1, j; i < this.order; i++) {
-            double sum = 0;
-            for (j = 0; j < this.order; j++) {
-                if (row == j)
-                    continue;
-                sum = this.round(sum + Math.abs(equations[i].getCoefficient(j)));
-            }
-            // if found row with pivot greater than or equal sum of other elements in same row
-            // or if pivot is zero and found row with non-zero pivot, swap both equations
-            if (Math.abs(equations[i].getCoefficient(row)) >= sum ||
-                    (equations[i].getCoefficient(row) != 0 && equations[row].getCoefficient(row) == 0)) {
-                Equation temp = equations[i];
-                equations[i] = equations[row];
-                equations[row] = temp;
-
-                return;
             }
         }
     }

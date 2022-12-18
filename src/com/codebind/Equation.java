@@ -86,9 +86,11 @@ public class Equation implements Serializable {
         for (int i = startIndex; i < endIndex; i++) {
             if (i == currIndex)
                 continue;
-            sum = this.round(sum + this.coefficients[i] * ans[i]);
+            sum = this.round(sum + round(this.coefficients[i] * ans[i]));
 
         }
+        System.out.println("first " + this.round(this.res - sum));
+        System.out.println("second " + this.coefficients[currIndex]);
         return this.round(this.round(this.res - sum) / this.coefficients[currIndex]);
     }
 }

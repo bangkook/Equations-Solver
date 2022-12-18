@@ -47,12 +47,19 @@ public class Doolittle implements LinearSolver {
         for (int i = 0; i < this.order - 1; i++) {
             pivot(i);
             // if pivot is 0 after partial pivoting, throw runtime exception
-            if (this.equations[o[i]].getPivot(scaling, i) == 0) {
+            /*if (this.equations[o[i]].getPivot(scaling, i) == 0) {
                 throw new RuntimeException("Pivot can not be zero");
+            }*/
+            // if pivot is 0 after partial pivoting, skip it
+            if (this.equations[o[i]].getPivot(false, i) == 0) {
+                continue;
             }
+
+
             L[o[i]][i] = 1;
 
             for (int j = i + 1; j < this.order; j++) {
+
                 double multiplier = round(this.equations[o[j]].getPivot(false, i) /
                         this.equations[o[i]].getPivot(false, i));
                 L[o[j]][i] = multiplier;
@@ -124,7 +131,7 @@ public class Doolittle implements LinearSolver {
                 piv = i;
             }
         }
-        // swaping
+        // swapping
         holder = o[piv];
         o[piv] = o[k];
         o[k] = (int) holder;

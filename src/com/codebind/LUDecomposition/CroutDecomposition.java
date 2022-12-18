@@ -59,6 +59,12 @@ public class CroutDecomposition implements LinearSolver {
 
         for (int j = 0; j < this.order; ++j) {
             pivot(j);
+
+            // if pivot is 0 after partial pivoting, skip it
+            if (this.lowerMatrix[o[j]][j] == 0) {
+                continue;
+            }
+
             for (int i = j; i < this.order; ++i) {
                 sum = 0;
                 for (int k = 0; k < j; ++k)
@@ -77,6 +83,15 @@ public class CroutDecomposition implements LinearSolver {
             for (int j = i + 1; j < this.order; j++) {
                 lowerMatrix[o[i]][j] = 0;
                 upperMatrix[o[j]][i] = 0;
+            }
+        }
+
+        // check if last pivot equals 0 after pivoting, then throw exception
+        if (round(lowerMatrix[o[order - 1]][order - 1]) == 0) {
+            if (equations[o[order - 1]].getCoefficient(order - 1) == 0) {
+                throw new RuntimeException("System has no solution");
+            } else {
+                throw new RuntimeException("System has infinite number of solutions");
             }
         }
     }
@@ -125,10 +140,11 @@ public class CroutDecomposition implements LinearSolver {
                 piv = i;
             }
         }
-        // swaping
+        // swapping
         holder = o[piv];
         o[piv] = o[k];
         o[k] = (int) holder;
+
     }
 
     // get maximum element in row for scaling
