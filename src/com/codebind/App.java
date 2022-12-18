@@ -1,8 +1,6 @@
 package com.codebind;
 
 import javax.swing.*;
-import java.awt.*;
-// import java.awt.event.*;
 import com.codebind.Components.*;
 
 class AppThread implements Runnable
@@ -22,11 +20,8 @@ public class App {
 	App()
 	{
 		JFrame frm = new AppFrame("Linear System Solver");
-
 		frm.setVisible(true);
 		frm.setSize(600, 500);
-		
-		
 	}
 
 }

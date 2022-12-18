@@ -67,10 +67,10 @@ public class SystemEntryScreen extends JPanel implements ActionListener
 
 class SizeEntryPanel extends JPanel implements CaretListener
 {
-
+	final int maxSystemSize = 19;
 	JLabel enterSize;
 	JTextField sizeField;
-	int SystemSize;
+	int systemSize;
 	
 	
 	SizeEntryPanel()
@@ -85,28 +85,40 @@ class SizeEntryPanel extends JPanel implements CaretListener
 
 	public void caretUpdate(CaretEvent ae)
 	{
+		// String txt = sizeField.getText();
 		updateSize();
 	}
 	
 	private void updateSize()
 	{
-		int temp = SystemSize;
+		int temp = systemSize;
 		try 
 		{
-			SystemSize = Integer.parseInt(sizeField.getText());
+			String text = sizeField.getText();
+			systemSize = Integer.parseInt(text);
 		}
 		catch(NumberFormatException e)
 		{
 			SwingUtilities.invokeLater(new Runnable(){
 				public void run() {sizeField.setText(null);}
 			});
-			SystemSize = 0;
+			systemSize = 0;
 		}
 
-		if (temp != SystemSize)
+		//Setting a maximum system size
+		// if (systemSize > maxSystemSize)
+		// {
+		// 	SwingUtilities.invokeLater(new Runnable(){
+		// 		public void run() {sizeField.setText(String.valueOf(maxSystemSize));}
+		// 	});
+		// 	systemSize = maxSystemSize;
+		// }
+
+
+		if (temp != systemSize)
 		{
 			SwingUtilities.invokeLater(new Runnable(){
-				public void run() {((SystemEntryScreen)getParent()).addSystemEntryPanel(SystemSize);}
+				public void run() {((SystemEntryScreen)getParent()).addSystemEntryPanel(systemSize);}
 			});
 		}
 	}
