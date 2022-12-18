@@ -5,7 +5,7 @@ import com.codebind.LinearSolver;
 
 import java.util.ArrayList;
 
-public class CholeskyDecompositioin implements LinearSolver {
+public class CholeskyDecomposition implements LinearSolver {
 
     private int precision = 7;
     private double relativeError = 0.00001;
@@ -18,7 +18,7 @@ public class CholeskyDecompositioin implements LinearSolver {
     private double[][] lowerMatrix;
     private double[][] upperMatrix;
 
-    public CholeskyDecompositioin(Equation[] equations, double relativeError) {
+    public CholeskyDecomposition(Equation[] equations, double relativeError) {
         this.equations = equations;
         this.order = equations[0].getOrder();
         this.ans = new double[this.order];
