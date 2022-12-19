@@ -1,33 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
   <component name="ChangeListManager">
     <list default="true" id="af02c104-bba1-4139-b60d-2ef746b07728" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/EquationsSolver/com/codebind/App.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/EquationsSolver/com/codebind/App.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/EquationsSolver/com/codebind/AppThread.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/EquationsSolver/com/codebind/AppThread.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/EquationsSolver/com/codebind/Components/AppFrame.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/EquationsSolver/com/codebind/Components/AppFrame.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/EquationsSolver/com/codebind/Components/DoubleTextField$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/EquationsSolver/com/codebind/Components/DoubleTextField$1.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/EquationsSolver/com/codebind/Components/DoubleTextField.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/EquationsSolver/com/codebind/Components/DoubleTextField.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/EquationsSolver/com/codebind/Components/MethodSelectScreen.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/EquationsSolver/com/codebind/Components/MethodSelectScreen.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/EquationsSolver/com/codebind/Components/SizeEntryPanel$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/EquationsSolver/com/codebind/Components/SizeEntryPanel$1.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/EquationsSolver/com/codebind/Components/SizeEntryPanel$2.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/EquationsSolver/com/codebind/Components/SizeEntryPanel$2.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/EquationsSolver/com/codebind/Components/SizeEntryPanel.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/EquationsSolver/com/codebind/Components/SizeEntryPanel.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/EquationsSolver/com/codebind/Components/SystemEntryPanel.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/EquationsSolver/com/codebind/Components/SystemEntryPanel.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/EquationsSolver/com/codebind/Components/SystemEntryScreen.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/EquationsSolver/com/codebind/Components/SystemEntryScreen.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/EquationsSolver/com/codebind/Equation.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/EquationsSolver/com/codebind/Equation.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/EquationsSolver/com/codebind/EquationsSolver.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/EquationsSolver/com/codebind/EquationsSolver.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/EquationsSolver/com/codebind/GaussElimination.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/EquationsSolver/com/codebind/GaussElimination.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/EquationsSolver/com/codebind/Gauss_Jordan.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/EquationsSolver/com/codebind/Gauss_Jordan.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/EquationsSolver/com/codebind/Gauss_Seidel.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/EquationsSolver/com/codebind/Gauss_Seidel.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/EquationsSolver/com/codebind/Jacobi.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/EquationsSolver/com/codebind/Jacobi.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/EquationsSolver/com/codebind/LUDecomposition/CholeskyDecompositioin.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/EquationsSolver/com/codebind/LUDecomposition/CholeskyDecompositioin.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/EquationsSolver/com/codebind/LUDecomposition/CroutDecomposition.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/EquationsSolver/com/codebind/LUDecomposition/CroutDecomposition.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/EquationsSolver/com/codebind/LUDecomposition/Doolittle.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/EquationsSolver/com/codebind/LUDecomposition/Doolittle.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/codebind/Equation.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/codebind/Equation.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/com/codebind/EquationsSolver.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/codebind/EquationsSolver.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/codebind/Gauss_Jordan.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/codebind/Gauss_Jordan.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/codebind/LUDecomposition/CholeskyDecomposition.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/codebind/LUDecomposition/CholeskyDecomposition.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/codebind/GaussElimination.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/codebind/GaussElimination.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -82,7 +63,7 @@
     <property name="project.structure.side.proportion" value="0.2" />
     <property name="settings.editor.selected.configurable" value="reference.projectsettings.compiler.javacompiler" />
   </component>
-  <component name="RunManager" selected="Application.com.codebind.App">
+  <component name="RunManager" selected="Application.EquationsSolver">
     <configuration name="EquationsSolver" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="com.codebind.EquationsSolver" />
       <module name="EquationsSolver" />

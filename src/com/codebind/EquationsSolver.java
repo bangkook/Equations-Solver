@@ -15,7 +15,11 @@ public class EquationsSolver {
         g.getSolution();
         System.out.println("result");
         g.print();
-
+        GaussElimination test1 = new GaussElimination(equations, false);
+        double[] sol = test1.getSolution();
+        test1.print();
+        for (double x : sol)
+            System.out.print(x + " ");
         //equations[2] = new Equation(new double[]{3, 7, 13}, 76);
 
         /*Equation[] equations2 = new Equation[3];
