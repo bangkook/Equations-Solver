@@ -49,7 +49,7 @@ public class Equation implements Serializable {
     }
 
     public void add(Equation equation, double multiplier, int col) {
-        this.coefficients[col] = multiplier; // for LU case
+        this.coefficients[col] = 0; // for LU case
         for (int i = col + 1; i < this.order; i++) {
             this.coefficients[i] -= round(equation.getCoefficient(i) * multiplier);
             this.coefficients[i] = round(this.coefficients[i]);
@@ -57,6 +57,26 @@ public class Equation implements Serializable {
         this.res = round(res - round(equation.getRes() * multiplier));
     }
 
+    // returns pivot with or without scaling
+    public int check(Equation[] equation) {
+        int numOfFreeVar=0;
+        double sum=0;
+        for (int i = 0; i < this.order; i++) {
+            if(equation[i].coefficients[i]==0 && equation[i].getRes()!= 0){
+                return -2;//no solution
+            }
+            else if(equation[i].coefficients[i]==0 && equation[i].getRes()== 0){
+                for(int j =0 ;j<this.order;j++){
+                    sum = sum + equation[i].coefficients[j];
+                }
+                if(sum==0)
+                    numOfFreeVar++;
+                sum=0;
+            }
+        }
+        if(numOfFreeVar==0) return -1;
+        else return numOfFreeVar;
+    }
     // returns pivot with or without scaling
     public double getPivot(boolean scaling, int row) {
         if (!scaling)
@@ -66,7 +86,10 @@ public class Equation implements Serializable {
         for (double coefficient : coefficients) {
             maxCoefficient = Math.max(maxCoefficient, Math.abs(coefficient));
         }
-        return round(this.coefficients[row] / maxCoefficient);
+        if (maxCoefficient==0)
+            return this.coefficients[row];
+        else
+            return round(this.coefficients[row] / maxCoefficient);
     }
 
     private double round(double val) {
@@ -89,6 +112,8 @@ public class Equation implements Serializable {
             sum = this.round(sum + this.coefficients[i] * ans[i]);
 
         }
-        return this.round(this.round(this.res - sum) / this.coefficients[currIndex]);
+        if( this.coefficients[currIndex]!=0)
+            return this.round(this.round(this.res - sum) / this.coefficients[currIndex]);
+        else  return this.round(this.res - sum);
     }
 }

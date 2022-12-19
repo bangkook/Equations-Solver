@@ -1,18 +1,25 @@
 package com.codebind;
 
-import com.codebind.LUDecomposition.CroutDecomposition;
-
 import java.io.IOException;
-import java.util.Arrays;
 
 public class EquationsSolver {
+
     public static void main(String[] args) throws IOException {
         // This is for testing only
         Equation[] equations = new Equation[3];
-        equations[2] = new Equation(new double[]{12, 3, -5}, 1);
-        equations[0] = new Equation(new double[]{3, 7, 13}, 76);
-        equations[1] = new Equation(new double[]{1, 5, 3}, 28);
 
+        equations[0] = new Equation(new double[]{-3, -5, 36}, 10);
+        equations[1] = new Equation(new double[]{0, 5, 5}, 5);
+        equations[2] = new Equation(new double[]{12, 3, -5}, 0);
+        Gauss_Jordan g = new Gauss_Jordan(equations);
+        g.getSolution();
+        System.out.println("result");
+        g.print();
+        GaussElimination test1 = new GaussElimination(equations, false);
+        double[] sol = test1.getSolution();
+        test1.print();
+        for (double x : sol)
+            System.out.print(x + " ");
         //equations[2] = new Equation(new double[]{3, 7, 13}, 76);
 
         /*Equation[] equations2 = new Equation[3];
@@ -35,10 +42,20 @@ public class EquationsSolver {
         }
 */
         // testing LU
-        LinearSolver test2 = new CroutDecomposition(equations, true);
-        test2.setPrecision(3);
-        double[] sol2 = test2.getSolution();
-        System.out.println(Arrays.toString(sol2));
+//        LinearSolver test2 = new Jacobi(equations, new double[]{0, 0, 0});
+//        test2.setPrecision(5);
+//        double[] sol2 = test2.getSolution();
+//        System.out.println(Arrays.toString(sol2));
+//        ArrayList<double[]> steps = test2.getSteps();
+//        int i = 1;
+//        for (double[] step : steps) {
+//            System.out.println("iteration" + i);
+//            i++;
+//            for (double ans : step) {
+//                System.out.print(ans + " ");
+//            }
+//            System.out.println();
+//        }
 
         /*LinearSolver test = new Jacobi(equations, new double[]{1, 0, 1});
         test.setPrecision(4);

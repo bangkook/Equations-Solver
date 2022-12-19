@@ -11,16 +11,18 @@ public class Gauss_Seidel implements LinearSolver {
     private double[] ans;
     private int maxIterations = 50;
     private double relativeError = 0.00001;
+    boolean scaling = false;
     //private final String stepsFile = "gauss_seidel_steps.txt";
     private ArrayList<double[]> steps;
 
 
-    public Gauss_Seidel(Equation[] equations, double[] initial, int maxIterations, double relativeError) {
+    public Gauss_Seidel(Equation[] equations, double[] initial, int maxIterations, double relativeError, boolean scaling) {
         this.equations = equations;
         this.order = equations[0].getOrder();
         this.ans = initial;
         this.maxIterations = maxIterations;
         this.relativeError = relativeError;
+        this.scaling = scaling;
         this.steps = new ArrayList<>();
     }
 
@@ -43,7 +45,7 @@ public class Gauss_Seidel implements LinearSolver {
     public double[] getSolution() {
         double[] tempAns = new double[this.order];
         double error;
-        this.reArrange();
+        this.pivot();
         for (int i = 0; i < maxIterations; i++) {
             error = 0;
             for (int j = 0; j < this.order; j++) {
@@ -61,44 +63,27 @@ public class Gauss_Seidel implements LinearSolver {
         return this.ans;
     }
 
-    // reArrange rows to get diagonally dominant matrix
-    private void reArrange() {
-        for (int i = 0; i < this.order; i++) {
-            double sum = 0;
-            for (int j = 0; j < this.order; j++) {
-                if (i == j)
-                    continue;
-                sum = this.round(sum + Math.abs(equations[i].getCoefficient(j)));
+    // partial pivoting
+    private void pivot() {
+        for (int k = 0; k < this.order; k++) {
+            double holder;
+            int piv = k;
+            double largest = Math.abs(this.equations[k].getPivot(scaling, k));
+            for (int i = k + 1; i < this.order; ++i) {
+                holder = Math.abs(this.equations[i].getPivot(scaling, k));
+                if (holder > largest) {
+                    largest = holder;
+                    piv = i;
+                }
             }
+            // swapping
+            Equation temp = equations[piv];
+            equations[piv] = equations[k];
+            equations[k] = temp;
 
-            if (Math.abs(equations[i].getCoefficient(i)) < sum)
-                this.swap(i);
-
-            // if pivot is zero after reArranging, raise error
-            if (Math.abs(equations[i].getCoefficient(i)) == 0) {
+            // if pivot is zero after partial pivoting, throw runtime exception
+            if (equations[k].getPivot(false, k) == 0) {
                 throw new RuntimeException("Pivot can not be zero");
-            }
-        }
-    }
-
-    // swap rows to get diagonally dominant matrix
-    private void swap(int row) {
-        for (int i = row + 1, j; i < this.order; i++) {
-            double sum = 0;
-            for (j = 0; j < this.order; j++) {
-                if (row == j)
-                    continue;
-                sum = this.round(sum + Math.abs(equations[i].getCoefficient(j)));
-            }
-            // if found row with pivot greater than or equal sum of other elements in same row
-            // or if pivot is zero and found row with non-zero pivot, swap both equations
-            if (Math.abs(equations[i].getCoefficient(row)) >= sum ||
-                    (equations[i].getCoefficient(row) != 0 && equations[row].getCoefficient(row) == 0)) {
-                Equation temp = equations[i];
-                equations[i] = equations[row];
-                equations[row] = temp;
-
-                return;
             }
         }
     }
