@@ -15,6 +15,7 @@ public class SystemEntryScreen extends JPanel implements ActionListener
 	
 	SizeEntryPanel sizePanel;
 	SystemEntryPanel systemEntryPanel = null;
+	JScrollPane scrollPane;
 	JButton bNext;
 	
 	
@@ -29,21 +30,22 @@ public class SystemEntryScreen extends JPanel implements ActionListener
 		bNext.setActionCommand("Next");
 		bNext.addActionListener(this);
 		add(bNext, BorderLayout.SOUTH);
-
+		scrollPane = new JScrollPane();
+		add(scrollPane);
 	}
 
 	public void addSystemEntryPanel(int size)
 	{
 		if (systemEntryPanel != null)
 		{
-			remove(systemEntryPanel);
+			scrollPane.setViewportView(null);
 			bNext.setEnabled(false);
 			bNext.setText("Enter System Size");
 		}
 		if (size != 0 && size != 1)
 		{
 			systemEntryPanel = new SystemEntryPanel(size);
-			add(systemEntryPanel, BorderLayout.CENTER);
+			scrollPane.setViewportView(systemEntryPanel);
 			bNext.setEnabled(true);
 			bNext.setText("Next");
 		}
@@ -144,7 +146,7 @@ class SystemEntryPanel extends JPanel
 		{
 			for (int col=0; col<=size; col++)
 			{
-				add(new DoubleTextField());
+				add(new DoubleTextField(5));
 			}
 		}
 	}

@@ -11,24 +11,38 @@ import java.awt.*;
 public class AppFrame extends JFrame
 {
 
-	JPanel screenRoot;
+	JPanel deck;
+	MethodSelectScreen methodScreen;
+
 	public AppFrame(String title)
 	{
 		super(title);
 		// setLayout(new Borde());
-		screenRoot = new JPanel();
-		screenRoot.setLayout(new CardLayout());
-		add(screenRoot);
+		deck = new JPanel();
+		deck.setLayout(new CardLayout());
+		add(deck);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		screenRoot.add(new SystemEntryScreen(), "SystemEntryScreen");
-		screenRoot.add(new MethodSelectScreen(), "MethodSelectScreen");
+		deck.add(new SystemEntryScreen(), "SystemEntryScreen");
+		methodScreen = new MethodSelectScreen();
+		deck.add(methodScreen, "MethodSelectScreen");
 
 	}
 
 	
 	public void onSystemEntryNext(Equation[] system)
 	{
-		((CardLayout)screenRoot.getLayout()).next(screenRoot);
+		((CardLayout)deck.getLayout()).next(deck);
+		methodScreen.setSystem(system);
+	}
+
+	public void onMethodSelectBack()
+	{
+		((CardLayout)deck.getLayout()).previous(deck);
+	}
+
+	public void onMethodSelectGetSol(Method method, boolean useScaling, int precision, Parameters params)
+	{
+
 	}
 
 }
