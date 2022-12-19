@@ -7,8 +7,10 @@
     <list default="true" id="af02c104-bba1-4139-b60d-2ef746b07728" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/codebind/EquationsSolver.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/codebind/EquationsSolver.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/codebind/GaussElimination.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/codebind/GaussElimination.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/EquationsSolver/com/codebind/EquationsSolver.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/EquationsSolver/com/codebind/GaussElimination.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/EquationsSolver/com/codebind/Gauss_Jordan.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/codebind/Gauss_Jordan.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/codebind/Gauss_Jordan.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -58,10 +60,10 @@
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
-    <property name="project.structure.last.edited" value="Modules" />
+    <property name="project.structure.last.edited" value="Project" />
     <property name="project.structure.proportion" value="0.15" />
     <property name="project.structure.side.proportion" value="0.2" />
-    <property name="settings.editor.selected.configurable" value="reference.projectsettings.compiler.javacompiler" />
+    <property name="settings.editor.selected.configurable" value="android.project.structure" />
   </component>
   <component name="RunManager" selected="Application.EquationsSolver">
     <configuration name="EquationsSolver" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">

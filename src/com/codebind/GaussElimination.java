@@ -140,11 +140,10 @@ public class GaussElimination implements LinearSolver {
                 for (int p = 0; p < len; p++) {
                     writer.write(this.equations[f].getCoefficient(p) + " ");
                 }
-                writer.write("res:"+this.equations[f].getRes()+"\n");
+                writer.write(this.equations[f].getRes()+"\n");
             }
             writer.write("\n");
             writer.flush();
-            System.out.println("Data Entered in to the file successfully");
         }
         catch (Exception e) {
             e.printStackTrace();
