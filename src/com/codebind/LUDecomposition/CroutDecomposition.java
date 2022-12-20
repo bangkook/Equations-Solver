@@ -43,6 +43,7 @@ public class CroutDecomposition implements LinearSolver {
 
     @Override
     public double[] getSolution() {
+        startTime = System.currentTimeMillis();
         decompose();
 
         for (int i = 0; i < this.order; i++) {
@@ -56,6 +57,7 @@ public class CroutDecomposition implements LinearSolver {
 
         }
         substitute();
+        endTime = startTime = System.currentTimeMillis();
         return this.ans;
 
     }
