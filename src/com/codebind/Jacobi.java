@@ -49,7 +49,6 @@ public class Jacobi implements LinearSolver {
             error = 0;
             for (int j = 0; j < this.order; j++) {
                 tempAns[j] = round(this.equations[j].substitute(this.ans, 0, this.order, j));
-                // System.out.println(tempAns[j]);
                 error = Math.max(error, Math.abs((tempAns[j] - this.ans[j]) / tempAns[j]));
             }
             System.arraycopy(tempAns, 0, this.ans, 0, this.order);
@@ -76,7 +75,6 @@ public class Jacobi implements LinearSolver {
                     piv = i;
                 }
             }
-            System.out.println(k + " " + piv);
             // swapping
             Equation temp = equations[piv];
             equations[piv] = equations[k];
@@ -92,7 +90,6 @@ public class Jacobi implements LinearSolver {
     private void writeFile() {
         try {
             FileWriter writer = new FileWriter(stepsFile, true);
-            int len = this.order;
             for (int f = 0; f < this.order; f++) {
                 writer.write(this.ans[f] + " ");
             }

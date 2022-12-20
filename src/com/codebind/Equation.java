@@ -113,7 +113,7 @@ public class Equation implements Serializable {
         for (int i = startIndex; i < endIndex; i++) {
             if (i == currIndex)
                 continue;
-            sum = this.round(sum + this.coefficients[i] * ans[i]);
+            sum = sum + this.coefficients[i] * ans[i];
 
         }
         if (this.coefficients[currIndex] != 0)

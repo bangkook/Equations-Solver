@@ -92,8 +92,7 @@ public class Gauss_Jordan implements LinearSolver {
             //check for no solution or infinite solution
             if (i == this.order - 1) {
                 if (this.equations[i].check(equations) == -2) {
-                    System.out.println("no solution");
-                    return null;
+                    throw new RuntimeException("System has no solution");
                 } else if (this.equations[i].check(equations) != -2 && this.equations[i].check(equations) != -1) {
                     int noOfFreeVar = this.equations[i].check(equations);
                     int value = 1;

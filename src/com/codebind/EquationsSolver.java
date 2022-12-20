@@ -6,10 +6,11 @@ public class EquationsSolver {
 
     public static void main(String[] args) throws IOException {
         // This is for testing only
-        Equation[] equations = new Equation[4];
-        /*equations[0] = new Equation(new double[]{-3, -5, 36}, 10);
-        equations[1] = new Equation(new double[]{0, 5, 5}, 5);
-        equations[2] = new Equation(new double[]{12, 3, -5}, 0);*/
+        Equation[] equations = new Equation[2];
+        equations[0] = new Equation(new double[]{-0.5, 1}, 1, 7);
+        equations[1] = new Equation(new double[]{-1, 2}, 2, 7);
+
+        //   equations[2] = new Equation(new double[]{12, 3, -5}, 0, 5);
         /*Gauss_Jordan g = new Gauss_Jordan(equations);
         g.getSolution();
         System.out.println("result");
@@ -17,7 +18,7 @@ public class EquationsSolver {
         /*LinearSolver test1 = new Jacobi(equations, new double[]{0, 0, 0});
         double[] sol = test1.getSolution();*/
         //test1.print();
-        equations[0] = new Equation(new double[]{1, 1, -3, 1}, 2, 7);
+       /* equations[0] = new Equation(new double[]{1, 1, -3, 1}, 2, 7);
         equations[1] = new Equation(new double[]{-5, 3, -4, 1}, 0, 7);
         equations[2] = new Equation(new double[]{1, 0, 2, -1}, 1, 7);
         equations[3] = new Equation(new double[]{1, 2, 0, 0}, 12, 7);
@@ -69,19 +70,11 @@ public class EquationsSolver {
 //            System.out.println();
 //        }
 
-        /*LinearSolver test = new Jacobi(equations, new double[]{1, 0, 1});
-        test.setPrecision(4);
-        test.getSolution();
-        ArrayList<double[]> steps = test.getSteps();
-        int i = 1;
-        for (double[] step : steps) {
-            System.out.println("iteration" + i);
-            i++;
-            for (double ans : step) {
-                System.out.print(ans + " ");
-            }
-            System.out.println();
-        }
+        LinearSolver test = new Jacobi(equations, new double[]{1, 2}, 50, 0.00001, false);
+        double[] ans = test.getSolution();
+        for (double a : ans)
+            System.out.print(a + " ");
+
         /*LinearSolver test = new Gauss_Jordan(equations);
         double[] sol = test.getSolution();
         test.print();

@@ -75,8 +75,7 @@ public class GaussElimination implements LinearSolver {
             if (nextPivot == this.order - 1) {
                 //check for no solution or infinite solution
                 if (this.equations[nextPivot].check(equations) == -2) {
-                    System.out.println("no solution");
-                    return null;
+                    throw new RuntimeException("System has no solution");
                 } else if (this.equations[nextPivot].check(equations) != -2 && this.equations[nextPivot].check(equations) != -1) {
 
                     int noOfFreeVar = this.equations[nextPivot].check(equations);
