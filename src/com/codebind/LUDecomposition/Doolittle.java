@@ -3,9 +3,11 @@ package com.codebind.LUDecomposition;
 import com.codebind.Equation;
 import com.codebind.LinearSolver;
 
+import java.io.FileNotFoundException;
+import java.io.FileWriter;
+import java.io.PrintWriter;
 import java.math.BigDecimal;
 import java.math.MathContext;
-import java.util.ArrayList;
 
 public class Doolittle implements LinearSolver {
 
@@ -16,6 +18,7 @@ public class Doolittle implements LinearSolver {
     private double[] ans;
     private int o[];
     private double[][] L;
+    private String stepsFile = "Doolittle.txt";
 
     public Doolittle(Equation[] equations, boolean scaling) {
         this.order = equations[0].getOrder();
@@ -46,6 +49,7 @@ public class Doolittle implements LinearSolver {
     private void decompose() {
         for (int i = 0; i < this.order - 1; i++) {
             pivot(i);
+            writeFile();
             // if pivot is 0 after partial pivoting, throw runtime exception
             /*if (this.equations[o[i]].getPivot(scaling, i) == 0) {
                 throw new RuntimeException("Pivot can not be zero");
@@ -54,7 +58,6 @@ public class Doolittle implements LinearSolver {
             if (this.equations[o[i]].getPivot(false, i) == 0) {
                 continue;
             }
-
 
             L[o[i]][i] = 1;
 
@@ -66,6 +69,7 @@ public class Doolittle implements LinearSolver {
                 L[o[j]][j] = 1;
 
                 eliminate(i, j, multiplier);
+                writeFile();
             }
         }
 
@@ -138,13 +142,49 @@ public class Doolittle implements LinearSolver {
 
     }
 
+    private void writeFile() {//write steps function
+        try {
+            FileWriter writer = new FileWriter(stepsFile, true);
+            int len = this.order;
+            for (int f = 0; f < len; f++) {
+                for (int p = 0; p < len; p++) {
+                    // write L
+                    writer.write(L[o[f]][p] + " ");
+                }
+                for (int p = 0; p < len; p++) {
+                    // write U
+                    writer.write(this.equations[o[f]].getCoefficient(p) + " ");
+                }
+                writer.write(this.equations[o[f]].getRes() + "\n");
+            }
+            writer.write("\n");
+            writer.flush();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void clearFile() {
+        PrintWriter writer;//clears the text file before write
+
+        {
+            try {
+                writer = new PrintWriter(stepsFile);
+                writer.print("");
+                writer.close();
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
     @Override
     public void print() {
 
     }
 
     @Override
-    public ArrayList<double[]> getSteps() {
+    public String getSteps() {
         return null;
     }
 }

@@ -3,7 +3,9 @@ package com.codebind.LUDecomposition;
 import com.codebind.Equation;
 import com.codebind.LinearSolver;
 
-import java.util.ArrayList;
+import java.io.FileNotFoundException;
+import java.io.FileWriter;
+import java.io.PrintWriter;
 
 public class CholeskyDecomposition implements LinearSolver {
 
@@ -90,13 +92,46 @@ public class CholeskyDecomposition implements LinearSolver {
 
     }
 
-    @Override
-    public void setPrecision(int precision) {
+    private void writeFile() {//write steps function
+        try {
+            FileWriter writer = new FileWriter(stepsFile, true);
+            for (int f = 0; f < this.order; f++) {
+                for (int p = 0; p < this.order; p++) {
+                    if (f <= p)
+                        // write L
+                        writer.write(lowerMatrix[o[f]][p] + " ");
+                    else
+                        writer.write("0 ");
+                }
+                for (int p = 0; p < len; p++) {
+                    // write U
+                    writer.write(upperMatrix[o[f]][p] + " ");
+                }
+                writer.write(this.equations[o[f]].getRes() + "\n");
+            }
+            writer.write("\n");
+            writer.flush();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void clearFile() {
+        PrintWriter writer;//clears the text file before write
+
+
+        try {
+            writer = new PrintWriter(stepsFile);
+            writer.print("");
+            writer.close();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
 
     }
 
     @Override
-    public ArrayList<double[]> getSteps() {
+    public String getSteps() {
         return null;
     }
 

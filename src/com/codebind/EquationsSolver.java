@@ -11,13 +11,13 @@ public class EquationsSolver {
         equations[0] = new Equation(new double[]{-3, -5, 36}, 10);
         equations[1] = new Equation(new double[]{0, 5, 5}, 5);
         equations[2] = new Equation(new double[]{12, 3, -5}, 0);
-        Gauss_Jordan g = new Gauss_Jordan(equations);
+        /*Gauss_Jordan g = new Gauss_Jordan(equations);
         g.getSolution();
         System.out.println("result");
-        g.print();
-        GaussElimination test1 = new GaussElimination(equations, false);
+        g.print();*/
+        LinearSolver test1 = new Jacobi(equations, new double[]{0, 0, 0});
         double[] sol = test1.getSolution();
-        test1.print();
+        //test1.print();
         for (double x : sol)
             System.out.print(x + " ");
         //equations[2] = new Equation(new double[]{3, 7, 13}, 76);

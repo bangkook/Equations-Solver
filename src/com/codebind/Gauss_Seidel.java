@@ -1,5 +1,8 @@
 package com.codebind;
 
+import java.io.FileNotFoundException;
+import java.io.FileWriter;
+import java.io.PrintWriter;
 import java.math.BigDecimal;
 import java.math.MathContext;
 import java.util.ArrayList;
@@ -12,7 +15,7 @@ public class Gauss_Seidel implements LinearSolver {
     private int maxIterations = 50;
     private double relativeError = 0.00001;
     boolean scaling = false;
-    //private final String stepsFile = "gauss_seidel_steps.txt";
+    private final String stepsFile = "gauss_seidel_steps.txt";
     private ArrayList<double[]> steps;
 
 
@@ -46,6 +49,8 @@ public class Gauss_Seidel implements LinearSolver {
         double[] tempAns = new double[this.order];
         double error;
         this.pivot();
+        writeFile();
+
         for (int i = 0; i < maxIterations; i++) {
             error = 0;
             for (int j = 0; j < this.order; j++) {
@@ -55,7 +60,7 @@ public class Gauss_Seidel implements LinearSolver {
 
                 ans[j] = tempAns[j];
             }
-            saveAns();
+            writeFile();
 
             if (error <= this.relativeError)
                 break;
@@ -95,12 +100,38 @@ public class Gauss_Seidel implements LinearSolver {
     }
 
     @Override
-    public ArrayList<double[]> getSteps() {
-        return steps;
+    public String getSteps() {
+        return stepsFile;
     }
 
     private double round(double val) {
         return (new BigDecimal(Double.toString(val)).round(new MathContext(this.precision))).doubleValue();
+    }
+
+    public void writeFile() {
+        try {
+            FileWriter writer = new FileWriter(stepsFile, true);
+            int len = this.order;
+            for (int f = 0; f < this.order; f++) {
+                writer.write(this.ans[f] + " ");
+            }
+            writer.write("\n");
+            writer.flush();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    PrintWriter writer;
+
+    {
+        try {
+            writer = new PrintWriter(stepsFile);
+            writer.print("");
+            writer.close();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override

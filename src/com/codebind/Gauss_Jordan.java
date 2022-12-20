@@ -3,15 +3,13 @@ package com.codebind;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.PrintWriter;
-import java.util.ArrayList;
 
 public class Gauss_Jordan implements LinearSolver {
     private final int order;
     private double[] ans;
     private final Equation[] equations;
     private int multiplier;
-    private ArrayList<double[]> steps;
-    private boolean scaling=true;//scaling boolean
+    private boolean scaling = true;//scaling boolean
 
     public Gauss_Jordan(Equation[] equations) {
         this.order = equations[0].getOrder();
@@ -20,6 +18,7 @@ public class Gauss_Jordan implements LinearSolver {
     }
 
     PrintWriter writer;//clears the text file before write
+
     {
         try {
             writer = new PrintWriter("Gauss_Jordan.txt");
@@ -30,38 +29,31 @@ public class Gauss_Jordan implements LinearSolver {
         }
     }
 
-    public void writeFile(){//write steps function
+    public void writeFile() {//write steps function
         try {
-            FileWriter writer = new FileWriter("Gauss_Jordan.txt",true);
+            FileWriter writer = new FileWriter("Gauss_Jordan.txt", true);
             int len = this.order;
             for (int f = 0; f < len; f++) {
                 for (int p = 0; p < len; p++) {
                     writer.write(this.equations[f].getCoefficient(p) + " ");
                 }
-                writer.write(this.equations[f].getRes()+"\n");
+                writer.write(this.equations[f].getRes() + "\n");
             }
             writer.write("\n");
             writer.flush();
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
-
-    @Override
-    public void setPrecision(int precision) {
-
-    }
-
     public void PartialPivoting(int index) {
-        int max=index;
+        int max = index;
         for (int i = index + 1; i < this.order; i++) {
-            if (Math.abs((this.equations[index].getPivot(this.scaling, index))) < Math.abs((this.equations[i].getPivot(this.scaling, index))) ) {
-                max=i;
+            if (Math.abs((this.equations[index].getPivot(this.scaling, index))) < Math.abs((this.equations[i].getPivot(this.scaling, index)))) {
+                max = i;
             }
         }
-        if(max!=index){
+        if (max != index) {
             Equation temp = equations[index];
             equations[index] = equations[max];
             equations[max] = temp;
@@ -69,14 +61,13 @@ public class Gauss_Jordan implements LinearSolver {
         }
         double coff = this.equations[index].getCoefficient(index);
         for (int i = 0; i < this.order; i++) {
-            if(coff!=0)
+            if (coff != 0)
                 this.equations[index].setCoefficient(i, this.equations[index].getCoefficient(i) / coff + 0.0);
         }
-        if(coff!=0)
+        if (coff != 0)
             this.equations[index].setRes(this.equations[index].getRes() / coff + 0.0);
 
     }
-
 
 
     @Override
@@ -86,14 +77,15 @@ public class Gauss_Jordan implements LinearSolver {
             PartialPivoting(i);
             for (int j = i + 1; j < this.order; j++) {
                 writeFile();
-                if(this.equations[i].getCoefficient(i)!=0){
+                if (this.equations[i].getCoefficient(i) != 0) {
                     double multiplier = this.equations[j].getCoefficient(i) / this.equations[i].getCoefficient(i);
-                    this.equations[j].add(equations[i], multiplier, i);}
+                    this.equations[j].add(equations[i], multiplier, i);
+                }
 
             }
             writeFile();
             //check for no solution or infinite solution
-            if(i==this.order-1) {
+            if (i == this.order - 1) {
                 if (this.equations[i].check(equations) == -2) {
                     System.out.println("no solution");
                     return null;
@@ -116,7 +108,7 @@ public class Gauss_Jordan implements LinearSolver {
                     }
                     for (int m = this.order - 1; m >= 0; m--) {
                         if (ans[m] == 0) {
-                            ans[m] = this.equations[m].substitute(this.ans, m + 1, this.order, m, 0);
+                            ans[m] = this.equations[m].substitute(this.ans, m + 1, this.order, m);
                         }
                     }
                     for (int j = 0; j < this.order; j++) {
@@ -127,13 +119,14 @@ public class Gauss_Jordan implements LinearSolver {
             }
             for (int l = i - 1; l < this.order && l >= 0; l--) {
                 writeFile();
-                if(this.equations[i].getCoefficient(i)!=0){
+                if (this.equations[i].getCoefficient(i) != 0) {
                     double m = this.equations[l].getCoefficient(i) / this.equations[i].getCoefficient(i);
-                    this.equations[l].add(equations[i], m, i);}
+                    this.equations[l].add(equations[i], m, i);
+                }
             }
 
             //check for no solution or infinite solution
-            if(i==this.order-1) {
+            if (i == this.order - 1) {
                 if (this.equations[i].check(equations) == -2) {
                     System.out.println("no solution");
                     return null;
@@ -157,7 +150,7 @@ public class Gauss_Jordan implements LinearSolver {
 
                     for (int m = this.order - 1; m >= 0; m--) {
                         if (ans[m] == 0) {
-                            ans[m] = this.equations[m].substitute(this.ans, m + 1, this.order, m, 0);
+                            ans[m] = this.equations[m].substitute(this.ans, m + 1, this.order, m);
                         }
                     }
                     for (int j = 0; j < this.order; j++) {
@@ -185,7 +178,7 @@ public class Gauss_Jordan implements LinearSolver {
     }
 
     @Override
-    public ArrayList<double[]> getSteps() {
-        return this.steps;
+    public String getSteps() {
+        return "Gauss_Jordan.txt";
     }
 }

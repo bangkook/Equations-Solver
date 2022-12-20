@@ -3,9 +3,11 @@ package com.codebind.LUDecomposition;
 import com.codebind.Equation;
 import com.codebind.LinearSolver;
 
+import java.io.FileNotFoundException;
+import java.io.FileWriter;
+import java.io.PrintWriter;
 import java.math.BigDecimal;
 import java.math.MathContext;
-import java.util.ArrayList;
 
 public class CroutDecomposition implements LinearSolver {
 
@@ -17,10 +19,13 @@ public class CroutDecomposition implements LinearSolver {
     private double[][] lowerMatrix;
     private int o[];
     private double[][] upperMatrix;
+    private final String stepsFile = "Crout.txt";
 
     public CroutDecomposition(Equation[] equations, boolean scaling) {
+        clearFile();
         this.equations = equations;
         this.order = equations[0].getOrder();
+        this.precision = equations[0].getPrecision();
         this.ans = new double[this.order];
         this.scaling = scaling;
         lowerMatrix = new double[this.order][this.order];
@@ -59,7 +64,6 @@ public class CroutDecomposition implements LinearSolver {
 
         for (int j = 0; j < this.order; ++j) {
             pivot(j);
-
             // if pivot is 0 after partial pivoting, skip it
             if (this.lowerMatrix[o[j]][j] == 0) {
                 continue;
@@ -85,6 +89,7 @@ public class CroutDecomposition implements LinearSolver {
                 upperMatrix[o[j]][i] = 0;
             }
         }
+        writeFile();
 
         // check if last pivot equals 0 after pivoting, then throw exception
         if (round(lowerMatrix[o[order - 1]][order - 1]) == 0) {
@@ -156,9 +161,40 @@ public class CroutDecomposition implements LinearSolver {
         return max;
     }
 
-    @Override
-    public void setPrecision(int precision) {
-        this.precision = precision;
+    private void writeFile() {//write steps function
+        try {
+            FileWriter writer = new FileWriter(stepsFile, true);
+            int len = this.order;
+            for (int f = 0; f < len; f++) {
+                for (int p = 0; p < len; p++) {
+                    // write L
+                    writer.write(lowerMatrix[o[f]][p] + " ");
+                }
+                for (int p = 0; p < len; p++) {
+                    // write U
+                    writer.write(upperMatrix[o[f]][p] + " ");
+                }
+                writer.write(this.equations[o[f]].getRes() + "\n");
+            }
+            writer.write("\n");
+            writer.flush();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void clearFile() {
+        PrintWriter writer;//clears the text file before write
+
+
+        try {
+            writer = new PrintWriter(stepsFile);
+            writer.print("");
+            writer.close();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+        
     }
 
     @Override
@@ -167,7 +203,7 @@ public class CroutDecomposition implements LinearSolver {
     }
 
     @Override
-    public ArrayList<double[]> getSteps() {
-        return null;
+    public String getSteps() {
+        return stepsFile;
     }
 }

@@ -10,18 +10,15 @@ public class Equation implements Serializable {
     private double res;// b
     private int precision = 7;
 
-    public Equation(double[] coefficients, double res) {
+    public Equation(double[] coefficients, double res, int precision) {
         this.coefficients = this.roundArr(coefficients);
         this.order = coefficients.length;
         this.res = this.round(res);
+        this.precision = precision;
     }
 
     public int getOrder() {
         return order;
-    }
-
-    public void setOrder(int order) {
-        this.order = order;
     }
 
     public double[] getCoefficients() {
@@ -48,6 +45,14 @@ public class Equation implements Serializable {
         this.coefficients[index] = this.round(coefficient);
     }
 
+    public int getPrecision() {
+        return precision;
+    }
+
+    public void setPrecision(int precision) {
+        this.precision = precision;
+    }
+
     public void add(Equation equation, double multiplier, int col) {
         this.coefficients[col] = 0; // for LU case
         for (int i = col + 1; i < this.order; i++) {
@@ -59,24 +64,24 @@ public class Equation implements Serializable {
 
     // returns pivot with or without scaling
     public int check(Equation[] equation) {
-        int numOfFreeVar=0;
-        double sum=0;
+        int numOfFreeVar = 0;
+        double sum = 0;
         for (int i = 0; i < this.order; i++) {
-            if(equation[i].coefficients[i]==0 && equation[i].getRes()!= 0){
+            if (equation[i].coefficients[i] == 0 && equation[i].getRes() != 0) {
                 return -2;//no solution
-            }
-            else if(equation[i].coefficients[i]==0 && equation[i].getRes()== 0){
-                for(int j =0 ;j<this.order;j++){
+            } else if (equation[i].coefficients[i] == 0 && equation[i].getRes() == 0) {
+                for (int j = 0; j < this.order; j++) {
                     sum = sum + equation[i].coefficients[j];
                 }
-                if(sum==0)
+                if (sum == 0)
                     numOfFreeVar++;
-                sum=0;
+                sum = 0;
             }
         }
-        if(numOfFreeVar==0) return -1;
+        if (numOfFreeVar == 0) return -1;
         else return numOfFreeVar;
     }
+
     // returns pivot with or without scaling
     public double getPivot(boolean scaling, int row) {
         if (!scaling)
@@ -86,13 +91,13 @@ public class Equation implements Serializable {
         for (double coefficient : coefficients) {
             maxCoefficient = Math.max(maxCoefficient, Math.abs(coefficient));
         }
-        if (maxCoefficient==0)
+        if (maxCoefficient == 0)
             return this.coefficients[row];
         else
             return round(this.coefficients[row] / maxCoefficient);
     }
 
-    private double round(double val) {
+    public double round(double val) {
         return (new BigDecimal(Double.toString(val)).round(new MathContext(this.precision))).doubleValue();
     }
 
@@ -103,8 +108,7 @@ public class Equation implements Serializable {
         return values;
     }
 
-    public double substitute(double[] ans, int startIndex, int endIndex, int currIndex, int precision) {
-        this.precision = precision;
+    public double substitute(double[] ans, int startIndex, int endIndex, int currIndex) {
         double sum = 0;
         for (int i = startIndex; i < endIndex; i++) {
             if (i == currIndex)
@@ -112,8 +116,8 @@ public class Equation implements Serializable {
             sum = this.round(sum + this.coefficients[i] * ans[i]);
 
         }
-        if( this.coefficients[currIndex]!=0)
+        if (this.coefficients[currIndex] != 0)
             return this.round(this.round(this.res - sum) / this.coefficients[currIndex]);
-        else  return this.round(this.res - sum);
+        return this.round(this.res - sum);
     }
 }

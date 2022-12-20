@@ -1,45 +1,38 @@
 package com.codebind;
 
+import java.io.FileNotFoundException;
+import java.io.FileWriter;
+import java.io.PrintWriter;
 import java.math.BigDecimal;
 import java.math.MathContext;
-import java.util.ArrayList;
 
 public class Jacobi implements LinearSolver {
     //private boolean stepByStep = false;
-    private int precision = 7;
+    private int precision;
     private final int order;
     private final Equation[] equations;
-    private double[] ans;
+    private double[] ans; // initial value
     boolean scaling = false;
     private int maxIterations = 50;
     private double relativeError = 0.00001;
-    //private final String stepsFile = "jacobi_steps.txt";
-    private ArrayList<double[]> steps;
+    private final String stepsFile = "jacobi_steps.txt";
 
 
     public Jacobi(Equation[] equations, double[] initial, int maxIterations, double relativeError, boolean scaling) {
         this.equations = equations;
         this.order = equations[0].getOrder();
+        this.precision = equations[0].getPrecision();
         this.ans = initial;
         this.scaling = scaling;
         this.maxIterations = maxIterations;
         this.relativeError = relativeError;
-        this.steps = new ArrayList<>();
+        this.clearFile();
     }
 
     public Jacobi(Equation[] equations, double[] initial) {
         this.equations = equations;
         this.order = equations[0].getOrder();
         this.ans = initial;
-        this.steps = new ArrayList<>();
-    }
-
-    public int getPrecision() {
-        return precision;
-    }
-
-    public void setPrecision(int precision) {
-        this.precision = precision;
     }
 
     @Override
@@ -47,16 +40,17 @@ public class Jacobi implements LinearSolver {
         double[] tempAns = new double[this.order];
         double error;
         this.pivot();// partial pivoting first
+        writeFile();
 
         for (int i = 0; i < maxIterations; i++) {
             error = 0;
             for (int j = 0; j < this.order; j++) {
-                tempAns[j] = round(this.equations[j].substitute(this.ans, 0, this.order, j, precision));
+                tempAns[j] = round(this.equations[j].substitute(this.ans, 0, this.order, j));
                 // System.out.println(tempAns[j]);
                 error = Math.max(error, Math.abs((tempAns[j] - this.ans[j]) / tempAns[j]));
             }
             System.arraycopy(tempAns, 0, this.ans, 0, this.order);
-            saveAns();
+            writeFile();
 
             if (error <= this.relativeError)
                 break;
@@ -91,19 +85,40 @@ public class Jacobi implements LinearSolver {
         }
     }
 
-    private void saveAns() {
-        double[] step = new double[this.order];
-        System.arraycopy(this.ans, 0, step, 0, this.order);
-        this.steps.add(step);
+    private void writeFile() {
+        try {
+            FileWriter writer = new FileWriter(stepsFile, true);
+            int len = this.order;
+            for (int f = 0; f < this.order; f++) {
+                writer.write(this.ans[f] + " ");
+            }
+            writer.write("\n");
+            writer.flush();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
-    @Override
-    public ArrayList<double[]> getSteps() {
-        return this.steps;
+    private void clearFile() {
+        PrintWriter writer;
+        {
+            try {
+                writer = new PrintWriter(stepsFile);
+                writer.print("");
+                writer.close();
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     private double round(double val) {
         return (new BigDecimal(Double.toString(val)).round(new MathContext(this.precision))).doubleValue();
+    }
+
+    @Override
+    public String getSteps() {
+        return stepsFile;
     }
 
     @Override

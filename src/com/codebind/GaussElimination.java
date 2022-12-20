@@ -5,7 +5,6 @@ import java.io.FileWriter;
 import java.io.PrintWriter;
 import java.math.BigDecimal;
 import java.math.MathContext;
-import java.util.ArrayList;
 
 
 public class GaussElimination implements LinearSolver {
@@ -38,7 +37,7 @@ public class GaussElimination implements LinearSolver {
         this.ans = new double[this.order];
         while (nextPivot != this.order) {
             for (int i = nextPivot; i < this.order; i++) {
-                if (Math.abs((this.equations[i].getPivot(this.scaling, nextPivot))) > maxPivot ) {
+                if (Math.abs((this.equations[i].getPivot(this.scaling, nextPivot))) > maxPivot) {
                     maxPivot = Math.abs((this.equations[i].getPivot(this.scaling, nextPivot)));
                     indexMaxPivot = i;
                 }
@@ -46,7 +45,7 @@ public class GaussElimination implements LinearSolver {
 
             //swap
             writeFile();
-            if(indexMaxPivot!=nextPivot){
+            if (indexMaxPivot != nextPivot) {
                 Equation temp = equations[nextPivot];
                 equations[nextPivot] = equations[indexMaxPivot];
                 equations[indexMaxPivot] = temp;
@@ -64,50 +63,51 @@ public class GaussElimination implements LinearSolver {
             //mul and sub
             for (int i = nextPivot + 1; i < this.order; i++) {
 
-                if(equations[nextPivot].getCoefficient(nextPivot)!=0){
+                if (equations[nextPivot].getCoefficient(nextPivot) != 0) {
                     double multiplier = round(equations[i].getCoefficient(nextPivot) / equations[nextPivot].getCoefficient(nextPivot));
                     equations[i].add(equations[nextPivot], multiplier, nextPivot);
                 }
             }
             writeFile();
 
-            if(nextPivot==this.order-1){
+            if (nextPivot == this.order - 1) {
                 //check for no solution or infinite solution
-                if(this.equations[nextPivot].check(equations)==-2){
+                if (this.equations[nextPivot].check(equations) == -2) {
                     System.out.println("no solution");
                     return null;
-                }
-                else if(this.equations[nextPivot].check(equations)!=-2 && this.equations[nextPivot].check(equations)!=-1 ){
+                } else if (this.equations[nextPivot].check(equations) != -2 && this.equations[nextPivot].check(equations) != -1) {
 
-                    int noOfFreeVar=this.equations[nextPivot].check(equations);
+                    int noOfFreeVar = this.equations[nextPivot].check(equations);
                     System.out.println(noOfFreeVar);
-                    int value=1;
-                    int k =0;
-                    while (noOfFreeVar!=0){
+                    int value = 1;
+                    int k = 0;
+                    while (noOfFreeVar != 0) {
                         for (int j = k; j < this.order; j++) {
-                            if(this.equations[j].getCoefficient(j)==0){
-                                ans[j]=value;
+                            if (this.equations[j].getCoefficient(j) == 0) {
+                                ans[j] = value;
                                 value++;
-                                k=j;
+                                k = j;
                                 break;
                             }
                         }
-                        k=k+1;
+                        k = k + 1;
                         noOfFreeVar--;
                     }
                     for (int m = this.order - 1; m >= 0; m--) {
-                        if(ans[m]==0){
-                            ans[m] = this.equations[m].substitute(this.ans, m +1, this.order, m, 0);}
+                        if (ans[m] == 0) {
+                            ans[m] = this.equations[m].substitute(this.ans, m + 1, this.order, m, 0);
+                        }
                     }
                     for (int j = 0; j < this.order; j++) {
-                        System.out.println("the result "+ans[j]);
+                        System.out.println("the result " + ans[j]);
                     }
-                    return  ans;
-                }}
+                    return ans;
+                }
+            }
 
             maxPivot = 0;
             nextPivot++;
-            indexMaxPivot=nextPivot;
+            indexMaxPivot = nextPivot;
 
 //            for (int i = 0; i < this.order; i++) {
 //                for (int j = 0; j < this.order; j++) {
@@ -132,24 +132,25 @@ public class GaussElimination implements LinearSolver {
         return (new BigDecimal(Double.toString(val)).round(new MathContext(this.precision))).doubleValue();
     }
 
-    public void writeFile(){
+    public void writeFile() {
         try {
-            FileWriter writer = new FileWriter("Gauss_Elimination.txt",true);
+            FileWriter writer = new FileWriter("Gauss_Elimination.txt", true);
             int len = this.order;
             for (int f = 0; f < len; f++) {
                 for (int p = 0; p < len; p++) {
                     writer.write(this.equations[f].getCoefficient(p) + " ");
                 }
-                writer.write(this.equations[f].getRes()+"\n");
+                writer.write(this.equations[f].getRes() + "\n");
             }
             writer.write("\n");
             writer.flush();
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
+
     PrintWriter writer;
+
     {
         try {
             writer = new PrintWriter("Gauss_Elimination.txt");
@@ -159,13 +160,14 @@ public class GaussElimination implements LinearSolver {
             e.printStackTrace();
         }
     }
+
     @Override
     public void print() {
 
     }
 
     @Override
-    public ArrayList<double[]> getSteps() {
+    public String getSteps() {
         return null;
     }
 }
