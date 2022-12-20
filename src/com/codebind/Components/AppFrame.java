@@ -1,10 +1,8 @@
 package com.codebind.Components;
 
-import javax.swing.*;
-
 import com.codebind.*;
-import com.codebind.LUDecomposition.*;
 
+import javax.swing.*;
 import java.awt.*;
 import java.io.IOException;
 
@@ -52,7 +50,7 @@ public class AppFrame extends JFrame
 			solver = new GaussElimination(system, useScaling);
 			break;
 			case GaussJordan:
-			solver = new Gauss_Jordan(system);
+			solver = new Gauss_Jordan(system, useScaling);
 			break;
 			// case LU:
 			// LUParams p = (LUParams) params;
@@ -78,7 +76,7 @@ public class AppFrame extends JFrame
 			solver = new Jacobi(system, ja.initial, ja.maxIters, ja.relativeErr, useScaling);
 			break;
 		}
-		solver.setPrecision(precision);
+
 		
 		((CardLayout)deck.getLayout()).next(deck);
 		try

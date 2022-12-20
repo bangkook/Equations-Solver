@@ -1,13 +1,13 @@
 package com.codebind.Components;
 
+import com.codebind.Equation;
+
 import javax.swing.*;
 import javax.swing.event.CaretEvent;
 import javax.swing.event.CaretListener;
-
-import com.codebind.Equation;
-
 import java.awt.*;
-import java.awt.event.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 
 public class SystemEntryScreen extends JPanel implements ActionListener
@@ -162,7 +162,7 @@ class SystemEntryPanel extends JPanel
 				coeffs[col] = ((DoubleTextField)getComponent((size+1)*(row+1) + col)).value;
 			}
 			double b = ((DoubleTextField)getComponent((size+1)*(row+1) + size)).value;
-			system[row] = new Equation(coeffs, b);
+			system[row] = new Equation(coeffs, b,0);
 		}
 		
 		return system;
