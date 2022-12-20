@@ -5,7 +5,7 @@ import java.awt.event.*;
 import javax.swing.*;
 
 
-public class SolutionScreen extends JPanel 
+public class SolutionScreen extends JPanel implements ActionListener
 {
 	JPanel solPanel;
 	JPanel stepsPanel;
@@ -23,9 +23,9 @@ public class SolutionScreen extends JPanel
 		{
 			solPanel.add(new JLabel("x"+(i+1) + " = " + sol[i]));
 		}
-
-
-		add(new JButton("Enter another system"), BorderLayout.SOUTH);
+		enterSysButton = new JButton("Enter another system");
+		add(enterSysButton, BorderLayout.SOUTH);
+		enterSysButton.addActionListener(this);
 	}
 
 	void clearScreen()
@@ -34,5 +34,10 @@ public class SolutionScreen extends JPanel
 		if (stepsPanel != null) remove(stepsPanel);
 		revalidate();
 		repaint();
+	}
+
+	public void actionPerformed(ActionEvent ae)
+	{
+		((AppFrame)getTopLevelAncestor()).onSolutionScreenEnterAnotherSystem();
 	}
 }

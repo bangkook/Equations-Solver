@@ -121,7 +121,7 @@ class IndirectParamsPanel extends ParametersPanel
 			initial[i] = field.value;
 		}
 
-		return new IndirectParams(initial, maxIters, relativeErr);
+		return new IndirectParams(initial, maxIters, Math.abs(relativeErr));
 	}
 }
 

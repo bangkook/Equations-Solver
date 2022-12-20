@@ -91,4 +91,9 @@ public class AppFrame extends JFrame
 		}
 	}
 
+	public void onSolutionScreenEnterAnotherSystem()
+	{
+		((CardLayout)deck.getLayout()).show(deck, "SystemEntryScreen");
+	}
+
 }
