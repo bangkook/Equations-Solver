@@ -50,7 +50,11 @@ public class MethodSelectScreen extends JPanel implements ActionListener
 		{
 			Parameters params = null;
 			if (paramsPanel != null) params = paramsPanel.getParams();
-			((AppFrame)getTopLevelAncestor()).onMethodSelectGetSol(system, headerPanel.method, headerPanel.scaling, headerPanel.precision, params);
+			for (int i=0; i < system.length; i++)
+			{
+				system[i].setPrecision(headerPanel.precision);
+			}
+			((AppFrame)getTopLevelAncestor()).onMethodSelectGetSol(system, headerPanel.method, headerPanel.scaling, params);
 		}
 	}
 

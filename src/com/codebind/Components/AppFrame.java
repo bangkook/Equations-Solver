@@ -1,6 +1,7 @@
 package com.codebind.Components;
 
 import com.codebind.*;
+import com.codebind.Components.*;
 
 import javax.swing.*;
 import java.awt.*;
@@ -41,7 +42,7 @@ public class AppFrame extends JFrame
 		((CardLayout)deck.getLayout()).previous(deck);
 	}
 
-	public void onMethodSelectGetSol(Equation[] system, Method method, boolean useScaling, int precision, Parameters params)
+	public void onMethodSelectGetSol(Equation[] system, Method method, boolean useScaling, Parameters params)
 	{
 		LinearSolver solver;
 		switch (method)
