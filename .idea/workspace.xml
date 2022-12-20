@@ -7,10 +7,15 @@
     <list default="true" id="af02c104-bba1-4139-b60d-2ef746b07728" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/EquationsSolver/com/codebind/EquationsSolver.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/EquationsSolver/com/codebind/GaussElimination.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/EquationsSolver/com/codebind/Gauss_Jordan.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/codebind/Gauss_Jordan.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/codebind/Gauss_Jordan.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jacobi_steps.txt" beforeDir="false" afterPath="$PROJECT_DIR$/jacobi_steps.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/EquationsSolver/com/codebind/Components/AppFrame.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/EquationsSolver/com/codebind/Components/AppFrame.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/EquationsSolver/com/codebind/Equation.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/EquationsSolver/com/codebind/Equation.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/EquationsSolver/com/codebind/EquationsSolver.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/EquationsSolver/com/codebind/EquationsSolver.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/EquationsSolver/com/codebind/GaussElimination.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/EquationsSolver/com/codebind/GaussElimination.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/EquationsSolver/com/codebind/Gauss_Jordan.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/EquationsSolver/com/codebind/Gauss_Jordan.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/EquationsSolver/com/codebind/Jacobi.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/EquationsSolver/com/codebind/Jacobi.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/codebind/EquationsSolver.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/codebind/EquationsSolver.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/codebind/GaussElimination.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/codebind/GaussElimination.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -67,15 +72,6 @@
     <property name="two.files.diff.last.used.file" value="$PROJECT_DIR$/gauss_seidel_steps.json" />
   </component>
   <component name="RunManager" selected="Application.EquationsSolver">
-    <configuration default="true" type="TestNG">
-      <option name="TEST_OBJECT" value="CLASS" />
-      <option name="WORKING_DIRECTORY" value="%MODULE_WORKING_DIR%" />
-      <properties />
-      <listeners />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
     <configuration name="EquationsSolver" type="Application" factoryName="Application" nameIsGenerated="true">
       <option name="ALTERNATIVE_JRE_PATH" value="11" />
       <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="true" />
@@ -97,6 +93,15 @@
     <configuration default="true" type="JUnit" factoryName="JUnit">
       <option name="TEST_OBJECT" value="class" />
       <option name="WORKING_DIRECTORY" value="%MODULE_WORKING_DIR%" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration default="true" type="TestNG">
+      <option name="TEST_OBJECT" value="CLASS" />
+      <option name="WORKING_DIRECTORY" value="%MODULE_WORKING_DIR%" />
+      <properties />
+      <listeners />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -126,6 +131,5 @@
         </entry>
       </map>
     </option>
-    <option name="oldMeFiltersMigrated" value="true" />
   </component>
 </project>

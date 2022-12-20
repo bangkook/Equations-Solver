@@ -6,10 +6,16 @@ public class EquationsSolver {
 
     public static void main(String[] args) throws IOException {
         // This is for testing only
-        Equation[] equations = new Equation[2];
-        equations[0] = new Equation(new double[]{-0.5, 1}, 1, 7);
-        equations[1] = new Equation(new double[]{-1, 2}, 2, 7);
-
+        Equation[] equations = new Equation[3];
+        equations[0] = new Equation(new double[]{1,2,3}, 4, 10);
+        equations[1] = new Equation(new double[]{5,6,7},8 , 10);
+        equations[2] = new Equation(new double[]{9,10,11}, 12, 10);
+        GaussElimination test1 = new GaussElimination(equations, false);
+        double[] sol = test1.getSolution();
+        test1.print();
+        for (double x : sol)
+            System.out.print(x + " ");
+        System.out.print("Time: "+test1.getTimer());
         //   equations[2] = new Equation(new double[]{12, 3, -5}, 0, 5);
         /*Gauss_Jordan g = new Gauss_Jordan(equations);
         g.getSolution();
@@ -70,10 +76,10 @@ public class EquationsSolver {
 //            System.out.println();
 //        }
 
-        LinearSolver test = new Jacobi(equations, new double[]{1, 2}, 50, 0.00001, false);
-        double[] ans = test.getSolution();
-        for (double a : ans)
-            System.out.print(a + " ");
+//        LinearSolver test = new Jacobi(equations, new double[]{1, 2}, 50, 0.00001, false);
+//        double[] ans = test.getSolution();
+//        for (double a : ans)
+//            System.out.print(a + " ");
 
         /*LinearSolver test = new Gauss_Jordan(equations);
         double[] sol = test.getSolution();
