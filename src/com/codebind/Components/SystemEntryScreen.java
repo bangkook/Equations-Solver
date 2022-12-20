@@ -169,33 +169,33 @@ class SystemEntryPanel extends JPanel
 	}
 }
 
-class DoubleTextField extends JTextField implements CaretListener
-{
-	double value = 0;
+// class DoubleTextField extends JTextField implements CaretListener
+// {
+// 	double value = 0;
 	
-	DoubleTextField()
-	{
-		super();
-		addCaretListener(this);
-	}
+// 	DoubleTextField()
+// 	{
+// 		super();
+// 		addCaretListener(this);
+// 	}
 
-	DoubleTextField(int cols)
-	{
-		super(cols);
-	}
+// 	DoubleTextField(int cols)
+// 	{
+// 		super(cols);
+// 	}
 	
 
-	public void caretUpdate(CaretEvent ce)
-	{
-		try{
-			value = Double.parseDouble(getText());
-		}
-		catch (NumberFormatException e)
-		{
-			SwingUtilities.invokeLater(new Runnable(){
-				public void run() {setText(null);}
-			});
-			value = 0;
-		}
-	}
-}
+// 	public void caretUpdate(CaretEvent ce)
+// 	{
+// 		try{
+// 			value = Double.parseDouble(getText());
+// 		}
+// 		catch (NumberFormatException e)
+// 		{
+// 			SwingUtilities.invokeLater(new Runnable(){
+// 				public void run() {setText(null);}
+// 			});
+// 			value = 0;
+// 		}
+// 	}
+// }
