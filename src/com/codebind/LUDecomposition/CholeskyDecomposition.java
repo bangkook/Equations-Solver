@@ -26,11 +26,7 @@ public class CholeskyDecomposition implements LinearSolver {
         this.equations = equations;
         this.order = equations[0].getOrder();
         this.ans = new double[this.order];
-            for (int j = 0; j < this.order; ++j) matrixA[i][j] = equations[i].getCoefficient(j);
-        }
-        for (int i = 0; i < this.order; ++i) {
-            matrixB[i] = equations[i].getRes();
-        }
+        this.scaling = scaling;
         lowerMatrix = new double[this.order][this.order];
     }
 

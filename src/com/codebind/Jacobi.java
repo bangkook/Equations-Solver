@@ -42,7 +42,7 @@ public class Jacobi implements LinearSolver {
         startTime = System.currentTimeMillis();
         double[] tempAns = new double[this.order];
         double error;
-        this.pivot();// partial pivoting first
+        this.pivot();// pivoting first
         writeFile();
 
         for (int i = 0; i < maxIterations; i++) {
@@ -62,7 +62,7 @@ public class Jacobi implements LinearSolver {
         return this.ans;
     }
 
-    // partial pivoting to avoid division by zero
+    // swap pivots to avoid division by zero
     private void pivot() {
         for (int k = 0; k < this.order; k++) {
             if (this.equations[k].getPivot(false, k) != 0) continue;
