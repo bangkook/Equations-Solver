@@ -15,6 +15,8 @@ public class GaussElimination implements LinearSolver {
     private double[] ans;
     private boolean scaling;
     private double relativeError = 0.00001;
+    private long startTime;
+    private long endTime;
 
     public GaussElimination(Equation[] equations, boolean scaling) {
         this.order = equations[0].getOrder();
@@ -97,7 +99,7 @@ public class GaussElimination implements LinearSolver {
                     }
                     for (int m = this.order - 1; m >= 0; m--) {
                         if(ans[m]==0){
-                            ans[m] = this.equations[m].substitute(this.ans, m +1, this.order, m, 0);}
+                            ans[m] = this.equations[m].substitute(this.ans, m +1, this.order, m);}
                     }
                     for (int j = 0; j < this.order; j++) {
                         System.out.println("the result "+ans[j]);
@@ -122,7 +124,7 @@ public class GaussElimination implements LinearSolver {
         //solution
 
         for (int i = this.order - 1; i >= 0; i--) {
-            ans[i] = this.equations[i].substitute(this.ans, i + 1, this.order, i, precision);
+            ans[i] = this.equations[i].substitute(this.ans, i + 1, this.order, i);
         }
         return this.ans;
     }
@@ -167,5 +169,10 @@ public class GaussElimination implements LinearSolver {
     @Override
     public ArrayList<double[]> getSteps() {
         return null;
+    }
+    @Override
+    public long getTimer() {
+        long totalTime = endTime - startTime;
+        return totalTime;
     }
 }

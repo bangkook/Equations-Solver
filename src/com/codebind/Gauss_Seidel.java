@@ -12,6 +12,8 @@ public class Gauss_Seidel implements LinearSolver {
     private int maxIterations = 50;
     private double relativeError = 0.00001;
     boolean scaling = false;
+    private long startTime;
+    private long endTime;
     //private final String stepsFile = "gauss_seidel_steps.txt";
     private ArrayList<double[]> steps;
 
@@ -49,7 +51,7 @@ public class Gauss_Seidel implements LinearSolver {
         for (int i = 0; i < maxIterations; i++) {
             error = 0;
             for (int j = 0; j < this.order; j++) {
-                tempAns[j] = this.equations[j].substitute(this.ans, 0, this.order, j, precision);
+                tempAns[j] = this.equations[j].substitute(this.ans, 0, this.order, j);
 
                 error = Math.max(error, Math.abs((tempAns[j] - this.ans[j]) / tempAns[j]));
 
@@ -109,5 +111,10 @@ public class Gauss_Seidel implements LinearSolver {
             System.out.print(a + " ");
         }
         System.out.println();
+    }
+    @Override
+    public long getTimer() {
+        long totalTime = endTime - startTime;
+        return totalTime;
     }
 }

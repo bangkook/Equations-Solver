@@ -16,6 +16,8 @@ public class Doolittle implements LinearSolver {
     private double[] ans;
     private int o[];
     private double[][] L;
+    private long startTime;
+    private long endTime;
 
     public Doolittle(Equation[] equations, boolean scaling) {
         this.order = equations[0].getOrder();
@@ -112,7 +114,7 @@ public class Doolittle implements LinearSolver {
 
         // backward substitution
         for (int i = this.order - 1; i >= 0; i--) {
-            this.ans[i] = this.equations[o[i]].substitute(this.ans, i + 1, this.order, i, precision);
+            this.ans[i] = this.equations[o[i]].substitute(this.ans, i + 1, this.order, i);
         }
     }
 
@@ -141,6 +143,11 @@ public class Doolittle implements LinearSolver {
     @Override
     public void print() {
 
+    }
+    @Override
+    public long getTimer() {
+        long totalTime = endTime - startTime;
+        return totalTime;
     }
 
     @Override

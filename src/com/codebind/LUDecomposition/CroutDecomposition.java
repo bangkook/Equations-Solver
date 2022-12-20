@@ -17,7 +17,8 @@ public class CroutDecomposition implements LinearSolver {
     private double[][] lowerMatrix;
     private int o[];
     private double[][] upperMatrix;
-
+    private long startTime;
+    private long endTime;
     public CroutDecomposition(Equation[] equations, boolean scaling) {
         this.equations = equations;
         this.order = equations[0].getOrder();
@@ -156,10 +157,7 @@ public class CroutDecomposition implements LinearSolver {
         return max;
     }
 
-    @Override
-    public void setPrecision(int precision) {
-        this.precision = precision;
-    }
+
 
     @Override
     public void print() {
@@ -169,5 +167,10 @@ public class CroutDecomposition implements LinearSolver {
     @Override
     public ArrayList<double[]> getSteps() {
         return null;
+    }
+    @Override
+    public long getTimer() {
+        long totalTime = endTime - startTime;
+        return totalTime;
     }
 }

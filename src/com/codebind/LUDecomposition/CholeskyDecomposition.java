@@ -17,6 +17,8 @@ public class CholeskyDecomposition implements LinearSolver {
     private double[] largestCoeffs;
     private double[][] lowerMatrix;
     private double[][] upperMatrix;
+    private long startTime;
+    private long endTime;
 
     public CholeskyDecomposition(Equation[] equations, double relativeError) {
         this.equations = equations;
@@ -91,9 +93,12 @@ public class CholeskyDecomposition implements LinearSolver {
     }
 
     @Override
-    public void setPrecision(int precision) {
-
+    public long getTimer() {
+        long totalTime = endTime - startTime;
+        return totalTime;
     }
+
+
 
     @Override
     public ArrayList<double[]> getSteps() {

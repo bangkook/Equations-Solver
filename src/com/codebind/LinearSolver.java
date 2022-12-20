@@ -10,9 +10,9 @@ public interface LinearSolver {
 
     double[] getSolution() throws IOException;
 
-    void setPrecision(int precision);
-    
     void print();
+
+    long getTimer();
 
     ArrayList<double[]> getSteps() throws IOException;
 

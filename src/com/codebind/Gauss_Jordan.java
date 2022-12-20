@@ -9,14 +9,16 @@ public class Gauss_Jordan implements LinearSolver {
     private final int order;
     private double[] ans;
     private final Equation[] equations;
-    private int multiplier;
     private ArrayList<double[]> steps;
-    private boolean scaling=true;//scaling boolean
+    private boolean scaling;//scaling boolean
+    private long startTime;
+    private long endTime;
 
-    public Gauss_Jordan(Equation[] equations) {
+    public Gauss_Jordan(Equation[] equations,boolean scaling) {
         this.order = equations[0].getOrder();
         this.equations = equations;
         ans = new double[this.order];
+        this.scaling = scaling;
     }
 
     PrintWriter writer;//clears the text file before write
@@ -49,10 +51,6 @@ public class Gauss_Jordan implements LinearSolver {
     }
 
 
-    @Override
-    public void setPrecision(int precision) {
-
-    }
 
     public void PartialPivoting(int index) {
         int max=index;
@@ -70,17 +68,17 @@ public class Gauss_Jordan implements LinearSolver {
         double coff = this.equations[index].getCoefficient(index);
         for (int i = 0; i < this.order; i++) {
             if(coff!=0)
-                this.equations[index].setCoefficient(i, this.equations[index].getCoefficient(i) / coff + 0.0);
+                this.equations[index].setCoefficient(i, this.equations[index].round(this.equations[index].getCoefficient(i) / coff + 0.0));
         }
         if(coff!=0)
-            this.equations[index].setRes(this.equations[index].getRes() / coff + 0.0);
+            this.equations[index].setRes(this.equations[index].round(this.equations[index].getRes() / coff + 0.0));
 
     }
 
 
-
     @Override
     public double[] getSolution() {
+         startTime = System.currentTimeMillis();
         for (int i = 0; i < this.order; i++) {
             writeFile();
             PartialPivoting(i);
@@ -116,12 +114,10 @@ public class Gauss_Jordan implements LinearSolver {
                     }
                     for (int m = this.order - 1; m >= 0; m--) {
                         if (ans[m] == 0) {
-                            ans[m] = this.equations[m].substitute(this.ans, m + 1, this.order, m, 0);
+                            ans[m] = this.equations[m].substitute(this.ans, m + 1, this.order,m);
                         }
                     }
-                    for (int j = 0; j < this.order; j++) {
-                        System.out.println("the result " + ans[j]);
-                    }
+                    endTime = System.currentTimeMillis();
                     return ans;
                 }
             }
@@ -157,20 +153,21 @@ public class Gauss_Jordan implements LinearSolver {
 
                     for (int m = this.order - 1; m >= 0; m--) {
                         if (ans[m] == 0) {
-                            ans[m] = this.equations[m].substitute(this.ans, m + 1, this.order, m, 0);
+                            ans[m] = this.equations[m].substitute(this.ans, m + 1, this.order, m);
                         }
                     }
-                    for (int j = 0; j < this.order; j++) {
-                        System.out.println("the result " + ans[j]);
-                    }
+                    endTime = System.currentTimeMillis();
                     return ans;
                 }
             }
 
         }
+
         writeFile();
-        for (int i = 0; i < this.order; i++)
-            ans[i] = this.equations[i].getRes();
+        for (int m = this.order - 1; m >= 0; m--) {
+            ans[m] = this.equations[m].substitute(this.ans, m + 1, this.order, m);
+        }
+        endTime = System.currentTimeMillis();
         return ans;
     }
 
@@ -185,7 +182,14 @@ public class Gauss_Jordan implements LinearSolver {
     }
 
     @Override
+    public long getTimer() {
+        long totalTime = endTime - startTime;
+        return totalTime;
+    }
+
+    @Override
     public ArrayList<double[]> getSteps() {
         return this.steps;
     }
+
 }

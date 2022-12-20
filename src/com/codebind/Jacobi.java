@@ -15,6 +15,8 @@ public class Jacobi implements LinearSolver {
     private double relativeError = 0.00001;
     //private final String stepsFile = "jacobi_steps.txt";
     private ArrayList<double[]> steps;
+    private long startTime;
+    private long endTime;
 
 
     public Jacobi(Equation[] equations, double[] initial, int maxIterations, double relativeError, boolean scaling) {
@@ -51,7 +53,7 @@ public class Jacobi implements LinearSolver {
         for (int i = 0; i < maxIterations; i++) {
             error = 0;
             for (int j = 0; j < this.order; j++) {
-                tempAns[j] = round(this.equations[j].substitute(this.ans, 0, this.order, j, precision));
+                tempAns[j] = round(this.equations[j].substitute(this.ans, 0, this.order, j));
                 // System.out.println(tempAns[j]);
                 error = Math.max(error, Math.abs((tempAns[j] - this.ans[j]) / tempAns[j]));
             }
@@ -114,5 +116,9 @@ public class Jacobi implements LinearSolver {
         System.out.println();
     }
 
-
+    @Override
+    public long getTimer() {
+        long totalTime = endTime - startTime;
+        return totalTime;
+    }
 }

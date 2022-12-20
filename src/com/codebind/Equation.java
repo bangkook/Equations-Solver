@@ -8,12 +8,13 @@ public class Equation implements Serializable {
     private double[] coefficients;
     private int order;
     private double res;// b
-    private int precision = 7;
+    private int precision ;
 
-    public Equation(double[] coefficients, double res) {
+    public Equation(double[] coefficients, double res,int precision) {
         this.coefficients = this.roundArr(coefficients);
         this.order = coefficients.length;
         this.res = this.round(res);
+        this.precision=precision;
     }
 
     public int getOrder() {
@@ -92,7 +93,7 @@ public class Equation implements Serializable {
             return round(this.coefficients[row] / maxCoefficient);
     }
 
-    private double round(double val) {
+    public double round(double val) {
         return (new BigDecimal(Double.toString(val)).round(new MathContext(this.precision))).doubleValue();
     }
 
@@ -103,8 +104,7 @@ public class Equation implements Serializable {
         return values;
     }
 
-    public double substitute(double[] ans, int startIndex, int endIndex, int currIndex, int precision) {
-        this.precision = precision;
+    public double substitute(double[] ans, int startIndex, int endIndex, int currIndex) {
         double sum = 0;
         for (int i = startIndex; i < endIndex; i++) {
             if (i == currIndex)
