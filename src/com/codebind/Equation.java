@@ -17,7 +17,6 @@ public class Equation implements Serializable {
         this.precision = precision;
     }
 
-
     public int getOrder() {
         return order;
     }
