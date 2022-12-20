@@ -9,4 +9,5 @@ public interface LinearSolver {
 
     String getSteps() throws IOException;
 
+    long getTimer();
 }

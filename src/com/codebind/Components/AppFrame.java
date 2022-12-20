@@ -1,18 +1,17 @@
 package com.codebind.Components;
 
+import com.codebind.*;
+
 import javax.swing.*;
-
-import com.codebind.Equation;
-
 import java.awt.*;
-// import java.awt.event.*;
-// import com.codebind.Components.*;
+import java.io.IOException;
 
 public class AppFrame extends JFrame
 {
 
 	JPanel deck;
 	MethodSelectScreen methodScreen;
+	SolutionScreen solutionScreen;
 
 	public AppFrame(String title)
 	{
@@ -25,6 +24,8 @@ public class AppFrame extends JFrame
 		deck.add(new SystemEntryScreen(), "SystemEntryScreen");
 		methodScreen = new MethodSelectScreen();
 		deck.add(methodScreen, "MethodSelectScreen");
+		solutionScreen = new SolutionScreen();
+		deck.add(solutionScreen, "SolutionScreen");
 
 	}
 
@@ -40,9 +41,57 @@ public class AppFrame extends JFrame
 		((CardLayout)deck.getLayout()).previous(deck);
 	}
 
-	public void onMethodSelectGetSol(Method method, boolean useScaling, int precision, Parameters params)
+	public void onMethodSelectGetSol(Equation[] system, Method method, boolean useScaling, int precision, Parameters params)
 	{
+		LinearSolver solver;
+		switch (method)
+		{
+			case GaussElimination:
+			solver = new GaussElimination(system, useScaling);
+			break;
+			case GaussJordan:
+			solver = new Gauss_Jordan(system, useScaling);
+			break;
+			// case LU:
+			// LUParams p = (LUParams) params;
+			// switch (p.form)
+			// {
+			// 	case Crout:
+			// 	solver = new CroutDecomposition(system, useScaling);
+			// 	break;
+			// 	case Cholesky:
+			// 	solver = new CholeskyDecomposition(system);
+			// 	break;
+			// 	default:// Doolittle
+			// 	solver = new CroutDecomposition(system, useScaling);
+			// 	break;
+			// }
+			// break;
+			case GaussSeidel:
+			IndirectParams sei = (IndirectParams) params;
+			solver = new Gauss_Seidel(system, sei.initial, sei.maxIters, sei.relativeErr, useScaling);
+			break;
+			default://Jacobi
+			IndirectParams ja = (IndirectParams) params;
+			solver = new Jacobi(system, ja.initial, ja.maxIters, ja.relativeErr, useScaling);
+			break;
+		}
 
+		
+		((CardLayout)deck.getLayout()).next(deck);
+		try
+		{
+			solutionScreen.setSolution(solver.getSolution());
+		}
+		catch (IOException e) 
+		{
+			solutionScreen.setSolution(null);
+		}
+	}
+
+	public void onSolutionScreenEnterAnotherSystem()
+	{
+		((CardLayout)deck.getLayout()).show(deck, "SystemEntryScreen");
 	}
 
 }

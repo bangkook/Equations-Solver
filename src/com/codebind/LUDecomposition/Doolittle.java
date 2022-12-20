@@ -19,6 +19,8 @@ public class Doolittle implements LinearSolver {
     private int o[];
     private double[][] L;
     private String stepsFile = "Doolittle.txt";
+    private long startTime;
+    private long endTime;
 
     public Doolittle(Equation[] equations, boolean scaling) {
         this.order = equations[0].getOrder();
@@ -41,19 +43,19 @@ public class Doolittle implements LinearSolver {
 
     @Override
     public double[] getSolution() {
+        startTime = System.currentTimeMillis();
         decompose();
         substitute();
+        endTime = System.currentTimeMillis();
         return this.ans;
     }
 
     private void decompose() {
+
         for (int i = 0; i < this.order - 1; i++) {
             pivot(i);
             writeFile();
-            // if pivot is 0 after partial pivoting, throw runtime exception
-            /*if (this.equations[o[i]].getPivot(scaling, i) == 0) {
-                throw new RuntimeException("Pivot can not be zero");
-            }*/
+
             // if pivot is 0 after partial pivoting, skip it
             if (this.equations[o[i]].getPivot(false, i) == 0) {
                 continue;
@@ -82,16 +84,6 @@ public class Doolittle implements LinearSolver {
                 throw new RuntimeException("System has no solution");
             }
         }
-        for (int i = 0; i < this.order; i++) {
-            for (int j = 0; j < this.order; j++) {
-                System.out.print(L[o[i]][j] + " ");
-            }
-            for (int j = 0; j < this.order; j++) {
-                System.out.print(this.equations[o[i]].getCoefficient(j) + " ");
-            }
-            System.out.println();
-
-        }
     }
 
     private void eliminate(int i, int j, double multiplier) {
@@ -116,7 +108,7 @@ public class Doolittle implements LinearSolver {
 
         // backward substitution
         for (int i = this.order - 1; i >= 0; i--) {
-            this.ans[i] = this.equations[o[i]].substitute(this.ans, i + 1, this.order, i, precision);
+            this.ans[i] = this.equations[o[i]].substitute(this.ans, i + 1, this.order, i);
         }
     }
 
@@ -184,7 +176,13 @@ public class Doolittle implements LinearSolver {
     }
 
     @Override
+    public long getTimer() {
+        long totalTime = endTime - startTime;
+        return totalTime;
+    }
+
+    @Override
     public String getSteps() {
-        return null;
+        return stepsFile;
     }
 }

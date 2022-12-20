@@ -6,20 +6,32 @@ public class EquationsSolver {
 
     public static void main(String[] args) throws IOException {
         // This is for testing only
-        Equation[] equations = new Equation[3];
-
-        equations[0] = new Equation(new double[]{-3, -5, 36}, 10);
+        Equation[] equations = new Equation[4];
+        /*equations[0] = new Equation(new double[]{-3, -5, 36}, 10);
         equations[1] = new Equation(new double[]{0, 5, 5}, 5);
-        equations[2] = new Equation(new double[]{12, 3, -5}, 0);
+        equations[2] = new Equation(new double[]{12, 3, -5}, 0);*/
         /*Gauss_Jordan g = new Gauss_Jordan(equations);
         g.getSolution();
         System.out.println("result");
         g.print();*/
-        LinearSolver test1 = new Jacobi(equations, new double[]{0, 0, 0});
-        double[] sol = test1.getSolution();
+        /*LinearSolver test1 = new Jacobi(equations, new double[]{0, 0, 0});
+        double[] sol = test1.getSolution();*/
         //test1.print();
+        equations[0] = new Equation(new double[]{1, 1, -3, 1}, 2, 7);
+        equations[1] = new Equation(new double[]{-5, 3, -4, 1}, 0, 7);
+        equations[2] = new Equation(new double[]{1, 0, 2, -1}, 1, 7);
+        equations[3] = new Equation(new double[]{1, 2, 0, 0}, 12, 7);
+        Gauss_Jordan g = new Gauss_Jordan(equations, true);
+//        GaussElimination test1 = new GaussElimination(equations, false);
+        double[] sol = g.getSolution();
+        System.out.print("the result: ");
         for (double x : sol)
             System.out.print(x + " ");
+        System.out.println("\nthe array: ");
+        g.print();
+        System.out.println(g.getTimer());
+//        test1.print();
+
         //equations[2] = new Equation(new double[]{3, 7, 13}, 76);
 
         /*Equation[] equations2 = new Equation[3];

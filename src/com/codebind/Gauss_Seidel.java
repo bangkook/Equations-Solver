@@ -5,7 +5,6 @@ import java.io.FileWriter;
 import java.io.PrintWriter;
 import java.math.BigDecimal;
 import java.math.MathContext;
-import java.util.ArrayList;
 
 public class Gauss_Seidel implements LinearSolver {
     private int precision = 7;
@@ -16,24 +15,24 @@ public class Gauss_Seidel implements LinearSolver {
     private double relativeError = 0.00001;
     boolean scaling = false;
     private final String stepsFile = "gauss_seidel_steps.txt";
-    private ArrayList<double[]> steps;
+    private long startTime;
+    private long endTime;
 
 
     public Gauss_Seidel(Equation[] equations, double[] initial, int maxIterations, double relativeError, boolean scaling) {
+        clearFile();
         this.equations = equations;
         this.order = equations[0].getOrder();
         this.ans = initial;
         this.maxIterations = maxIterations;
         this.relativeError = relativeError;
         this.scaling = scaling;
-        this.steps = new ArrayList<>();
     }
 
     public Gauss_Seidel(Equation[] equations, double[] initial) {
         this.equations = equations;
         this.order = equations[0].getOrder();
         this.ans = initial;
-        this.steps = new ArrayList<>();
     }
 
     public int getPrecision() {
@@ -46,6 +45,7 @@ public class Gauss_Seidel implements LinearSolver {
 
     @Override
     public double[] getSolution() {
+        startTime = System.currentTimeMillis();
         double[] tempAns = new double[this.order];
         double error;
         this.pivot();
@@ -54,7 +54,7 @@ public class Gauss_Seidel implements LinearSolver {
         for (int i = 0; i < maxIterations; i++) {
             error = 0;
             for (int j = 0; j < this.order; j++) {
-                tempAns[j] = this.equations[j].substitute(this.ans, 0, this.order, j, precision);
+                tempAns[j] = this.equations[j].substitute(this.ans, 0, this.order, j);
 
                 error = Math.max(error, Math.abs((tempAns[j] - this.ans[j]) / tempAns[j]));
 
@@ -65,6 +65,8 @@ public class Gauss_Seidel implements LinearSolver {
             if (error <= this.relativeError)
                 break;
         }
+        endTime = System.currentTimeMillis();
+
         return this.ans;
     }
 
@@ -93,12 +95,6 @@ public class Gauss_Seidel implements LinearSolver {
         }
     }
 
-    private void saveAns() {
-        double[] step = new double[this.order];
-        System.arraycopy(this.ans, 0, step, 0, this.order);
-        this.steps.add(step);
-    }
-
     @Override
     public String getSteps() {
         return stepsFile;
@@ -108,7 +104,7 @@ public class Gauss_Seidel implements LinearSolver {
         return (new BigDecimal(Double.toString(val)).round(new MathContext(this.precision))).doubleValue();
     }
 
-    public void writeFile() {
+    private void writeFile() {
         try {
             FileWriter writer = new FileWriter(stepsFile, true);
             int len = this.order;
@@ -122,15 +118,17 @@ public class Gauss_Seidel implements LinearSolver {
         }
     }
 
-    PrintWriter writer;
+    private void clearFile() {
+        PrintWriter writer;
 
-    {
-        try {
-            writer = new PrintWriter(stepsFile);
-            writer.print("");
-            writer.close();
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
+        {
+            try {
+                writer = new PrintWriter(stepsFile);
+                writer.print("");
+                writer.close();
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            }
         }
     }
 
@@ -140,5 +138,11 @@ public class Gauss_Seidel implements LinearSolver {
             System.out.print(a + " ");
         }
         System.out.println();
+    }
+
+    @Override
+    public long getTimer() {
+        long totalTime = endTime - startTime;
+        return totalTime;
     }
 }

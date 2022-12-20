@@ -20,6 +20,8 @@ public class CroutDecomposition implements LinearSolver {
     private int o[];
     private double[][] upperMatrix;
     private final String stepsFile = "Crout.txt";
+    private long startTime;
+    private long endTime;
 
     public CroutDecomposition(Equation[] equations, boolean scaling) {
         clearFile();
@@ -194,7 +196,7 @@ public class CroutDecomposition implements LinearSolver {
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
-        
+
     }
 
     @Override
@@ -205,5 +207,11 @@ public class CroutDecomposition implements LinearSolver {
     @Override
     public String getSteps() {
         return stepsFile;
+    }
+
+    @Override
+    public long getTimer() {
+        long totalTime = endTime - startTime;
+        return totalTime;
     }
 }

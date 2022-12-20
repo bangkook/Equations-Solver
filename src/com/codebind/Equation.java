@@ -8,7 +8,7 @@ public class Equation implements Serializable {
     private double[] coefficients;
     private int order;
     private double res;// b
-    private int precision = 7;
+    private int precision;
 
     public Equation(double[] coefficients, double res, int precision) {
         this.coefficients = this.roundArr(coefficients);
@@ -16,6 +16,7 @@ public class Equation implements Serializable {
         this.res = this.round(res);
         this.precision = precision;
     }
+
 
     public int getOrder() {
         return order;
