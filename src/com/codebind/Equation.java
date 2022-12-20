@@ -65,17 +65,24 @@ public class Equation implements Serializable {
     // returns pivot with or without scaling
     public int check(Equation[] equation) {
         int numOfFreeVar = 0;
-        double sum = 0;
+        double sum = 0.0;
         for (int i = 0; i < this.order; i++) {
             if (equation[i].coefficients[i] == 0 && equation[i].getRes() != 0) {
-                return -2;//no solution
+                for (int j = 0; j < this.order; j++) {
+                    sum = round(sum + equation[i].coefficients[j]);
+                }
+                if (sum == 0.0) {
+                    return -2;//no solution
+                }
+                sum=0;
             } else if (equation[i].coefficients[i] == 0 && equation[i].getRes() == 0) {
                 for (int j = 0; j < this.order; j++) {
-                    sum = sum + equation[i].coefficients[j];
+                    sum = round(sum + equation[i].coefficients[j]);
                 }
-                if (sum == 0)
+                if (sum == 0.0){
                     numOfFreeVar++;
-                sum = 0;
+                sum = 0.0;
+                }
             }
         }
         if (numOfFreeVar == 0) return -1;
