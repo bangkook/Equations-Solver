@@ -90,6 +90,7 @@ public class Gauss_Jordan implements LinearSolver {
             }
             writeFile();
             //check for no solution or infinite solution
+
             if (i == this.order - 1) {
                 if (this.equations[i].check(equations) == -2) {
                     throw new RuntimeException("System has no solution");
