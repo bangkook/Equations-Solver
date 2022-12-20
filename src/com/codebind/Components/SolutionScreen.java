@@ -24,13 +24,19 @@ public class SolutionScreen extends JPanel implements ActionListener
 	LinearSolver solver;
 	JPanel solPanel;
 	JPanel stepsPanel;
+	JScrollPane sp;
 	JButton enterSysButton;
-
+	
+	public SolutionScreen()
+	{
+		setLayout(new BorderLayout());
+		sp = new JScrollPane();
+		add(sp);
+	}
 	
 	public void setSolver(LinearSolver solver)
 	{
 		clearScreen();
-		setLayout(new BorderLayout());
 		solPanel = new JPanel();
 		add(solPanel, BorderLayout.NORTH);
 		solPanel.add(new JLabel("Solution: "));
@@ -43,10 +49,10 @@ public class SolutionScreen extends JPanel implements ActionListener
 			{
 				solPanel.add(new JLabel("x"+(i+1) + " = " + sol[i]));
 			}
-			long time = solver.getTimer();
-			solPanel.add(new JLabel("Time = " + time + "ms"), BorderLayout.NORTH);
+			
+			solPanel.add(new JLabel("Time = " + solver.getTimer() + "ms"), BorderLayout.NORTH);
 
-
+			
 			String stepsFile;
 			if (solver instanceof GaussElimination)
 			{
@@ -81,7 +87,8 @@ public class SolutionScreen extends JPanel implements ActionListener
 				stepsFile = "Doolittle.txt";
 			}
 			stepsPanel = new stepsPanel(new File(stepsFile));
-			add(stepsPanel);
+			sp.setViewportView(stepsPanel);
+			
 		}
 		catch (RuntimeException e)
 		{
