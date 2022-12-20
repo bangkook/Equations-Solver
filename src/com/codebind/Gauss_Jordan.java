@@ -98,10 +98,14 @@ public class Gauss_Jordan implements LinearSolver {
                     int noOfFreeVar = this.equations[i].check(equations);
                     int value = 1;
                     int k = 0;
+                    int l=this.order-1;
                     System.out.println(noOfFreeVar);
                     while (noOfFreeVar != 0) {
                         for (int j = k; j < this.order; j++) {
                             if (this.equations[j].getCoefficient(j) == 0) {
+                                Equation temp = equations[j];
+                                equations[j] = equations[l];
+                                equations[l--] = temp;
                                 ans[j] = value;
                                 value++;
                                 k = j;
@@ -111,10 +115,10 @@ public class Gauss_Jordan implements LinearSolver {
                         k = k + 1;
                         noOfFreeVar--;
                     }
+
                     for (int m = this.order - 1; m >= 0; m--) {
                         if (ans[m] == 0) {
                             ans[m] = this.equations[m].substitute(this.ans, m + 1, this.order, m);
-
                         }
                     }
                     endTime = System.currentTimeMillis();
@@ -137,10 +141,14 @@ public class Gauss_Jordan implements LinearSolver {
                     int noOfFreeVar = this.equations[i].check(equations);
                     int value = 1;
                     int k = 0;
+                    int l=this.order-1;
                     System.out.println(noOfFreeVar);
                     while (noOfFreeVar != 0) {
                         for (int j = k; j < this.order; j++) {
                             if (this.equations[j].getCoefficient(j) == 0) {
+                                Equation temp = equations[j];
+                                equations[j] = equations[l];
+                                equations[l--] = temp;
                                 ans[j] = value;
                                 value++;
                                 k = j;

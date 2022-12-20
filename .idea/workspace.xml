@@ -7,13 +7,9 @@
     <list default="true" id="af02c104-bba1-4139-b60d-2ef746b07728" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Gauss_Elimination.txt" beforeDir="false" afterPath="$PROJECT_DIR$/Gauss_Elimination.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/EquationsSolver/com/codebind/Components/SolutionScreen.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/EquationsSolver/com/codebind/Components/SolutionScreen.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/EquationsSolver/com/codebind/Equation.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/EquationsSolver/com/codebind/Equation.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/EquationsSolver/com/codebind/EquationsSolver.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/EquationsSolver/com/codebind/EquationsSolver.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/EquationsSolver/com/codebind/GaussElimination.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/EquationsSolver/com/codebind/GaussElimination.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/EquationsSolver/com/codebind/Gauss_Jordan.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/EquationsSolver/com/codebind/Gauss_Jordan.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/EquationsSolver/com/codebind/LinearSolver.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/EquationsSolver/com/codebind/LinearSolver.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/codebind/Equation.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/codebind/Equation.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/codebind/EquationsSolver.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/codebind/EquationsSolver.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/codebind/GaussElimination.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/codebind/GaussElimination.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/com/codebind/Gauss_Jordan.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/codebind/Gauss_Jordan.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />

@@ -58,9 +58,13 @@ public class GaussElimination implements LinearSolver {
                 }
                 else if(this.equations[nextPivot].check(equations)!=-2 && this.equations[nextPivot].check(equations)!=-1 ){
                     int value = 1, currRow = 0, noOfFreeVar = this.equations[nextPivot].check(equations);
+                    int l=this.order-1;
                     while (noOfFreeVar!=0){
                         for (int j = currRow; j < this.order; j++) {
                             if(this.equations[j].getCoefficient(j) == 0){
+                                Equation temp = equations[j];
+                                equations[j] = equations[l];
+                                equations[l--] = temp;
                                 ans[j] = value; value++; currRow = j; break;
                             }
                         }
