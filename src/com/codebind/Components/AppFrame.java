@@ -2,6 +2,9 @@ package com.codebind.Components;
 
 import com.codebind.*;
 import com.codebind.Components.*;
+import com.codebind.LUDecomposition.CholeskyDecomposition;
+import com.codebind.LUDecomposition.CroutDecomposition;
+import com.codebind.LUDecomposition.Doolittle;
 
 import javax.swing.*;
 import java.awt.*;
@@ -53,21 +56,21 @@ public class AppFrame extends JFrame
 			case GaussJordan:
 			solver = new Gauss_Jordan(system, useScaling);
 			break;
-			// case LU:
-			// LUParams p = (LUParams) params;
-			// switch (p.form)
-			// {
-			// 	case Crout:
-			// 	solver = new CroutDecomposition(system, useScaling);
-			// 	break;
-			// 	case Cholesky:
-			// 	solver = new CholeskyDecomposition(system);
-			// 	break;
-			// 	default:// Doolittle
-			// 	solver = new CroutDecomposition(system, useScaling);
-			// 	break;
-			// }
-			// break;
+			case LU:
+			LUParams p = (LUParams) params;
+			switch (p.form)
+			{
+				case Crout:
+				solver = new CroutDecomposition(system, useScaling);
+				break;
+				case Cholesky:
+				solver = new CholeskyDecomposition(system, useScaling);
+				break;
+				default:// Doolittle
+				solver = new Doolittle(system, useScaling);
+				break;
+			}
+			break;
 			case GaussSeidel:
 			IndirectParams sei = (IndirectParams) params;
 			solver = new Gauss_Seidel(system, sei.initial, sei.maxIters, sei.relativeErr, useScaling);
@@ -80,14 +83,10 @@ public class AppFrame extends JFrame
 
 		
 		((CardLayout)deck.getLayout()).next(deck);
-		try
-		{
-			solutionScreen.setSolution(solver.getSolution());
-		}
-		catch (IOException e) 
-		{
-			solutionScreen.setSolution(null);
-		}
+		
+		solutionScreen.setSolver(solver);
+		
+		
 	}
 
 	public void onSolutionScreenEnterAnotherSystem()
