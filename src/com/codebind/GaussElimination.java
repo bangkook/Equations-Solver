@@ -23,10 +23,13 @@ public class GaussElimination implements LinearSolver {
     public double[] getSolution() {
         startTime=System.currentTimeMillis();
         int nextPivot = 0; //the curr row
+
         double maxPivot = Math.abs((this.equations[nextPivot].getPivot(this.scaling, nextPivot)));//max pivot in col
         int indexMaxPivot = nextPivot;
         this.ans = new double[this.order];
+        writeFile();
         while (nextPivot != this.order) {
+
             for (int i = nextPivot; i < this.order; i++) {
                 if (Math.abs((this.equations[i].getPivot(this.scaling, nextPivot))) > maxPivot ) {
                     maxPivot = Math.abs((this.equations[i].getPivot(this.scaling, nextPivot)));
@@ -35,11 +38,14 @@ public class GaussElimination implements LinearSolver {
             }
 
             //swap
-            writeFile();
+
             if(indexMaxPivot!=nextPivot){
                 Equation temp = equations[nextPivot];
                 equations[nextPivot] = equations[indexMaxPivot];
                 equations[indexMaxPivot] = temp;
+                writeFile();
+            }
+            else{
                 writeFile();
             }
 
@@ -48,34 +54,36 @@ public class GaussElimination implements LinearSolver {
                 if(equations[nextPivot].getCoefficient(nextPivot)!=0){
                     double multiplier = equations[i].getCoefficient(nextPivot)/equations[nextPivot].getCoefficient(nextPivot);
                     equations[i].add(equations[nextPivot], multiplier, nextPivot);
+                    if(equations[i].getCoefficient(nextPivot)!=0){
+                        writeFile();
+                    }
                 }
             }
-            writeFile();
+
             if(nextPivot==this.order-1){  //check for no solution or infinite solution
                 if(this.equations[nextPivot].check(equations)==-2){
                     endTime = System.currentTimeMillis();
                     throw new RuntimeException("System has no solution");
                 }
                 else if(this.equations[nextPivot].check(equations)!=-2 && this.equations[nextPivot].check(equations)!=-1 ){
-                    int value = 1, currRow = 0, noOfFreeVar = this.equations[nextPivot].check(equations);
-                    int l=this.order-1;
+                    double value = 1.0;
+                    int noOfFreeVar = this.equations[nextPivot].check(equations);
                     while (noOfFreeVar!=0){
-                        for (int j = currRow; j < this.order; j++) {
+                        for (int j = 0; j < this.order; j++) {
                             if(this.equations[j].getCoefficient(j) == 0){
-                                Equation temp = equations[j];
-                                equations[j] = equations[l];
-                                equations[l--] = temp;
-                                ans[j] = value; value++; currRow = j; break;
+                                Equation temp = equations[this.order-noOfFreeVar];
+                                equations[this.order-noOfFreeVar] = equations[j];
+                                equations[j] = temp;
+                                equations[j].setCoefficient(j,1.0);
+                                equations[j].setRes(value);
+                                value++;
+                                break;
                             }
                         }
-                        currRow = currRow + 1; noOfFreeVar--;
+                        writeFile();
+                        noOfFreeVar--;
                     }
-                    for (int i = this.order - 1; i >= 0; i--) {
-                        if(ans[i]==0){
-                            ans[i] = this.equations[i].substitute(this.ans, i + 1, this.order, i);}
-                    }
-                    endTime = System.currentTimeMillis();
-                    return ans;
+                    nextPivot=-1;
                 }
             }
             maxPivot = 0; nextPivot++; indexMaxPivot = nextPivot;

@@ -7,12 +7,12 @@ public class EquationsSolver {
     public static void main(String[] args) throws IOException {
         // This is for testing only
         Equation[] equations = new Equation[5];
-        equations[0] = new Equation(new double[]{1,3,2,4,-3}, -7, 5);
-        equations[1] = new Equation(new double[]{2,6,0,-1,-2},0 , 5);
-        equations[2] = new Equation(new double[]{0,0,6,2,-1}, 12, 5);
-        equations[3] = new Equation(new double[]{1,3,-1,4,2}, -6, 5);
-        equations[4] = new Equation(new double[]{0,0,0,0,0}, 0, 5);
-        Gauss_Jordan test1 = new Gauss_Jordan(equations, false);
+        equations[0] = new Equation(new double[]{1,3,2,4,-3}, -7, 10);
+        equations[1] = new Equation(new double[]{2,6,0,-1,-2},0 , 10);
+        equations[2] = new Equation(new double[]{0,0,6,2,-1}, 12, 10);
+        equations[3] = new Equation(new double[]{1,3,-1,4,2}, -6, 10);
+        equations[4] = new Equation(new double[]{0,0,0,0,0}, 0, 10);
+        GaussElimination test1 = new GaussElimination(equations, true);
         double[] sol = test1.getSolution();
         test1.print();
         for (double x : sol)

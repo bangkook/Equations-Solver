@@ -91,38 +91,29 @@ public class Gauss_Jordan implements LinearSolver {
             writeFile();
             //check for no solution or infinite solution
 
-            if (i == this.order - 1) {
-                if (this.equations[i].check(equations) == -2) {
+            if(i==this.order-1){  //check for no solution or infinite solution
+                if(this.equations[i].check(equations)==-2){
+                    endTime = System.currentTimeMillis();
                     throw new RuntimeException("System has no solution");
-                } else if (this.equations[i].check(equations) != -2 && this.equations[i].check(equations) != -1) {
+                }
+                else if(this.equations[i].check(equations)!=-2 && this.equations[i].check(equations)!=-1 ){
+                    double value = 1.0;
                     int noOfFreeVar = this.equations[i].check(equations);
-                    int value = 1;
-                    int k = 0;
-                    int l=this.order-1;
-                    System.out.println(noOfFreeVar);
-                    while (noOfFreeVar != 0) {
-                        for (int j = k; j < this.order; j++) {
-                            if (this.equations[j].getCoefficient(j) == 0) {
-                                Equation temp = equations[j];
-                                equations[j] = equations[l];
-                                equations[l--] = temp;
-                                ans[j] = value;
+                    while (noOfFreeVar!=0){
+                        for (int j = 0; j < this.order; j++) {
+                            if(this.equations[j].getCoefficient(j) == 0){
+                                Equation temp = equations[this.order-noOfFreeVar];
+                                equations[this.order-noOfFreeVar] = equations[j];
+                                equations[j] = temp;
+                                equations[j].setCoefficient(j,1.0);
+                                equations[j].setRes(value);
                                 value++;
-                                k = j;
                                 break;
                             }
                         }
-                        k = k + 1;
                         noOfFreeVar--;
                     }
-
-                    for (int m = this.order - 1; m >= 0; m--) {
-                        if (ans[m] == 0) {
-                            ans[m] = this.equations[m].substitute(this.ans, m + 1, this.order, m);
-                        }
-                    }
-                    endTime = System.currentTimeMillis();
-                    return ans;
+                    i=-1;
                 }
             }
             for (int l = i - 1; l < this.order && l >= 0; l--) {
@@ -134,38 +125,29 @@ public class Gauss_Jordan implements LinearSolver {
             }
 
             //check for no solution or infinite solution
-            if (i == this.order - 1) {
-                if (this.equations[i].check(equations) == -2) {
+            if(i==this.order-1){  //check for no solution or infinite solution
+                if(this.equations[i].check(equations)==-2){
+                    endTime = System.currentTimeMillis();
                     throw new RuntimeException("System has no solution");
-                } else if (this.equations[i].check(equations) != -2 && this.equations[i].check(equations) != -1) {
+                }
+                else if(this.equations[i].check(equations)!=-2 && this.equations[i].check(equations)!=-1 ){
+                    double value = 1.0;
                     int noOfFreeVar = this.equations[i].check(equations);
-                    int value = 1;
-                    int k = 0;
-                    int l=this.order-1;
-                    System.out.println(noOfFreeVar);
-                    while (noOfFreeVar != 0) {
-                        for (int j = k; j < this.order; j++) {
-                            if (this.equations[j].getCoefficient(j) == 0) {
-                                Equation temp = equations[j];
-                                equations[j] = equations[l];
-                                equations[l--] = temp;
-                                ans[j] = value;
+                    while (noOfFreeVar!=0){
+                        for (int j = 0; j < this.order; j++) {
+                            if(this.equations[j].getCoefficient(j) == 0){
+                                Equation temp = equations[this.order-noOfFreeVar];
+                                equations[this.order-noOfFreeVar] = equations[j];
+                                equations[j] = temp;
+                                equations[j].setCoefficient(j,1.0);
+                                equations[j].setRes(value);
                                 value++;
-                                k = j;
                                 break;
                             }
                         }
-                        k = k + 1;
                         noOfFreeVar--;
                     }
-
-                    for (int m = this.order - 1; m >= 0; m--) {
-                        if (ans[m] == 0) {
-                            ans[m] = this.equations[m].substitute(this.ans, m + 1, this.order, m);
-                        }
-                    }
-                    endTime = System.currentTimeMillis();
-                    return ans;
+                    i=-1;
                 }
             }
 
