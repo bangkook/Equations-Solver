@@ -5,13 +5,13 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 
-public class Bisection extends RootFinder{
+public class False_Position extends RootFinder{
     private double lowerLimit;
     private double upperLimit;
     private double result;
     private double iterations;
     private FunctionExpression function;
-    public Bisection(boolean applyPrecision1, int precision1, int lowerLimit, int upperLimit, int iterations, FunctionExpression function) {
+    public False_Position(boolean applyPrecision1, int precision1, int lowerLimit, int upperLimit, int iterations, FunctionExpression function) {
         super(applyPrecision1, precision1);
         this.lowerLimit=lowerLimit;
         this.upperLimit=upperLimit;
@@ -22,7 +22,7 @@ public class Bisection extends RootFinder{
 
     {
         try {
-            writer = new PrintWriter("Bisection.txt");
+            writer = new PrintWriter("False_Position.txt");
             writer.print("");
             writer.close();
         } catch (FileNotFoundException e) {
@@ -32,7 +32,7 @@ public class Bisection extends RootFinder{
 
     public void writeFile() {//write steps function
         try {
-            FileWriter writer = new FileWriter("Bisection.txt", true);
+            FileWriter writer = new FileWriter("False_Position.txt", true);
             writer.write("Lower limit: "+this.lowerLimit+","+"Upper limit: "+this.upperLimit+"\n");
             writer.write("Result: "+this.result+"\n");
             writer.close();
@@ -48,12 +48,12 @@ public class Bisection extends RootFinder{
         }
         while (this.iterations>0){
             writeFile();
-            this.result=round((this.lowerLimit+this.upperLimit)/2.0);
+            this.result=round(((this.lowerLimit*this.function.evaluate(this.upperLimit))-(this.upperLimit*this.function.evaluate(this.lowerLimit)))/(this.function.evaluate(this.upperLimit)-this.function.evaluate(this.lowerLimit)));
             if(round(this.function.evaluate(this.result)*this.function.evaluate(this.lowerLimit))>0){
-                this.lowerLimit=this.result;
+                this.lowerLimit=round(this.result);
             }
             else if(round(this.function.evaluate(this.result)*this.function.evaluate(this.lowerLimit))<0){
-                this.upperLimit=this.result;
+                this.upperLimit=round(this.result);
             }
             else {
                 writeFile();
@@ -78,7 +78,8 @@ public class Bisection extends RootFinder{
     public static void main(String[] args) throws IOException {//for test
         String s="x^3-25";
         FunctionExpression function=new FunctionExpression(s);
-        Bisection B=new Bisection(true,5,0,4,50,function);
-        System.out.println(B.getRoot());
+        False_Position F=new False_Position(true,5,0,4,50,function);
+        System.out.println(F.getRoot());
+
     }
 }

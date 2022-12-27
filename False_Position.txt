@@ -1,0 +1,102 @@
+Lower limit: 0.0,Upper limit: 4.0
+Result: 0.0
+Lower limit: 1.5625,Upper limit: 4.0
+Result: 1.5625
+Lower limit: 2.4205,Upper limit: 4.0
+Result: 2.4205
+Lower limit: 2.7635,Upper limit: 4.0
+Result: 2.7635
+Lower limit: 2.8758,Upper limit: 4.0
+Result: 2.8758
+Lower limit: 2.9098,Upper limit: 4.0
+Result: 2.9098
+Lower limit: 2.9199,Upper limit: 4.0
+Result: 2.9199
+Lower limit: 2.9228,Upper limit: 4.0
+Result: 2.9228
+Lower limit: 2.9237,Upper limit: 4.0
+Result: 2.9237
+Lower limit: 2.9239,Upper limit: 4.0
+Result: 2.9239
+Lower limit: 2.924,Upper limit: 4.0
+Result: 2.924
+Lower limit: 2.924,Upper limit: 4.0
+Result: 2.924
+Lower limit: 2.924,Upper limit: 4.0
+Result: 2.924
+Lower limit: 2.924,Upper limit: 4.0
+Result: 2.924
+Lower limit: 2.924,Upper limit: 4.0
+Result: 2.924
+Lower limit: 2.924,Upper limit: 4.0
+Result: 2.924
+Lower limit: 2.924,Upper limit: 4.0
+Result: 2.924
+Lower limit: 2.924,Upper limit: 4.0
+Result: 2.924
+Lower limit: 2.924,Upper limit: 4.0
+Result: 2.924
+Lower limit: 2.924,Upper limit: 4.0
+Result: 2.924
+Lower limit: 2.924,Upper limit: 4.0
+Result: 2.924
+Lower limit: 2.924,Upper limit: 4.0
+Result: 2.924
+Lower limit: 2.924,Upper limit: 4.0
+Result: 2.924
+Lower limit: 2.924,Upper limit: 4.0
+Result: 2.924
+Lower limit: 2.924,Upper limit: 4.0
+Result: 2.924
+Lower limit: 2.924,Upper limit: 4.0
+Result: 2.924
+Lower limit: 2.924,Upper limit: 4.0
+Result: 2.924
+Lower limit: 2.924,Upper limit: 4.0
+Result: 2.924
+Lower limit: 2.924,Upper limit: 4.0
+Result: 2.924
+Lower limit: 2.924,Upper limit: 4.0
+Result: 2.924
+Lower limit: 2.924,Upper limit: 4.0
+Result: 2.924
+Lower limit: 2.924,Upper limit: 4.0
+Result: 2.924
+Lower limit: 2.924,Upper limit: 4.0
+Result: 2.924
+Lower limit: 2.924,Upper limit: 4.0
+Result: 2.924
+Lower limit: 2.924,Upper limit: 4.0
+Result: 2.924
+Lower limit: 2.924,Upper limit: 4.0
+Result: 2.924
+Lower limit: 2.924,Upper limit: 4.0
+Result: 2.924
+Lower limit: 2.924,Upper limit: 4.0
+Result: 2.924
+Lower limit: 2.924,Upper limit: 4.0
+Result: 2.924
+Lower limit: 2.924,Upper limit: 4.0
+Result: 2.924
+Lower limit: 2.924,Upper limit: 4.0
+Result: 2.924
+Lower limit: 2.924,Upper limit: 4.0
+Result: 2.924
+Lower limit: 2.924,Upper limit: 4.0
+Result: 2.924
+Lower limit: 2.924,Upper limit: 4.0
+Result: 2.924
+Lower limit: 2.924,Upper limit: 4.0
+Result: 2.924
+Lower limit: 2.924,Upper limit: 4.0
+Result: 2.924
+Lower limit: 2.924,Upper limit: 4.0
+Result: 2.924
+Lower limit: 2.924,Upper limit: 4.0
+Result: 2.924
+Lower limit: 2.924,Upper limit: 4.0
+Result: 2.924
+Lower limit: 2.924,Upper limit: 4.0
+Result: 2.924
+Lower limit: 2.924,Upper limit: 4.0
+Result: 2.924
