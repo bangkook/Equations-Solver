@@ -22,7 +22,7 @@ public class Bisection extends RootFinder{
 
     {
         try {
-            writer = new PrintWriter("Gauss_Jordan.txt");
+            writer = new PrintWriter("Bisection.txt");
             writer.print("");
             writer.close();
         } catch (FileNotFoundException e) {
@@ -32,8 +32,10 @@ public class Bisection extends RootFinder{
 
     public void writeFile() {//write steps function
         try {
-
-
+            FileWriter writer = new FileWriter("Bisection.txt", true);
+            writer.write("Lower limit: "+this.lowerLimit+","+"Upper limit: "+this.upperLimit+"\n");
+            writer.write("Result: "+this.result+"\n");
+            writer.close();
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -45,6 +47,7 @@ public class Bisection extends RootFinder{
             throw new ArithmeticException ("No roots found between entered limits");
         }
         while (this.iterations>0){
+            writeFile();
             this.result=round((this.lowerLimit+this.upperLimit)/2.0);
             if(round(this.function.evaluate(this.result)*this.function.evaluate(this.lowerLimit))>0){
                 this.lowerLimit=this.result;
