@@ -1,6 +1,9 @@
 package com.example.RF;
 
+import java.io.FileNotFoundException;
+import java.io.FileWriter;
 import java.io.IOException;
+import java.io.PrintWriter;
 
 public class Bisection extends RootFinder{
     private double lowerLimit;
@@ -15,9 +18,32 @@ public class Bisection extends RootFinder{
         this.iterations = iterations;
         this.function = function;
     }
+    PrintWriter writer;//clears the text file before write
 
+    {
+        try {
+            writer = new PrintWriter("Gauss_Jordan.txt");
+            writer.print("");
+            writer.close();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void writeFile() {//write steps function
+        try {
+
+
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
     @Override
     public double getRoot() {
+        if(this.function.evaluate(this.upperLimit)*this.function.evaluate(this.lowerLimit)>=0){
+            throw new ArithmeticException ("No roots found between entered limits");
+        }
         while (this.iterations>0){
             this.result=round((this.lowerLimit+this.upperLimit)/2.0);
             if(round(this.function.evaluate(this.result)*this.function.evaluate(this.lowerLimit))>0){
