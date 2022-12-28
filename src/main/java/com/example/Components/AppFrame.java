@@ -12,6 +12,7 @@ public class AppFrame extends JFrame
 	JPanel deck;
 	MethodSelectScreen methodScreen;
 	SolutionScreen solutionScreen;
+    StartScreen startScreen;
 
 	public AppFrame(String title)
 	{
@@ -21,6 +22,8 @@ public class AppFrame extends JFrame
 		deck.setLayout(new CardLayout());
 		add(deck);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        startScreen = new StartScreen();
+        deck.add(startScreen, "StartScreen");
 		deck.add(new SystemEntryScreen(), "SystemEntryScreen");
 		methodScreen = new MethodSelectScreen();
 		deck.add(methodScreen, "MethodSelectScreen");
@@ -35,6 +38,11 @@ public class AppFrame extends JFrame
 		((CardLayout)deck.getLayout()).next(deck);
 		methodScreen.setSystem(system);
 	}
+
+    public void onSystemEntryBack()
+    {
+        ((CardLayout)deck.getLayout()).show(deck, "StartScreen");
+    }
 
 	public void onMethodSelectBack()
 	{
@@ -76,18 +84,25 @@ public class AppFrame extends JFrame
 			solver = new Jacobi(system, ja.initial, ja.maxIters, ja.relativeErr, useScaling);
 			break;
 		}
-
-
 		((CardLayout)deck.getLayout()).next(deck);
-
 		solutionScreen.setSolver(solver);
-
-
 	}
 
 	public void onSolutionScreenEnterAnotherSystem()
 	{
 		((CardLayout)deck.getLayout()).show(deck, "SystemEntryScreen");
 	}
+
+
+    public void onStartScreenLS()
+    {
+        ((CardLayout)deck.getLayout()).show(deck, "SystemEntryScreen");
+    }
+
+
+    public void onStartScreenRF()
+    {
+        // ((CardLayout)deck.getLayout()).show(deck, "FunctionEntryScreen");
+    }
 
 }

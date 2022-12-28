@@ -18,6 +18,9 @@ public class SystemEntryScreen extends JPanel implements ActionListener
 	SystemEntryPanel systemEntryPanel = null;
 	JScrollPane scrollPane;
 	JButton bNext;
+    JButton bBack;
+    JPanel footerPanel;
+
 
 
 	public SystemEntryScreen()
@@ -26,11 +29,17 @@ public class SystemEntryScreen extends JPanel implements ActionListener
 		setLayout(new BorderLayout());
 		sizePanel = new SizeEntryPanel();
 		add(sizePanel, BorderLayout.NORTH);
+        footerPanel = new JPanel();
+        add(footerPanel, BorderLayout.SOUTH);
+        bBack = new JButton("Back to Start Screen");
+        bBack.setActionCommand("Back");
+		bBack.addActionListener(this);
+        footerPanel.add(bBack);
 		bNext = new JButton("Enter system size");
 		bNext.setEnabled(false);
 		bNext.setActionCommand("Next");
 		bNext.addActionListener(this);
-		add(bNext, BorderLayout.SOUTH);
+		footerPanel.add(bNext);
 		scrollPane = new JScrollPane();
 		add(scrollPane);
 	}
@@ -56,13 +65,13 @@ public class SystemEntryScreen extends JPanel implements ActionListener
 
 	public void actionPerformed(ActionEvent ae)
 	{
-		onNextPressed();
-	}
+        if (ae.getActionCommand().equals("Next"))
+        {
+            Equation[] sys = systemEntryPanel.getSystem();
+		    ((AppFrame)getTopLevelAncestor()).onSystemEntryNext(sys);
+        }
+        else ((AppFrame)getTopLevelAncestor()).onSystemEntryBack();
 
-	private void onNextPressed()
-	{
-		Equation[] sys = systemEntryPanel.getSystem();
-		((AppFrame)getTopLevelAncestor()).onSystemEntryNext(sys);
 	}
 }
 
