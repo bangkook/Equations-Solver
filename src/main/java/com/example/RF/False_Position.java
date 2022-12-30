@@ -12,6 +12,7 @@ public class False_Position extends RootFinder{
     private double iterations;
     private FunctionExpression function;
     private final static String stepsFile = "False_Position.txt";
+    private long startTime, endTime, writeTime;
 
     public False_Position(boolean applyPrecision1, int precision1, int lowerLimit, int upperLimit, int iterations, FunctionExpression function) {
         super(applyPrecision1, precision1);
@@ -23,6 +24,7 @@ public class False_Position extends RootFinder{
     }
 
     public void writeFile() {//write steps function
+        long currTime = System.currentTimeMillis();
         try {
             FileWriter writer = new FileWriter(stepsFile, true);
             writer.write("Lower limit: "+this.lowerLimit+","+"Upper limit: "+this.upperLimit+"\n");
@@ -32,7 +34,9 @@ public class False_Position extends RootFinder{
         } catch (Exception e) {
             e.printStackTrace();
         }
+        writeTime = System.currentTimeMillis() - currTime;
     }
+
     @Override
     public double getRoot() {
         if(this.function.evaluate(this.upperLimit)*this.function.evaluate(this.lowerLimit)>=0){
@@ -59,6 +63,10 @@ public class False_Position extends RootFinder{
 
     public String getStepsFile(){
         return stepsFile;
+    }
+
+    public long getTime(){
+        return endTime - startTime;
     }
 
     public static void main(String[] args) throws IOException {//for test

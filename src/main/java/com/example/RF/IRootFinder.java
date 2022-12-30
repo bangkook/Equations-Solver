@@ -6,4 +6,6 @@ public interface IRootFinder {
     double getRoot();
 
     String getStepsFile();
+
+    long getTime();
 }

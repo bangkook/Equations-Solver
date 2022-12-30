@@ -10,6 +10,7 @@ public class Secant extends RootFinder {
     private static FunctionExpression function;
     private final static String stepsFile = "Secant.txt";
     private double oldRoot, root;
+    private long startTime, endTime, writeTime;
 
     public Secant(FunctionExpression func, double initial0, double initial1, boolean applyPrecision,
                   int precision, double eps, int maxIters) {
@@ -27,6 +28,7 @@ public class Secant extends RootFinder {
     public double getRoot() {
         double relError;
         double newRoot;
+        startTime = System.currentTimeMillis();
         for (int i = 0; i < maxIters; i++) {
             if (this.slope() == 0) {
                 throw new RuntimeException("Function can not be solved - slope equals zero");
@@ -35,11 +37,13 @@ public class Secant extends RootFinder {
             relError = Math.abs((newRoot - this.root) / newRoot);
             System.out.println(oldRoot + " " + root + " " + newRoot);
             writeFile(oldRoot + "\t\t" + this.root + "\t\t" + function.evaluate(this.root) + "\t\t" + newRoot);
+            startTime += writeTime;
             oldRoot = this.root;
             this.root = newRoot;
             if (relError <= eps)
                 break;
         }
+        endTime = System.currentTimeMillis();
         return this.root;
     }
 
@@ -48,6 +52,7 @@ public class Secant extends RootFinder {
     }
 
     private void writeFile(String step) {//write steps function
+        long currTime = System.currentTimeMillis();
         try {
             FileWriter writer = new FileWriter(stepsFile, true);
             writer.write(step + "\n");
@@ -56,10 +61,15 @@ public class Secant extends RootFinder {
         } catch (Exception e) {
             e.printStackTrace();
         }
+        writeTime = System.currentTimeMillis() - currTime;
     }
 
     public String getStepsFile(){
         return stepsFile;
+    }
+
+    public long getTime(){
+        return endTime - startTime;
     }
 
 }

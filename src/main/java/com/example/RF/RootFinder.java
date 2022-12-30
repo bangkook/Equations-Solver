@@ -35,5 +35,6 @@ abstract public class RootFinder implements IRootFinder{
 
     abstract public double getRoot();
     abstract public String getStepsFile();
+    abstract public long getTime();
 
 }
