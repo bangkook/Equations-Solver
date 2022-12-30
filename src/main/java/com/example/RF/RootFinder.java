@@ -1,5 +1,7 @@
 package com.example.RF;
 
+import java.io.FileNotFoundException;
+import java.io.PrintWriter;
 import java.math.BigDecimal;
 import java.math.MathContext;
 
@@ -17,11 +19,21 @@ abstract public class RootFinder implements IRootFinder{
             return val;
         return (new BigDecimal(Double.toString(val)).round(new MathContext(precision))).doubleValue();
     }
+
+    public void clearFile(String fileName){
+        PrintWriter writer;//clears the text file before write
+        {
+            try {
+                writer = new PrintWriter(fileName);
+                writer.print("");
+                writer.close();
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
     abstract public double getRoot();
-
-
-    abstract public void setPrecision(int pre);
-
-    abstract public void setFunc(FunctionExpression func);
+    abstract public String getStepsFile();
 
 }

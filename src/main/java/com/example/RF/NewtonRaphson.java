@@ -1,28 +1,26 @@
 package com.example.RF;
 
 
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.function.DoubleFunction;
 
 public class NewtonRaphson extends RootFinder {
-    private double eps; //= 0.00001;
-    private int maxIters;// = 50;
-    private static DoubleFunction<Double> function;
-    private static DoubleFunction<Double> funcDeriv;
+    private final double eps; //= 0.00001;
+    private final int maxIters;// = 50;
+    private static FunctionExpression function;
+    private final static String stepsFile = "Newton-Raphson.txt";
     private double root;
 
-    public NewtonRaphson(DoubleFunction<Double> f, double initial, boolean applyPrecision, int precision, double eps, int maxIters)
+    public NewtonRaphson(FunctionExpression func, double initial, boolean applyPrecision, int precision, double eps, int maxIters)
     {
         super(applyPrecision, precision);
-    }
-
-    public void setFunc(FunctionExpression func)
-    {
-
-    }
-
-    public void setPrecision(int pre)
-    {
-
+        super.clearFile(stepsFile);
+        this.root = initial;
+        this.eps = eps;
+        this.maxIters = maxIters;
+        function = func;
+        writeFile("Xi               f(Xi)               f`(Xi)              Xi+1");
     }
 
     public double getRoot()
@@ -30,15 +28,40 @@ public class NewtonRaphson extends RootFinder {
         double relError;
         double newRoot;
         for (int i = 0; i < maxIters; i++) {
-            if (round(funcDeriv.apply(this.root)) == 0) {
+            // if derivative of the function equals zero, newton-raphson can't proceed
+            if (round(function.differentiate(this.root)) == 0) {
                 throw new RuntimeException("Function can not be solved - derivative equals zero");
             }
-            newRoot = round(this.root - round(function.apply(this.root) / round(funcDeriv.apply(this.root))));
+            newRoot = round(this.root - round(function.evaluate(this.root) / round(function.differentiate(this.root))));
             relError = Math.abs((newRoot - this.root) / newRoot);
+            writeFile(this.root + "\t\t" + function.evaluate(this.root) + "\t\t" + function.differentiate(this.root) + "\t\t" + newRoot);
             this.root = newRoot;
             if (relError <= eps)
                 break;
         }
         return this.root;
+    }
+
+    private void writeFile(String step) {//write steps function
+        try {
+            FileWriter writer = new FileWriter(stepsFile, true);
+            writer.write(step + "\n");
+            writer.close();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public String getStepsFile(){
+        return stepsFile;
+    }
+
+    public static void main(String[] args) throws IOException {//for test
+        String s="x^3-25";
+        FunctionExpression function=new FunctionExpression(s);
+        IRootFinder F=new NewtonRaphson(function, 0, false, 0, 0.0001, 50);
+        System.out.println(F.getRoot());
+
     }
 }

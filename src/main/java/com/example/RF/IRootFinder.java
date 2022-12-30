@@ -3,9 +3,7 @@ package com.example.RF;
 public interface IRootFinder {
 
 
-    public double getRoot();
+    double getRoot();
 
-    public void setPrecision(int pre);
-
-    public void setFunc(FunctionExpression func);
+    String getStepsFile();
 }

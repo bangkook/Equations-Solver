@@ -11,28 +11,20 @@ public class Bisection extends RootFinder{
     private double result;
     private double iterations;
     private FunctionExpression function;
+    private final static String stepsFile = "Bisection.txt";
+
     public Bisection(boolean applyPrecision1, int precision1, int lowerLimit, int upperLimit, int iterations, FunctionExpression function) {
         super(applyPrecision1, precision1);
+        super.clearFile(stepsFile);
         this.lowerLimit=lowerLimit;
         this.upperLimit=upperLimit;
         this.iterations = iterations;
         this.function = function;
     }
-    PrintWriter writer;//clears the text file before write
 
-    {
+    private void writeFile() {//write steps function
         try {
-            writer = new PrintWriter("Bisection.txt");
-            writer.print("");
-            writer.close();
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
-    }
-
-    public void writeFile() {//write steps function
-        try {
-            FileWriter writer = new FileWriter("Bisection.txt", true);
+            FileWriter writer = new FileWriter(stepsFile, true);
             writer.write("Lower limit: "+this.lowerLimit+","+"Upper limit: "+this.upperLimit+"\n");
             writer.write("Result: "+this.result+"\n");
             writer.close();
@@ -41,6 +33,7 @@ public class Bisection extends RootFinder{
             e.printStackTrace();
         }
     }
+
     @Override
     public double getRoot() {
         if(this.function.evaluate(this.upperLimit)*this.function.evaluate(this.lowerLimit)>=0){
@@ -65,15 +58,10 @@ public class Bisection extends RootFinder{
         return this.result;
     }
 
-    @Override
-    public void setPrecision(int pre) {
-
+    public String getStepsFile(){
+        return stepsFile;
     }
 
-    @Override
-    public void setFunc(FunctionExpression func) {
-
-    }
 
     public static void main(String[] args) throws IOException {//for test
         String s="x^3-25";

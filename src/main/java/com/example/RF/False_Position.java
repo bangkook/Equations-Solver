@@ -11,28 +11,20 @@ public class False_Position extends RootFinder{
     private double result;
     private double iterations;
     private FunctionExpression function;
+    private final static String stepsFile = "False_Position.txt";
+
     public False_Position(boolean applyPrecision1, int precision1, int lowerLimit, int upperLimit, int iterations, FunctionExpression function) {
         super(applyPrecision1, precision1);
+        super.clearFile(stepsFile);
         this.lowerLimit=lowerLimit;
         this.upperLimit=upperLimit;
         this.iterations = iterations;
         this.function = function;
     }
-    PrintWriter writer;//clears the text file before write
-
-    {
-        try {
-            writer = new PrintWriter("False_Position.txt");
-            writer.print("");
-            writer.close();
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
-    }
 
     public void writeFile() {//write steps function
         try {
-            FileWriter writer = new FileWriter("False_Position.txt", true);
+            FileWriter writer = new FileWriter(stepsFile, true);
             writer.write("Lower limit: "+this.lowerLimit+","+"Upper limit: "+this.upperLimit+"\n");
             writer.write("Result: "+this.result+"\n");
             writer.close();
@@ -65,14 +57,8 @@ public class False_Position extends RootFinder{
         return this.result;
     }
 
-    @Override
-    public void setPrecision(int pre) {
-
-    }
-
-    @Override
-    public void setFunc(FunctionExpression func) {
-
+    public String getStepsFile(){
+        return stepsFile;
     }
 
     public static void main(String[] args) throws IOException {//for test
