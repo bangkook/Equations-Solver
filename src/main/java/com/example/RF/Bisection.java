@@ -42,8 +42,10 @@ public class Bisection extends RootFinder{
         if(this.function.evaluate(this.upperLimit)*this.function.evaluate(this.lowerLimit)>=0){
             throw new ArithmeticException ("No roots found between entered limits");
         }
+        startTime=System.currentTimeMillis();
         while (this.iterations>0){
             writeFile();
+            startTime+=writeTime;
             this.result=round((this.lowerLimit+this.upperLimit)/2.0);
             if(round(this.function.evaluate(this.result)*this.function.evaluate(this.lowerLimit))>0){
                 this.lowerLimit=this.result;
@@ -53,11 +55,14 @@ public class Bisection extends RootFinder{
             }
             else {
                 writeFile();
+                startTime+=writeTime;
                 return this.result;
             }
             this.iterations--;
         }
         writeFile();
+        startTime+=writeTime;
+        endTime=System.currentTimeMillis();
         return this.result;
     }
 

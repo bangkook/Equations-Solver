@@ -42,8 +42,10 @@ public class False_Position extends RootFinder{
         if(this.function.evaluate(this.upperLimit)*this.function.evaluate(this.lowerLimit)>=0){
             throw new ArithmeticException ("No roots found between entered limits");
         }
+        startTime=System.currentTimeMillis();
         while (this.iterations>0){
             writeFile();
+            startTime+=writeTime;
             this.result=round(((this.lowerLimit*this.function.evaluate(this.upperLimit))-(this.upperLimit*this.function.evaluate(this.lowerLimit)))/(this.function.evaluate(this.upperLimit)-this.function.evaluate(this.lowerLimit)));
             if(round(this.function.evaluate(this.result)*this.function.evaluate(this.lowerLimit))>0){
                 this.lowerLimit=round(this.result);
@@ -53,11 +55,14 @@ public class False_Position extends RootFinder{
             }
             else {
                 writeFile();
+                startTime+=writeTime;
                 return this.result;
             }
             this.iterations--;
         }
         writeFile();
+        startTime+=writeTime;
+        endTime=System.currentTimeMillis();
         return this.result;
     }
 
@@ -74,6 +79,5 @@ public class False_Position extends RootFinder{
         FunctionExpression function=new FunctionExpression(s);
         False_Position F=new False_Position(true,5,0,4,50,function);
         System.out.println(F.getRoot());
-
     }
 }

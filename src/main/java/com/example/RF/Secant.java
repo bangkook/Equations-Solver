@@ -2,6 +2,7 @@ package com.example.RF;
 
 
 import java.io.FileWriter;
+import java.io.IOException;
 import java.util.function.DoubleFunction;
 
 public class Secant extends RootFinder {
@@ -71,5 +72,11 @@ public class Secant extends RootFinder {
     public long getTime(){
         return endTime - startTime;
     }
+    public static void main(String[] args) throws IOException {//for test
+        String s="x^3-25";
+        FunctionExpression function=new FunctionExpression(s);
+        IRootFinder F=new Secant(function, 0, 1,false, 0, 0.0001, 50);
+        System.out.println(F.getRoot());
 
+    }
 }
