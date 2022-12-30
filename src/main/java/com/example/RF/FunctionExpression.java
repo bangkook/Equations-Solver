@@ -2,12 +2,13 @@ package com.example.RF;
 
 import net.objecthunter.exp4j.Expression;
 import net.objecthunter.exp4j.ExpressionBuilder;
+import net.objecthunter.exp4j.tokenizer.UnknownFunctionOrVariableException;
 
 
 public class FunctionExpression {
     Expression exp;
 
-    public FunctionExpression(String str)
+    public FunctionExpression(String str) throws UnknownFunctionOrVariableException
     {
         exp = new ExpressionBuilder(str).variable("x").build();
     }
