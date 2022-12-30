@@ -1,16 +1,11 @@
 package com.example.Components;
 
-import com.example.LS.GaussElimination;
-import com.example.LS.Gauss_Jordan;
-import com.example.LS.Gauss_Seidel;
-import com.example.LS.Jacobi;
-import com.example.LS.LinearSolver;
+import com.example.LS.*;
 import com.example.LS.LUDecomposition.*;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.awt.event.*;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.Scanner;
@@ -29,13 +24,46 @@ public class SolutionScreen extends JPanel implements ActionListener {
         add(sp);
     }
 
-    public void setSolver(LinearSolver solver) {
+
+    public void setSolvingMode(Equation[] system, Method method, boolean useScaling, Parameters params)
+    {
         clearScreen();
         solPanel = new JPanel();
         add(solPanel, BorderLayout.NORTH);
         solPanel.add(new JLabel("Solution: "));
+        switch (method)
+		{
+			case GaussElimination:
+			solver = new GaussElimination(system, useScaling);
+			break;
+			case GaussJordan:
+			solver = new Gauss_Jordan(system, useScaling);
+			break;
+			case LU:
+			LUParams p = (LUParams) params;
+			switch (p.form)
+			{
+				case Crout:
+				solver = new CroutDecomposition(system, useScaling);
+				break;
+				case Cholesky:
+				solver = new CholeskyDecomposition(system, useScaling);
+				break;
+				default:// Doolittle
+				solver = new Doolittle(system, useScaling);
+				break;
+			}
+			break;
+			case GaussSeidel:
+			IndirectParams sei = (IndirectParams) params;
+			solver = new Gauss_Seidel(system, sei.initial, sei.maxIters, sei.relativeErr, useScaling);
+			break;
+			default://Jacobi
+			IndirectParams ja = (IndirectParams) params;
+			solver = new Jacobi(system, ja.initial, ja.maxIters, ja.relativeErr, useScaling);
+			break;
+		}
 
-        this.solver = solver;
         try {
             double[] sol = solver.getSolution();
             for (int i = 0; i < sol.length; i++) {

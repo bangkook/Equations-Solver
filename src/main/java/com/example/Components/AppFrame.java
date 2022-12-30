@@ -1,7 +1,7 @@
 package com.example.Components;
 
 import com.example.LS.*;
-import com.example.LS.LUDecomposition.*;
+import com.example.RF.FunctionExpression;
 
 import javax.swing.*;
 import java.awt.*;
@@ -13,6 +13,9 @@ public class AppFrame extends JFrame
 	MethodSelectScreen methodScreen;
 	SolutionScreen solutionScreen;
     StartScreen startScreen;
+    FunctionEntryScreen funcEntryScreen;
+    RFMethodSelectScreen rfMethodSelect;
+
 
 	public AppFrame(String title)
 	{
@@ -29,6 +32,10 @@ public class AppFrame extends JFrame
 		deck.add(methodScreen, "MethodSelectScreen");
 		solutionScreen = new SolutionScreen();
 		deck.add(solutionScreen, "SolutionScreen");
+        funcEntryScreen = new FunctionEntryScreen();
+        deck.add(funcEntryScreen, "FunctionEntryScreen");
+        rfMethodSelect = new RFMethodSelectScreen();
+        deck.add(rfMethodSelect, "RFMethodSelect");
 
 	}
 
@@ -51,41 +58,8 @@ public class AppFrame extends JFrame
 
 	public void onMethodSelectGetSol(Equation[] system, Method method, boolean useScaling, Parameters params)
 	{
-		LinearSolver solver;
-		switch (method)
-		{
-			case GaussElimination:
-			solver = new GaussElimination(system, useScaling);
-			break;
-			case GaussJordan:
-			solver = new Gauss_Jordan(system, useScaling);
-			break;
-			case LU:
-			LUParams p = (LUParams) params;
-			switch (p.form)
-			{
-				case Crout:
-				solver = new CroutDecomposition(system, useScaling);
-				break;
-				case Cholesky:
-				solver = new CholeskyDecomposition(system, useScaling);
-				break;
-				default:// Doolittle
-				solver = new Doolittle(system, useScaling);
-				break;
-			}
-			break;
-			case GaussSeidel:
-			IndirectParams sei = (IndirectParams) params;
-			solver = new Gauss_Seidel(system, sei.initial, sei.maxIters, sei.relativeErr, useScaling);
-			break;
-			default://Jacobi
-			IndirectParams ja = (IndirectParams) params;
-			solver = new Jacobi(system, ja.initial, ja.maxIters, ja.relativeErr, useScaling);
-			break;
-		}
 		((CardLayout)deck.getLayout()).next(deck);
-		solutionScreen.setSolver(solver);
+		solutionScreen.setSolvingMode(system, method, useScaling, params);
 	}
 
 	public void onSolutionScreenEnterAnotherSystem()
@@ -102,7 +76,26 @@ public class AppFrame extends JFrame
 
     public void onStartScreenRF()
     {
-        // ((CardLayout)deck.getLayout()).show(deck, "FunctionEntryScreen");
+        ((CardLayout)deck.getLayout()).show(deck, "FunctionEntryScreen");
     }
 
+    public void onFuncEntryBack()
+    {
+        ((CardLayout)deck.getLayout()).show(deck, "StartScreen");
+    }
+
+    public void onFuncEntryNext()
+    {
+        ((CardLayout)deck.getLayout()).next(deck);
+    }
+
+    public void onRFMethodBack()
+    {
+        ((CardLayout)deck.getLayout()).previous(deck);
+    }
+
+    public void onRFMethodNext()
+    {
+        ((CardLayout)deck.getLayout()).next(deck);
+    }
 }

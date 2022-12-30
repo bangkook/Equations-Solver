@@ -1,20 +1,13 @@
 package com.example;
 
-import javax.swing.*;
-import com.example.Components.*;
-
-class AppThread implements Runnable
-{
-	@Override
-	public void run() {
-		new App();
-	}
-}
-
+import javax.swing.SwingUtilities;
+import javax.swing.JFrame;
+import com.example.Components.AppFrame;
 
 public class App {
 	public static void main(String[] args) {
-		SwingUtilities.invokeLater(new AppThread());
+        Runnable thread = () -> new App();
+		SwingUtilities.invokeLater(thread);
 	}
 
 	App()
