@@ -22,7 +22,8 @@ public class Secant extends RootFinder {
         this.eps = eps;
         this.maxIters = maxIters;
         function = func;
-        writeFile("Xi-1               Xi            f(Xi)              Xi+1");
+        String titles = String.format("%10s %20s %20s %20s %20s", "iteration", "Xi-1", "Xi", "Xi+1", "relative error");
+        writeFile(titles);
     }
 
     @Override
@@ -36,8 +37,8 @@ public class Secant extends RootFinder {
             }
             newRoot = round(this.root - round(function.evaluate(this.root) / this.slope()));
             relError = Math.abs((newRoot - this.root) / newRoot);
-            System.out.println(oldRoot + " " + root + " " + newRoot);
-            writeFile(oldRoot + "\t\t" + this.root + "\t\t" + function.evaluate(this.root) + "\t\t" + newRoot);
+            String step = String.format("%10d %20f %20f %20f %20f", i, oldRoot, root, newRoot, relError);
+            writeFile(step);
             startTime += writeTime;
             oldRoot = this.root;
             this.root = newRoot;
@@ -65,18 +66,20 @@ public class Secant extends RootFinder {
         writeTime = System.currentTimeMillis() - currTime;
     }
 
-    public String getStepsFile(){
+    public String getStepsFile() {
         return stepsFile;
     }
 
-    public long getTime(){
+    public long getTime() {
         return endTime - startTime;
     }
+
     public static void main(String[] args) throws IOException {//for test
-        String s="x^3-25";
-        FunctionExpression function=new FunctionExpression(s);
-        IRootFinder F=new Secant(function, 0, 1,false, 0, 0.0001, 50);
+        String s="e^-x - x";
+        FunctionExpression function = new FunctionExpression(s);
+        IRootFinder F = new Secant(function, 0, 1, false, 0, 0.00001, 50);
         System.out.println(F.getRoot());
+        System.out.println(F.getTime());
 
     }
 }

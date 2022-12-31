@@ -21,7 +21,8 @@ public class NewtonRaphson extends RootFinder {
         this.eps = eps;
         this.maxIters = maxIters;
         function = func;
-        writeFile("Xi               f(Xi)               f`(Xi)              Xi+1");
+        String titles = String.format("%10s %20s %20s %20s", "iteration", "Xi", "Xi+1", "relative error");
+        writeFile(titles);
     }
 
     public double getRoot()
@@ -36,7 +37,8 @@ public class NewtonRaphson extends RootFinder {
             }
             newRoot = round(this.root - round(function.evaluate(this.root) / round(function.differentiate(this.root))));
             relError = Math.abs((newRoot - this.root) / newRoot);
-            writeFile(this.root + "\t\t" + function.evaluate(this.root) + "\t\t" + function.differentiate(this.root) + "\t\t" + newRoot);
+            String step = String.format("%10d %20f %20f %20f", i, root, newRoot, relError);
+            writeFile(step);
             startTime += writeTime;
             this.root = newRoot;
             if (relError <= eps)
@@ -68,9 +70,9 @@ public class NewtonRaphson extends RootFinder {
     }
 
     public static void main(String[] args) throws IOException {//for test
-        String s="x^3-25";
+        String s="e^-x - x";
         FunctionExpression function=new FunctionExpression(s);
-        IRootFinder F=new NewtonRaphson(function, 0, false, 0, 0.0001, 50);
+        IRootFinder F=new NewtonRaphson(function, 0.05, true, 5, 0.0001, 50);
         System.out.println(F.getRoot());
 
     }
