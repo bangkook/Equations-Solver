@@ -14,7 +14,7 @@ public class Bisection extends RootFinder{
     private final static String stepsFile = "Bisection.txt";
     private long startTime, endTime, writeTime;
 
-    public Bisection(boolean applyPrecision1, int precision1, int lowerLimit, int upperLimit, int iterations, FunctionExpression function) {
+    public Bisection(boolean applyPrecision1, int precision1, double lowerLimit, double upperLimit, int iterations, FunctionExpression function) {
         super(applyPrecision1, precision1);
         super.clearFile(stepsFile);
         this.lowerLimit=lowerLimit;
