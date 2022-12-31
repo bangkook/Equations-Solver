@@ -99,7 +99,7 @@ public class MethodSelectScreen extends JPanel implements ActionListener
 class MethodPanel extends JPanel implements CaretListener, ActionListener
 {
 	public MethodSelectScreen myParent;
-	final int defaultPrecision = 10;
+	final int defaultPrecision = 15;
 	int precision = defaultPrecision;
 	boolean scaling = false;
 	Method method;

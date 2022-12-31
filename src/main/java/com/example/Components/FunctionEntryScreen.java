@@ -23,6 +23,8 @@ public class FunctionEntryScreen extends JPanel implements ActionListener
         funcField = new JTextField(16);
         JLabel l = new JLabel("f(x) = ");
         errorLabel = new JLabel();
+        errorLabel.setForeground(Color.RED);
+
         bBack = new JButton("Back to Start Screen");
         bBack.setActionCommand("Back");
         bBack.addActionListener(this);
@@ -49,6 +51,11 @@ public class FunctionEntryScreen extends JPanel implements ActionListener
         cons.gridy = 1;
         cons.gridwidth = 2;
         add(funcField, cons);
+        //Error Label
+        cons = new GridBagConstraints();
+        cons.gridx = 3;
+        cons.gridy = 1;
+        add(errorLabel, cons);
         //Back Button
         cons = new GridBagConstraints();
         cons.fill = GridBagConstraints.NONE;
@@ -69,13 +76,16 @@ public class FunctionEntryScreen extends JPanel implements ActionListener
         if (ae.getActionCommand().equals("Back"))
         {
             ((AppFrame)getTopLevelAncestor()).onFuncEntryBack();
+            errorLabel.setText("");
         }
         else
         {
             String exp = funcField.getText();
             try
             {
+                if (exp.isEmpty()) throw new UnknownFunctionOrVariableException("y", 0, 1);
                 func = new FunctionExpression(exp);
+                errorLabel.setText("");
                 ((AppFrame)getTopLevelAncestor()).onFuncEntryNext();
             }
             catch (UnknownFunctionOrVariableException e)

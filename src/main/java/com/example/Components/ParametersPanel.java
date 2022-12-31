@@ -6,6 +6,9 @@ import java.awt.event.*;
 import javax.swing.*;
 
 import com.example.LS.LUDecomposition.*;
+import com.example.RF.FunctionExpression;
+
+import net.objecthunter.exp4j.tokenizer.UnknownFunctionOrVariableException;
 
 public abstract class ParametersPanel extends JPanel
 {
@@ -155,4 +158,164 @@ class IndirectParams extends Parameters
 		this.maxIters = maxIters;
 		this.relativeErr = relativeErr;
 	}
+}
+
+
+//-----------------------------------------------------------------------------
+//-----------------------------------------------------------------------------
+
+class BracketingParamsPanel extends ParametersPanel
+{
+
+    DoubleTextField xlField, xuField;
+
+    BracketingParamsPanel()
+    {
+        super();
+        JLabel xlLabel = new JLabel("xl = ");
+        JLabel xuLabel = new JLabel("xu = ");
+        xlField = new DoubleTextField(5);
+        xuField = new DoubleTextField(5);
+        add(xlLabel);
+        add(xlField);
+        add(xuLabel);
+        add(xuField);
+    }
+
+    public Parameters getParams()
+    {
+        double xl, xu;
+        if (xlField.getText().isEmpty() || xuField.getText().isEmpty())
+        {
+            return null;
+        }
+        xl = Double.parseDouble(xlField.getText());
+        xu = Double.parseDouble(xuField.getText());
+        return new BracketingParams(xl, xu);
+    }
+}
+
+
+class FixedPointParamsPanel extends ParametersPanel
+{
+    JTextField gField;
+    DoubleTextField initialField;
+
+    FixedPointParamsPanel()
+    {
+        super();
+        JLabel gLabel = new JLabel("g(x) = ");
+        JLabel initialLabel = new JLabel("Initial x = ");
+        gField = new JTextField(15);
+        initialField = new DoubleTextField(5);
+        add(initialLabel);
+        add(initialField);
+        add(gLabel);
+        add(gField);
+    }
+
+    public Parameters getParams()
+    {
+        FunctionExpression g;
+        try
+        {
+            g = new FunctionExpression(gField.getText());
+        }
+        catch (UnknownFunctionOrVariableException e)
+        {
+            return null;
+        }
+        if (initialField.getText().isEmpty()) return null;
+
+        double initial = Double.parseDouble(initialField.getText());
+        return new FixedPointParams(initial, g);
+    }
+}
+
+
+class NewtonRaphsonParamsPanel extends ParametersPanel
+{
+    DoubleTextField initialField;
+
+    NewtonRaphsonParamsPanel()
+    {
+        super();
+        initialField = new DoubleTextField(5);
+        JLabel intialLabel = new JLabel("Initial x = ");
+        add(intialLabel);
+        add(initialField);
+    }
+
+    public Parameters getParams()
+    {
+        if (initialField.getText().isEmpty()) return null;
+        double x = Double.parseDouble(initialField.getText());
+        return new NewtonRaphsonParams(x);
+    }
+}
+
+
+class SecantParamsPanel extends ParametersPanel
+{
+    DoubleTextField init1Field, init2Field;
+
+    SecantParamsPanel()
+    {
+        super();
+        init1Field = new DoubleTextField(5);
+        init2Field = new DoubleTextField(5);
+        JLabel init1Label = new JLabel("Initial x0 = ");
+        JLabel init2Label = new JLabel("Initial x1 = ");
+        add(init1Label);
+        add(init1Field);
+        add(init2Label);
+        add(init2Field);
+    }
+
+    public Parameters getParams()
+    {
+        if (init1Field.getText().isEmpty() || init2Field.getText().isEmpty()) return null;
+        double x0, x1;
+        x0 = Double.parseDouble(init1Field.getText());
+        x1 = Double.parseDouble(init2Field.getText());
+        return new SecantParams(x0, x1);
+    }
+}
+
+
+
+class BracketingParams extends Parameters
+{
+    public double xl, xu;
+
+    BracketingParams(double xl, double xu)
+    {
+        this.xl = xl;
+        this.xu = xu;
+    }
+}
+class FixedPointParams extends Parameters
+{
+    public double initial;
+    public FunctionExpression g;
+
+    FixedPointParams(double initial, FunctionExpression g)
+    {
+        this.initial = initial;
+        this.g = g;
+    }
+}
+class NewtonRaphsonParams extends Parameters
+{
+    public double initial;
+    NewtonRaphsonParams(double initial) {this.initial = initial;}
+}
+class SecantParams extends Parameters
+{
+    public double initial1, initial2;
+    SecantParams(double initial1, double initial2)
+    {
+        this.initial1 = initial1;
+        this.initial2 = initial2;
+    }
 }

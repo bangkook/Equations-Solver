@@ -1,7 +1,8 @@
 package com.example.Components;
 
+import com.example.Components.RFMethodSelectScreen.RFMethod;
 import com.example.LS.*;
-import com.example.RF.FunctionExpression;
+// import com.example.RF.FunctionExpression;
 
 import javax.swing.*;
 import java.awt.*;
@@ -40,18 +41,23 @@ public class AppFrame extends JFrame
 	}
 
 
-	public void onSystemEntryNext(Equation[] system)
-	{
-		((CardLayout)deck.getLayout()).next(deck);
-		methodScreen.setSystem(system);
-	}
+    public void onStartScreenLS()
+    {
+        ((CardLayout)deck.getLayout()).show(deck, "SystemEntryScreen");
+    }
 
     public void onSystemEntryBack()
     {
         ((CardLayout)deck.getLayout()).show(deck, "StartScreen");
     }
 
-	public void onMethodSelectBack()
+    public void onSystemEntryNext(Equation[] system)
+    {
+        ((CardLayout)deck.getLayout()).next(deck);
+        methodScreen.setSystem(system);
+    }
+
+    public void onMethodSelectBack()
 	{
 		((CardLayout)deck.getLayout()).previous(deck);
 	}
@@ -64,14 +70,9 @@ public class AppFrame extends JFrame
 
 	public void onSolutionScreenEnterAnotherSystem()
 	{
-		((CardLayout)deck.getLayout()).show(deck, "SystemEntryScreen");
+        ((CardLayout)deck.getLayout()).show(deck, "SystemEntryScreen");
 	}
 
-
-    public void onStartScreenLS()
-    {
-        ((CardLayout)deck.getLayout()).show(deck, "SystemEntryScreen");
-    }
 
 
     public void onStartScreenRF()
@@ -89,13 +90,15 @@ public class AppFrame extends JFrame
         ((CardLayout)deck.getLayout()).next(deck);
     }
 
+
     public void onRFMethodBack()
     {
         ((CardLayout)deck.getLayout()).previous(deck);
     }
 
-    public void onRFMethodNext()
+    public void onRFMethodNext(RFMethod method, int pre, int iters, double err, Parameters params)
     {
         ((CardLayout)deck.getLayout()).next(deck);
+
     }
 }
