@@ -21,7 +21,8 @@ public class FunctionExpression {
 
     public double differentiate(double x) throws ArithmeticException
     {
-        double dx = 1E-4;
+
+        double dx = 0.00001;
         double f1 = evaluate(x+dx);
         double f2 = evaluate(x);
         if (f1 - f2 == 0) throw new ArithmeticException("value of function is too big to differentiate.");
