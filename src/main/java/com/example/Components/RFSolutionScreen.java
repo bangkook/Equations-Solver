@@ -40,14 +40,16 @@ public class RFSolutionScreen extends JPanel
             xl = ((BracketingParams)params).xl;
             xu = ((BracketingParams)params).xu;
 			plotCenter = xl;
-            rootfinder = new Bisection(usePre, pre, xl, xu, iters, f);
+
+            rootfinder = new Bisection(usePre, pre, xl, xu, iters,err, f);
             break;
 
             case FalsePos:
             xl = ((BracketingParams)params).xl;
             xu = ((BracketingParams)params).xu;
 			plotCenter = xl;
-            rootfinder = new False_Position(usePre, pre, xl, xu, iters, f);
+            rootfinder = new False_Position(usePre, pre, xl, xu, iters,err, f);
+
             break;
 
             case FixedPoint:
