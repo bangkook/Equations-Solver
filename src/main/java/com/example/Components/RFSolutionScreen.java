@@ -32,6 +32,7 @@ public class RFSolutionScreen extends JPanel
         RootFinder rootfinder;
         boolean usePre = pre != -1;
 		double plotCenter;
+        FunctionExpression funcToPlot = f;
         switch (method)
         {
             case Bisection:
@@ -52,7 +53,7 @@ public class RFSolutionScreen extends JPanel
             case FixedPoint:
             double FPinit = ((FixedPointParams)params).initial;
 			plotCenter = FPinit;
-            FunctionExpression g = ((FixedPointParams)params).g;
+            FunctionExpression g = funcToPlot = ((FixedPointParams)params).g;
             rootfinder = new FixedPoint(g, FPinit, usePre, pre, err, iters);
             break;
 
@@ -72,7 +73,7 @@ public class RFSolutionScreen extends JPanel
 
         solutionScreen = new SolutionScreen(rootfinder, method);
         add(solutionScreen, "SolutionScreen");
-        plotScreen = new PlotScreen(method, plotCenter);
+        plotScreen = new PlotScreen(funcToPlot, method, plotCenter);
         add(plotScreen, "PlotScreen");
 
     }
@@ -95,7 +96,7 @@ public class RFSolutionScreen extends JPanel
     }
     void switchToSol()
     {
-
+        ((CardLayout)getLayout()).show(this, "SolutionScreen");
     }
 
 
@@ -104,77 +105,62 @@ public class RFSolutionScreen extends JPanel
         XChartPanel<XYChart> chartPanel;
         XYChart chart;
         RFMethod method;
+        JButton bSolution, bNextStep, bBack;
         double funcBounds;
 
-        PlotScreen(RFMethod method, double plotCenter)
+        PlotScreen(FunctionExpression f, RFMethod method, double plotCenter)
         {
             this.method = method;
             setLayout(new BorderLayout());
-            double[] bounds = getFuncBounds();
+            double[] bounds = {plotCenter - 50, plotCenter + 50};
             chart = new XYChart(WIDTH, HEIGHT);
-            chartPanel = new XChartPanel<XYChart>(new XYChart(WIDTH, HEIGHT));
+            chart.addSeries("x-Axis", bounds, new double[2]);
+            chartPanel = new XChartPanel<XYChart>(chart);
+            String funcName = method == RFMethod.FixedPoint ? "g(x)" : "f(x)";
+            plotFunc(f, funcName, bounds[0], bounds[1], 0.5);
             chartPanel.setBorder(BorderFactory.createLineBorder(Color.GRAY, 4));
             add(chartPanel);
+            bSolution = new JButton("Result");
+            bNextStep = new JButton("Next Step");
+            bBack = new JButton("Back");
+            JPanel footer = new JPanel();
+            add(footer, BorderLayout.SOUTH);
+            footer.add(bBack);
+            footer.add(bSolution);
+            JPanel side = new JPanel();
+            add(side, BorderLayout.EAST);
+            side.add(bNextStep);
+            bBack.addActionListener(this);
+            bNextStep.addActionListener(this);
+            bSolution.addActionListener(this);
 
         }
 
-        public void plotFunc(FunctionExpression f, int l, int u, double step)
+        public void plotFunc(FunctionExpression f, String name, double l, double u, double step)
         {
-            double[] xes = new double[(int)((u-l) / step)];
-            double[] ys = new double[(int)((u-l) / step)];
+            int n = (int) ((u-l) / step);
+            double[] xes = new double[n];
+            double[] ys = new double[n];
 
             int i = 0;
-            for (double x = l; x <= u; x += step)
+            for (double x = l; i < n; x += step)
             {
                 xes[i] = x;
                 ys[i] = f.evaluate(x);
+                i++;
             }
+            chart.addSeries(name, xes, ys);
         }
 
-        double[] getFuncBounds()
-        {
-            double[] result = new double[2];
-            Scanner scn;
-            try
-            {
-                switch(method)
-                {
-                    case Bisection:
-                    scn = new Scanner(new File("Bisection.txt"));
-                    result[0] = scn.nextDouble();
-                    result[1] = scn.nextDouble();
-                    break;
-                    case FalsePos:
-                    scn = new Scanner(new File("False_Position.txt"));
-                    result[0] = scn.nextDouble();
-                    result[1] = scn.nextDouble();
-                    break;
-                    case FixedPoint:
-                    scn = new Scanner(new File("Fixed_Point.txt"));
-                    double smallest, biggest;
-                    smallest = biggest = scn.nextDouble();
-                    while(scn.hasNextLine())
-                    {
-
-                    }
-
-
-                }
-
-            }
-            catch (Exception e) {}
-
-            return result;
-        }
-
-        public void clearPlot()
-        {
-
-        }
 
         public void actionPerformed(ActionEvent ae)
         {
+            if (ae.getActionCommand().equals("Back")) onBackPressed();
+            else if (ae.getActionCommand().equals("Next Step"))
+            {
 
+            }
+            else switchToSol();
         }
     }
 
