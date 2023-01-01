@@ -119,15 +119,17 @@ public class RFSolutionScreen extends JPanel
             this.f = f;
             buildSteps(method, f);
             setLayout(new BorderLayout());
-            double[] bounds = {plotCenter - 50, plotCenter + 50};
             chart = new XYChart(WIDTH, HEIGHT);
-            chart.addSeries("x-Axis", bounds, new double[2]);
-            String funcName = method == RFMethod.FixedPoint ? "g(x)" : "f(x)";
-            plotFunc(f, funcName, bounds[0], bounds[1], 50);
-            if (method == RFMethod.FixedPoint)
-            {
-                chart.addSeries("y = x", bounds, bounds);
-            }
+            double[] yaxis = {-10, 10};
+            chart.addSeries("y-Axis", new double[2], yaxis);
+            // double[] bounds = {plotCenter - 50, plotCenter + 50};
+            // chart.addSeries("x-Axis", bounds, new double[2]);
+            // String funcName = method == RFMethod.FixedPoint ? "g(x)" : "f(x)";
+            // plotFunc(f, funcName, bounds[0], bounds[1], 50);
+            // if (method == RFMethod.FixedPoint)
+            // {
+            //     chart.addSeries("y = x", bounds, bounds);
+            // }
             chartPanel = new XChartPanel<XYChart>(chart);
             chartPanel.setBorder(BorderFactory.createLineBorder(Color.GRAY, 4));
             add(chartPanel);
@@ -155,17 +157,38 @@ public class RFSolutionScreen extends JPanel
 
         public void plotFunc(FunctionExpression f, String name, double l, double u, int n)
         {
+            plotFunc(f, name, l, u, n, -20, 20);
+        }
+
+
+        public void plotFunc(FunctionExpression f, String name, double l, double u, int n, double yl, double yu)
+        {
             double step = (u - l) / n;
             double[] xes = new double[n];
             double[] ys = new double[n];
+            boolean filling = false;
             int i = 0;
             for (double x = l; i < n; x += step)
             {
+                if (!filling && (f.evaluate(x) > 20 || f.evaluate(x) < -20)) continue;
+                else filling = true;
                 xes[i] = x;
                 ys[i] = f.evaluate(x);
                 i++;
             }
-            chart.addSeries(name, xes, ys);
+            if (i == n)
+            {
+                chart.addSeries(name, xes, ys);
+                return;
+            }
+            double[] finalx = new double[i];
+            double[] finaly = new double[i];
+            for (int j=0; j<i; j++)
+            {
+                finalx[j] = xes[j];
+                finaly[j] = ys[j];
+            }
+            chart.addSeries(name, finalx, finaly);
         }
 
         void buildSteps(RFMethod method, FunctionExpression f)
@@ -242,8 +265,7 @@ public class RFSolutionScreen extends JPanel
                         FixedPointStep step = new FixedPointStep();
                         scn.nextInt();
                         step.xr = scn.nextDouble();
-                        step.yr = f.evaluate(step.xr);
-                        scn.nextDouble();
+                        step.xr2 = scn.nextDouble();
                         scn.nextDouble();
                         steps[i] = step;
                         i++;
@@ -341,10 +363,10 @@ public class RFSolutionScreen extends JPanel
                 chart.removeSeries("x-Axis");
                 BisectionStep bistep = (BisectionStep)steps[stepPointer];
                 double[] bounds = new double[2];
-                bounds[0] = bistep.xl - 5;
-                bounds[1] = bistep.xu + 5;
+                bounds[0] = bistep.xl - 1;
+                bounds[1] = bistep.xu + 1;
                 chart.addSeries("x-Axis", bounds, new double[2]);
-                plotFunc(f, "f(x)", bistep.xl - 5, bistep.xu + 5, 50);
+                plotFunc(f, "f(x)", bounds[0], bounds[1], 50);
                 double[] xDataBiL = {bistep.xl, bistep.xl};
                 double[] yDataBiL = {0, f.evaluate(bistep.xl)};
                 chart.addSeries("Lower Bound", xDataBiL, yDataBiL);
@@ -361,10 +383,10 @@ public class RFSolutionScreen extends JPanel
                 chart.removeSeries("Intercept");
                 FalsePosStep fpstep = (FalsePosStep)steps[stepPointer];
                 double[] fpbounds = new double[2];
-                fpbounds[0] = fpstep.xl - 5;
-                fpbounds[1] = fpstep.xu + 5;
+                fpbounds[0] = fpstep.xl - 1;
+                fpbounds[1] = fpstep.xu + 1;
                 chart.addSeries("x-Axis", fpbounds, new double[2]);
-                plotFunc(f, "f(x)", fpstep.xl - 5, fpstep.xu + 5, 50);
+                plotFunc(f, "f(x)", fpbounds[0], fpbounds[1], 50);
                 double[] xDataFPL = {fpstep.xl, fpstep.xl};
                 double[] yDataFPL = {0, f.evaluate(fpstep.xl)};
                 chart.addSeries("Lower Bound", xDataFPL, yDataFPL);
@@ -374,10 +396,36 @@ public class RFSolutionScreen extends JPanel
                 double[] xInterceptFP = {fpstep.xl,fpstep.xu};
                 double[] yInterceptFP = {fpstep.yl, fpstep.yu};
                 chart.addSeries("Intercept", xInterceptFP, yInterceptFP);
-
                 break;
 
                 case FixedPoint:
+                chart.removeSeries("f(x)");
+                chart.removeSeries("x-Axis");
+                chart.removeSeries("y = x");
+                chart.removeSeries("Step");
+                chart.removeSeries("y-Axis");
+                FixedPointStep FPstep = (FixedPointStep)steps[stepPointer];
+                double[] FPbounds = new double[2];
+                FPbounds[0] = FPstep.xr - 10;
+                FPbounds[1] = FPstep.xr + 10;
+                chart.addSeries("x-Axis", FPbounds, new double[2]);
+                plotFunc(f, "f(x)", FPbounds[0], FPbounds[1], 50, 15, 15);
+                double[] xDataFP = new double[(stepPointer+1)*2 + 1];
+                double[] yDataFP = new double[(stepPointer+1)*2 + 1];
+				xDataFP[0] = ((FixedPointStep)steps[0]).xr;
+				yDataFP[0] = 0;
+                int temp = 1;
+                while (temp < (stepPointer+1)*2)
+                {
+                    xDataFP[temp] = ((FixedPointStep)steps[temp/2]).xr;
+                    yDataFP[temp] = ((FixedPointStep)steps[temp/2]).xr2;
+                    temp++;
+                    xDataFP[temp] = ((FixedPointStep)steps[temp/2]).xr;
+                    yDataFP[temp] = ((FixedPointStep)steps[temp/2]).xr;
+                    temp++;
+                }
+                chart.addSeries("Step", xDataFP, yDataFP);
+                chart.addSeries("y = x", FPbounds, FPbounds);
                 break;
                 case Newton:
                 break;
@@ -401,7 +449,7 @@ public class RFSolutionScreen extends JPanel
         }
         class FixedPointStep extends Step
         {
-            public double xr, yr;
+            public double xr, xr2;
         }
         class NewtonStep extends Step
         {
