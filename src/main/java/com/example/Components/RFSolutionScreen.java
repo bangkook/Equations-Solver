@@ -428,6 +428,20 @@ public class RFSolutionScreen extends JPanel
                 chart.addSeries("y = x", FPbounds, FPbounds);
                 break;
                 case Newton:
+                chart.removeSeries("f(x)");
+                chart.removeSeries("x-Axis");
+                chart.removeSeries("Tangent");
+                NewtonStep newstep = (NewtonStep)steps[stepPointer];
+                double[] newBound = new double[2];
+                newBound[0] = newstep.tangentIntercept < newstep.xr ? newstep.tangentIntercept : newstep.xr;
+                newBound[0] -= 1;
+                newBound[1] = newstep.tangentIntercept > newstep.xr ? newstep.tangentIntercept : newstep.xr;
+                newBound[1] += 1;
+                chart.addSeries("x-Axis", newBound, new double[2]);
+                plotFunc(f, "f(x)", newBound[0], newBound[1], 50);
+                double[] tangentx = {newstep.xr, newstep.tangentIntercept};
+                double[] tangenty = {newstep.yr, 0};
+                chart.addSeries("Tangent", tangentx, tangenty);
                 break;
                 default:
                 break;
