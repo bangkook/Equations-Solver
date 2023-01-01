@@ -2,7 +2,6 @@ package com.example.Components;
 
 import java.awt.*;
 import java.awt.event.*;
-import java.awt.geom.Point2D;
 import javax.swing.*;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -107,21 +106,24 @@ public class RFSolutionScreen extends JPanel
         XChartPanel<XYChart> chartPanel;
         XYChart chart;
         RFMethod method;
+        FunctionExpression f;
         JButton bSolution, bNextStep, bBack, bPrevStep;
         double funcBounds;
         Step[] steps;
-        int stepPointer = 0;
+        int stepPointer = -1;
+
 
         PlotScreen(FunctionExpression f, RFMethod method, double plotCenter)
         {
             this.method = method;
-            buildSteps();
+            this.f = f;
+            buildSteps(method, f);
             setLayout(new BorderLayout());
             double[] bounds = {plotCenter - 50, plotCenter + 50};
             chart = new XYChart(WIDTH, HEIGHT);
             chart.addSeries("x-Axis", bounds, new double[2]);
             String funcName = method == RFMethod.FixedPoint ? "g(x)" : "f(x)";
-            plotFunc(f, funcName, bounds[0], bounds[1], 0.5);
+            plotFunc(f, funcName, bounds[0], bounds[1], 50);
             if (method == RFMethod.FixedPoint)
             {
                 chart.addSeries("y = x", bounds, bounds);
@@ -147,15 +149,15 @@ public class RFSolutionScreen extends JPanel
             bNextStep.addActionListener(this);
             bPrevStep.addActionListener(this);
             bSolution.addActionListener(this);
+            nextStep();
 
         }
 
-        public void plotFunc(FunctionExpression f, String name, double l, double u, double step)
+        public void plotFunc(FunctionExpression f, String name, double l, double u, int n)
         {
-            int n = (int) ((u-l) / step);
+            double step = (u - l) / n;
             double[] xes = new double[n];
             double[] ys = new double[n];
-
             int i = 0;
             for (double x = l; i < n; x += step)
             {
@@ -166,9 +168,144 @@ public class RFSolutionScreen extends JPanel
             chart.addSeries(name, xes, ys);
         }
 
-        void buildSteps()
+        void buildSteps(RFMethod method, FunctionExpression f)
         {
-
+            Scanner scn;
+            try
+            {
+                switch (method)
+                {
+                    case Bisection:
+                    scn = new Scanner(new File("Bisection.txt"));
+                    int i = -1;
+                    while (scn.hasNextLine())
+                    {
+                        scn.nextLine();
+                        i++;
+                    }
+                    steps = new BisectionStep[i];
+                    i = 0;
+                    scn = new Scanner(new File("Bisection.txt"));
+                    scn.nextLine();
+                    while (i < steps.length)
+                    {
+                        BisectionStep step = new BisectionStep();
+                        scn.nextInt();
+                        step.xl = scn.nextDouble();
+                        step.xu = scn.nextDouble();
+                        scn.nextDouble();
+                        scn.nextDouble();
+                        steps[i] = step;
+                        i++;
+                    }
+                    break;
+                    case FalsePos:
+                    scn = new Scanner(new File("False_Position.txt"));
+                    i = -1;
+                    while (scn.hasNextLine())
+                    {
+                        scn.nextLine();
+                        i++;
+                    }
+                    steps = new FalsePosStep[i];
+                    i = 0;
+                    scn = new Scanner(new File("False_Position.txt"));
+                    scn.nextLine();
+                    while (i < steps.length)
+                    {
+                        FalsePosStep step = new FalsePosStep();
+                        scn.nextInt();
+                        step.xl = scn.nextDouble();
+                        step.xu = scn.nextDouble();
+                        step.yl = f.evaluate(step.xl);
+                        step.yu = f.evaluate(step.xu);
+                        scn.nextDouble();
+                        scn.nextDouble();
+                        steps[i] = step;
+                        i++;
+                    }
+                    break;
+                    case FixedPoint:
+                    scn = new Scanner(new File("FixedPoint.txt"));
+                    i = -1;
+                    while (scn.hasNextLine())
+                    {
+                        scn.nextLine();
+                        i++;
+                    }
+                    steps = new FixedPointStep[i];
+                    i = 0;
+                    scn = new Scanner(new File("FixedPoint.txt"));
+                    scn.nextLine();
+                    while (i < steps.length)
+                    {
+                        FixedPointStep step = new FixedPointStep();
+                        scn.nextInt();
+                        step.xr = scn.nextDouble();
+                        step.yr = f.evaluate(step.xr);
+                        scn.nextDouble();
+                        scn.nextDouble();
+                        steps[i] = step;
+                        i++;
+                    }
+                    break;
+                    case Newton:
+                    scn = new Scanner(new File("Newton-Raphson.txt"));
+                    i = -1;
+                    while (scn.hasNextLine())
+                    {
+                        scn.nextLine();
+                        i++;
+                    }
+                    steps = new NewtonStep[i];
+                    i = 0;
+                    scn = new Scanner(new File("Newton-Raphson.txt"));
+                    scn.nextLine();
+                    while (i < steps.length)
+                    {
+                        NewtonStep step = new NewtonStep();
+                        scn.nextInt();
+                        step.xr = scn.nextDouble();
+                        step.yr = f.evaluate(step.xr);
+                        step.tangentIntercept = scn.nextDouble();
+                        scn.nextDouble();
+                        steps[i] = step;
+                        i++;
+                    }
+                    break;
+                    default:
+                    scn = new Scanner(new File("Secant.txt"));
+                    i = -1;
+                    while (i < steps.length)
+                    {
+                        scn.nextLine();
+                        i++;
+                    }
+                    steps = new SecantStep[i];
+                    i = 0;
+                    scn = new Scanner(new File("Secant.txt"));
+                    scn.nextLine();
+                    while (i < steps.length)
+                    {
+                        SecantStep step = new SecantStep();
+                        scn.nextInt();
+                        step.x1 = scn.nextDouble();
+                        step.y1 = f.evaluate(step.x1);
+                        step.x2 = scn.nextDouble();
+                        step.y2 = f.evaluate(step.x2);
+                        step.intercept = scn.nextDouble();
+                        scn.nextDouble();
+                        steps[i] = step;
+                        i++;
+                    }
+                    scn.close();
+                }
+            }
+            catch (FileNotFoundException e)
+            {
+                System.out.println("Problem building steps.");
+                e.printStackTrace();
+            }
         }
 
         public void actionPerformed(ActionEvent ae)
@@ -182,36 +319,97 @@ public class RFSolutionScreen extends JPanel
         void nextStep()
         {
             stepPointer++;
-
-
-            bNextStep.setEnabled(stepPointer == steps.length-1);
+            plotStep();
+            bNextStep.setEnabled(stepPointer != steps.length-1);
+            bPrevStep.setEnabled(stepPointer != 0);
         }
         void prevStep()
         {
             stepPointer--;
+            plotStep();
+            bNextStep.setEnabled(stepPointer != steps.length-1);
+            bPrevStep.setEnabled(stepPointer != 0);
+        }
+        void plotStep()
+        {
+            switch (method)
+            {
+                case Bisection:
+                chart.removeSeries("Lower Bound");
+                chart.removeSeries("Upper Bound");
+                chart.removeSeries("f(x)");
+                chart.removeSeries("x-Axis");
+                BisectionStep bistep = (BisectionStep)steps[stepPointer];
+                double[] bounds = new double[2];
+                bounds[0] = bistep.xl - 5;
+                bounds[1] = bistep.xu + 5;
+                chart.addSeries("x-Axis", bounds, new double[2]);
+                plotFunc(f, "f(x)", bistep.xl - 5, bistep.xu + 5, 50);
+                double[] xDataBiL = {bistep.xl, bistep.xl};
+                double[] yDataBiL = {0, f.evaluate(bistep.xl)};
+                chart.addSeries("Lower Bound", xDataBiL, yDataBiL);
+                double[] xDataBiU = {bistep.xu, bistep.xu};
+                double[] yDataBiU = {0, f.evaluate(bistep.xu)};
+                chart.addSeries("Upper Bound", xDataBiU, yDataBiU);
+                break;
 
+                case FalsePos:
+                chart.removeSeries("Lower Bound");
+                chart.removeSeries("Upper Bound");
+                chart.removeSeries("f(x)");
+                chart.removeSeries("x-Axis");
+                chart.removeSeries("Intercept");
+                FalsePosStep fpstep = (FalsePosStep)steps[stepPointer];
+                double[] fpbounds = new double[2];
+                fpbounds[0] = fpstep.xl - 5;
+                fpbounds[1] = fpstep.xu + 5;
+                chart.addSeries("x-Axis", fpbounds, new double[2]);
+                plotFunc(f, "f(x)", fpstep.xl - 5, fpstep.xu + 5, 50);
+                double[] xDataFPL = {fpstep.xl, fpstep.xl};
+                double[] yDataFPL = {0, f.evaluate(fpstep.xl)};
+                chart.addSeries("Lower Bound", xDataFPL, yDataFPL);
+                double[] xDataFPU = {fpstep.xu, fpstep.xu};
+                double[] yDataFPU = {0, f.evaluate(fpstep.xu)};
+                chart.addSeries("Upper Bound", xDataFPU, yDataFPU);
+                double[] xInterceptFP = {fpstep.xl,fpstep.xu};
+                double[] yInterceptFP = {fpstep.yl, fpstep.yu};
+                chart.addSeries("Intercept", xInterceptFP, yInterceptFP);
 
-            bPrevStep.setEnabled(stepPointer == 0);
+                break;
+
+                case FixedPoint:
+                break;
+                case Newton:
+                break;
+                default:
+                break;
+            }
+            revalidate();
+            repaint();
         }
 
         class Step{
 
         }
-        class BracketingStep extends Step
+        class BisectionStep extends Step
         {
             public double xl, xu;
         }
         class FalsePosStep extends Step
         {
-            public double xr;
+            public double xl, xu, yl, yu;
+        }
+        class FixedPointStep extends Step
+        {
+            public double xr, yr;
         }
         class NewtonStep extends Step
         {
-            public double[] bounds;
+            public double xr, yr, tangentIntercept;
         }
         class SecantStep extends Step
         {
-            public double[] bounds;
+            public double x1, x2, y1, y2, intercept;
         }
     }
 
