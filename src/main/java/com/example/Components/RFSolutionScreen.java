@@ -187,7 +187,7 @@ public class RFSolutionScreen extends JPanel
                     i = 0;
                     scn = new Scanner(new File("Bisection.txt"));
                     scn.nextLine();
-                    while (scn.hasNextInt())
+                    while (i < steps.length)
                     {
                         BisectionStep step = new BisectionStep();
                         scn.nextInt();
@@ -210,7 +210,8 @@ public class RFSolutionScreen extends JPanel
                     steps = new FalsePosStep[i];
                     i = 0;
                     scn = new Scanner(new File("False_Position.txt"));
-                    while (scn.hasNextInt())
+                    scn.nextLine();
+                    while (i < steps.length)
                     {
                         FalsePosStep step = new FalsePosStep();
                         scn.nextInt();
@@ -235,7 +236,8 @@ public class RFSolutionScreen extends JPanel
                     steps = new FixedPointStep[i];
                     i = 0;
                     scn = new Scanner(new File("FixedPoint.txt"));
-                    while (scn.hasNextInt())
+                    scn.nextLine();
+                    while (i < steps.length)
                     {
                         FixedPointStep step = new FixedPointStep();
                         scn.nextInt();
@@ -258,7 +260,8 @@ public class RFSolutionScreen extends JPanel
                     steps = new NewtonStep[i];
                     i = 0;
                     scn = new Scanner(new File("Newton-Raphson.txt"));
-                    while (scn.hasNextInt())
+                    scn.nextLine();
+                    while (i < steps.length)
                     {
                         NewtonStep step = new NewtonStep();
                         scn.nextInt();
@@ -273,7 +276,7 @@ public class RFSolutionScreen extends JPanel
                     default:
                     scn = new Scanner(new File("Secant.txt"));
                     i = -1;
-                    while (scn.hasNextLine())
+                    while (i < steps.length)
                     {
                         scn.nextLine();
                         i++;
@@ -281,7 +284,8 @@ public class RFSolutionScreen extends JPanel
                     steps = new SecantStep[i];
                     i = 0;
                     scn = new Scanner(new File("Secant.txt"));
-                    while (scn.hasNextInt())
+                    scn.nextLine();
+                    while (i < steps.length)
                     {
                         SecantStep step = new SecantStep();
                         scn.nextInt();
@@ -348,8 +352,31 @@ public class RFSolutionScreen extends JPanel
                 double[] yDataBiU = {0, f.evaluate(bistep.xu)};
                 chart.addSeries("Upper Bound", xDataBiU, yDataBiU);
                 break;
+
                 case FalsePos:
+                chart.removeSeries("Lower Bound");
+                chart.removeSeries("Upper Bound");
+                chart.removeSeries("f(x)");
+                chart.removeSeries("x-Axis");
+                chart.removeSeries("Intercept");
+                FalsePosStep fpstep = (FalsePosStep)steps[stepPointer];
+                double[] fpbounds = new double[2];
+                fpbounds[0] = fpstep.xl - 5;
+                fpbounds[1] = fpstep.xu + 5;
+                chart.addSeries("x-Axis", fpbounds, new double[2]);
+                plotFunc(f, "f(x)", fpstep.xl - 5, fpstep.xu + 5, 50);
+                double[] xDataFPL = {fpstep.xl, fpstep.xl};
+                double[] yDataFPL = {0, f.evaluate(fpstep.xl)};
+                chart.addSeries("Lower Bound", xDataFPL, yDataFPL);
+                double[] xDataFPU = {fpstep.xu, fpstep.xu};
+                double[] yDataFPU = {0, f.evaluate(fpstep.xu)};
+                chart.addSeries("Upper Bound", xDataFPU, yDataFPU);
+                double[] xInterceptFP = {fpstep.xl,fpstep.xu};
+                double[] yInterceptFP = {fpstep.yl, fpstep.yu};
+                chart.addSeries("Intercept", xInterceptFP, yInterceptFP);
+
                 break;
+
                 case FixedPoint:
                 break;
                 case Newton:
