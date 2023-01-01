@@ -298,7 +298,7 @@ public class RFSolutionScreen extends JPanel
                     default:
                     scn = new Scanner(new File("Secant.txt"));
                     i = -1;
-                    while (i < steps.length)
+                    while (scn.hasNextLine())
                     {
                         scn.nextLine();
                         i++;
@@ -444,6 +444,22 @@ public class RFSolutionScreen extends JPanel
                 chart.addSeries("Tangent", tangentx, tangenty);
                 break;
                 default:
+                chart.removeSeries("f(x)");
+                chart.removeSeries("x-Axis");
+                chart.removeSeries("Slope");
+                SecantStep secstep = (SecantStep)steps[stepPointer];
+                double[] secBounds = new double[2];
+                secBounds[0] = Math.min(secstep.x1, secstep.x2);
+                secBounds[0] = Math.min(secBounds[0], secstep.intercept);
+                secBounds[0] -= 1;
+                secBounds[1] = Math.max(secstep.x1, secstep.x2);
+                secBounds[1] = Math.max(secBounds[1], secstep.intercept);
+                secBounds[1] += 1;
+                chart.addSeries("x-Axis", secBounds, new double[2]);
+                plotFunc(f, "f(x)", secBounds[0], secBounds[1], 50);
+                double[] slopex = {secstep.x1, secstep.x2, secstep.intercept};
+                double[] slopey = {secstep.y1, secstep.y2, 0};
+                chart.addSeries("Slope", slopex, slopey);
                 break;
             }
             revalidate();
