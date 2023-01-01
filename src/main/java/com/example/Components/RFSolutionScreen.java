@@ -107,33 +107,45 @@ public class RFSolutionScreen extends JPanel
         XChartPanel<XYChart> chartPanel;
         XYChart chart;
         RFMethod method;
-        JButton bSolution, bNextStep, bBack;
+        JButton bSolution, bNextStep, bBack, bPrevStep;
         double funcBounds;
+        Step[] steps;
+        int stepPointer = 0;
 
         PlotScreen(FunctionExpression f, RFMethod method, double plotCenter)
         {
             this.method = method;
+            buildSteps();
             setLayout(new BorderLayout());
             double[] bounds = {plotCenter - 50, plotCenter + 50};
             chart = new XYChart(WIDTH, HEIGHT);
             chart.addSeries("x-Axis", bounds, new double[2]);
-            chartPanel = new XChartPanel<XYChart>(chart);
             String funcName = method == RFMethod.FixedPoint ? "g(x)" : "f(x)";
             plotFunc(f, funcName, bounds[0], bounds[1], 0.5);
+            if (method == RFMethod.FixedPoint)
+            {
+                chart.addSeries("y = x", bounds, bounds);
+            }
+            chartPanel = new XChartPanel<XYChart>(chart);
             chartPanel.setBorder(BorderFactory.createLineBorder(Color.GRAY, 4));
             add(chartPanel);
             bSolution = new JButton("Result");
             bNextStep = new JButton("Next Step");
+            bPrevStep = new JButton("Previous Step");
+            bPrevStep.setEnabled(false);
             bBack = new JButton("Back");
             JPanel footer = new JPanel();
             add(footer, BorderLayout.SOUTH);
             footer.add(bBack);
             footer.add(bSolution);
             JPanel side = new JPanel();
+            side.setLayout(new GridLayout(0, 1, 3, 3));
             add(side, BorderLayout.EAST);
             side.add(bNextStep);
+            side.add(bPrevStep);
             bBack.addActionListener(this);
             bNextStep.addActionListener(this);
+            bPrevStep.addActionListener(this);
             bSolution.addActionListener(this);
 
         }
@@ -154,15 +166,52 @@ public class RFSolutionScreen extends JPanel
             chart.addSeries(name, xes, ys);
         }
 
+        void buildSteps()
+        {
+
+        }
 
         public void actionPerformed(ActionEvent ae)
         {
             if (ae.getActionCommand().equals("Back")) onBackPressed();
-            else if (ae.getActionCommand().equals("Next Step"))
-            {
-
-            }
+            else if (ae.getActionCommand().equals("Next Step")) nextStep();
+            else if (ae.getActionCommand().equals("Previous Step")) prevStep();
             else switchToSol();
+        }
+
+        void nextStep()
+        {
+            stepPointer++;
+
+
+            bNextStep.setEnabled(stepPointer == steps.length-1);
+        }
+        void prevStep()
+        {
+            stepPointer--;
+
+
+            bPrevStep.setEnabled(stepPointer == 0);
+        }
+
+        class Step{
+
+        }
+        class BracketingStep extends Step
+        {
+            public double xl, xu;
+        }
+        class FalsePosStep extends Step
+        {
+            public double xr;
+        }
+        class NewtonStep extends Step
+        {
+            public double[] bounds;
+        }
+        class SecantStep extends Step
+        {
+            public double[] bounds;
         }
     }
 
@@ -185,8 +234,12 @@ public class RFSolutionScreen extends JPanel
 
             try
             {
+                JPanel header = new JPanel();
+
                 solution = String.valueOf(rootFinder.getRoot());
-                add(new JLabel("Solution = " + solution), BorderLayout.NORTH);
+                add(header, BorderLayout.NORTH);
+                header.add(new JLabel("Solution = " + solution));
+                header.add(new JLabel("Time = " + String.valueOf(rootFinder.getTime()) + "ms"));
                 String stepsFile;
                 switch (method)
                 {
@@ -209,6 +262,7 @@ public class RFSolutionScreen extends JPanel
                 JScrollPane sp = new JScrollPane();
                 add(sp);
                 sp.setViewportView(new stepsPanel(new File(stepsFile)));
+
             }
             catch (Exception e)
             {
