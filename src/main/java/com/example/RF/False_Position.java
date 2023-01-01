@@ -23,7 +23,7 @@ public class False_Position extends RootFinder{
         this.iterations = iterations;
         this.function = function;
         this.toleranceError=toleranceError;
-        String titles = String.format("%10s %20s %20s %20s %20s", "iteration", "Lower Limit (xl)","Upper Limit (xu)","Result (xr)", "relative error");
+        String titles = String.format("%10s %20s %20s %20s %20s", "iteration", "(xl)","(xu)","(xr)", "relative error");
         writeFile(titles);
     }
 
@@ -46,7 +46,7 @@ public class False_Position extends RootFinder{
                     this.lowerLimit=this.result;
                     xrOld=this.result;
                     first=false;
-                    step = String.format("%10d %20f %20f %20f %20f", i, this.lowerLimit, this.upperLimit,this.result,approximateError );
+                    step = String.format("%10s %20s %20s %20s %20s", i, this.lowerLimit, this.upperLimit,this.result,approximateError );
                     writeFile(step);
                 }
                 else {
@@ -54,7 +54,7 @@ public class False_Position extends RootFinder{
                     approximateError=Math.abs(round(((this.lowerLimit-xrOld)/this.lowerLimit)));
                     System.out.println("Errorl: "+approximateError);
                     xrOld=this.lowerLimit;
-                    step = String.format("%10d %20f %20f %20f %20f", i, this.lowerLimit, this.upperLimit,this.result,approximateError );
+                    step = String.format("%10s %20s %20s %20s %20s", i, this.lowerLimit, this.upperLimit,this.result,approximateError );
                     writeFile(step);
                     if(approximateError<this.toleranceError){
                         startTime+=writeTime;
@@ -68,7 +68,7 @@ public class False_Position extends RootFinder{
                     this.upperLimit=this.result;
                     xrOld=this.result;
                     first=false;
-                    step = String.format("%10d %20f %20f %20f %20f", i, this.lowerLimit, this.upperLimit,this.result,approximateError );
+                    step = String.format("%10s %20s %20s %20s %20s", i, this.lowerLimit, this.upperLimit,this.result,approximateError );
                     writeFile(step);
                 }
                 else {
@@ -76,7 +76,7 @@ public class False_Position extends RootFinder{
                     approximateError=Math.abs(round(((this.upperLimit-xrOld)/this.upperLimit)));
                     System.out.println("Erroru: "+approximateError);
                     xrOld=this.upperLimit;
-                    step = String.format("%10d %20f %20f %20f %20f", i, this.lowerLimit, this.upperLimit,this.result,approximateError );
+                    step = String.format("%10s %20s %20s %20s %20s", i, this.lowerLimit, this.upperLimit,this.result,approximateError );
                     writeFile(step);
                     if(approximateError<this.toleranceError){
                         startTime+=writeTime;
@@ -86,13 +86,13 @@ public class False_Position extends RootFinder{
 
             }
             else {
-                step = String.format("%10d %20f %20f %20f %20f", i, this.lowerLimit, this.upperLimit,this.result,approximateError);
+                step = String.format("%10s %20s %20s %20s %20s", i, this.lowerLimit, this.upperLimit,this.result,approximateError);
                 writeFile(step);
                 startTime+=writeTime;
                 return this.result;
             }
         }
-        step = String.format("%10d %20f %20f %20f %20f", this.iterations, this.lowerLimit, this.upperLimit,this.result,approximateError );
+        step = String.format("%10s %20s %20s %20s %20s", this.iterations, this.lowerLimit, this.upperLimit,this.result,approximateError );
         writeFile(step);
         startTime+=writeTime;
         endTime=System.currentTimeMillis();
