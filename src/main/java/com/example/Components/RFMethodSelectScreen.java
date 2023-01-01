@@ -90,7 +90,6 @@ public class RFMethodSelectScreen extends JPanel implements ActionListener
         JComboBox<String> methodBox;
         IntTextField preField, numOfIters;
         DoubleTextField relativeErrorField;
-        final int defaultPrecision = 15;
         final int defaultIters = 50;
         final double defaultError = 0.00001;
         RFMethodSelectScreen parent;
@@ -111,7 +110,7 @@ public class RFMethodSelectScreen extends JPanel implements ActionListener
             methodBox.addActionListener(this);
             add(methodBox);
             preField = new IntTextField(3);
-            add(new JLabel("Precision = (Default = " + defaultPrecision + ") "));
+            add(new JLabel("Precision = "));
             add(preField);
             numOfIters = new IntTextField(4);
             add(new JLabel("No. of Iterations = (Default = " + defaultIters + ") "));
@@ -151,7 +150,7 @@ public class RFMethodSelectScreen extends JPanel implements ActionListener
 
         public int getPrecision()
         {
-            if (preField.getText().isEmpty()) return defaultPrecision;
+            if (preField.getText().isEmpty()) return -1;
             else return Integer.parseInt(preField.getText());
         }
         public int getNumOfIters()
@@ -183,7 +182,6 @@ public class RFMethodSelectScreen extends JPanel implements ActionListener
 
     }
 
-
-    enum RFMethod {Bisection, FalsePos, FixedPoint, Newton, Secant}
+    public enum RFMethod {Bisection, FalsePos, FixedPoint, Newton, Secant}
 
 }

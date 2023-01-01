@@ -217,6 +217,7 @@ class FixedPointParamsPanel extends ParametersPanel
     public Parameters getParams()
     {
         FunctionExpression g;
+        if (gField.getText().isEmpty()) return null;
         try
         {
             g = new FunctionExpression(gField.getText());

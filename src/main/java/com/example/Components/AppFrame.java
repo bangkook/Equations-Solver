@@ -16,6 +16,7 @@ public class AppFrame extends JFrame
     StartScreen startScreen;
     FunctionEntryScreen funcEntryScreen;
     RFMethodSelectScreen rfMethodSelect;
+    RFSolutionScreen rfSolutionScreen;
 
 
 	public AppFrame(String title)
@@ -37,7 +38,8 @@ public class AppFrame extends JFrame
         deck.add(funcEntryScreen, "FunctionEntryScreen");
         rfMethodSelect = new RFMethodSelectScreen();
         deck.add(rfMethodSelect, "RFMethodSelect");
-
+        rfSolutionScreen = new RFSolutionScreen();
+        deck.add(rfSolutionScreen, "RFSolutionScreen");
 	}
 
 
@@ -99,6 +101,11 @@ public class AppFrame extends JFrame
     public void onRFMethodNext(RFMethod method, int pre, int iters, double err, Parameters params)
     {
         ((CardLayout)deck.getLayout()).next(deck);
+        rfSolutionScreen.setSolvingMode(funcEntryScreen.func, pre, iters, err, method, params);
+    }
 
+    public void onRFSolutionBack()
+    {
+        ((CardLayout)deck.getLayout()).previous(deck);
     }
 }

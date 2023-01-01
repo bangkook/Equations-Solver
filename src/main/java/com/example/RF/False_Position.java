@@ -14,7 +14,7 @@ public class False_Position extends RootFinder{
     private final static String stepsFile = "False_Position.txt";
     private long startTime, endTime, writeTime;
 
-    public False_Position(boolean applyPrecision1, int precision1, int lowerLimit, int upperLimit, int iterations, FunctionExpression function) {
+    public False_Position(boolean applyPrecision1, int precision1, double lowerLimit, double upperLimit, int iterations, FunctionExpression function) {
         super(applyPrecision1, precision1);
         super.clearFile(stepsFile);
         this.lowerLimit=lowerLimit;
